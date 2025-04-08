@@ -1,21 +1,28 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const { SERVER_PORT } = require('./config/env/env');
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
 
 // Connect Database
 require('./config/db/database');
 
+// Middleware
+// add the Routes to the App
+const Routes = require('./middleware/routes');
+Routes.register(app);
+
 //import Routers
-const userRouter = require('./routers/routes/users');
-const CorsesRouter = require('./routers/routes/courses');
+// const userRouter = require('./routers/routes/users');
+// const CorsesRouter = require('./routers/routes/courses');
 
 // RestfulAPI's
-app.use(userRouter);
-app.use(CorsesRouter);
+// app.use(userRouter);
+// app.use(CorsesRouter);
 
 app.get('/', (req, res) => {
 	res.send('Hello World');
