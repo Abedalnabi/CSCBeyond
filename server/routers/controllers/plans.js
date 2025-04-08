@@ -35,4 +35,20 @@ module.exports = {
 			return res.status(500).json({ message: 'Server error', error: err.message });
 		}
 	},
+	getPlans: async (req, res) => {
+		try {
+			const plans = await PlanModel.find();
+
+			if (plans.length === 0) {
+				return res.status(404).json({ message: 'No plans found' });
+			}
+
+			return res.status(200).json({
+				message: 'Plans retrieved successfully',
+				plans: plans,
+			});
+		} catch (err) {
+			return res.status(500).json({ message: 'Server error', error: err.message });
+		}
+	},
 };

@@ -49,6 +49,7 @@ module.exports = {
 			return res.status(500).json({ message: 'Server error', error: err.message });
 		}
 	},
+	// TODO: seperate login in onother file
 	loginUser: async (req, res) => {
 		console.log('login');
 		const { email, password } = req.body;
@@ -83,6 +84,31 @@ module.exports = {
 			return res.status(200).json({
 				message: 'Login successful',
 				token: token, // The token is sent to the user
+			});
+		} catch (err) {
+			return res.status(500).json({ message: 'Server error', error: err.message });
+		}
+	},
+
+	getEnrolledUserCourses: async (req, res) => {
+		const { userId } = req.params; // الحصول على userId من الـ URL params
+
+		try {
+			const user = await UserModel.findById(userId)
+				.populate('enrolledCourses') // Populate the enrolledCourses field with course details
+				.exec();
+
+			if (!user) {
+				return res.status(404).json({ message: 'User not found' });
+			}
+
+			if (user.enrolledCourses.length === 0) {
+				return res.status(404).json({ message: 'No courses found for the user' });
+			}
+
+			return res.status(200).json({
+				message: 'User courses retrieved successfully',
+				userCourses: user.enrolledCourses,
 			});
 		} catch (err) {
 			return res.status(500).json({ message: 'Server error', error: err.message });

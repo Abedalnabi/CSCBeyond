@@ -6,6 +6,11 @@ const coursesSchema = new mongoose.Schema({
 	price: { type: Number, required: true },
 	salesCount: { type: Number, default: 0 },
 	objectives: [{ type: String }], // Array of objectives for the course
+	status: {
+		type: String,
+		enum: ['opend', 'commingSoon', 'archived'],
+		default: 'opend',
+	},
 	projects: [
 		{
 			title: { type: String },

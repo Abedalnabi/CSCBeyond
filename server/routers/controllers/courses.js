@@ -3,14 +3,14 @@ const PlanModel = require('../../config/module/plan');
 
 module.exports = {
 	getCourseByID: async (req, res) => {
-		const { courseId } = req.params;
+		const { id } = req.params;
 
-		if (!courseId) {
+		if (!id) {
 			return res.status(400).json({ message: 'Course ID is required' });
 		}
 
 		try {
-			const course = await CoursesModel.findById(courseId);
+			const course = await CoursesModel.findById(id);
 
 			if (!course) {
 				return res.status(404).json({ message: 'Course not found' });
@@ -28,6 +28,30 @@ module.exports = {
 			return res.status(200).json(courses);
 		} catch (error) {
 			return res.status(500).json({ message: 'Internal server error', error });
+		}
+	},
+
+	getCourseByStatus: async (req, res) => {
+		// TODO: add paginations
+		const { status } = req.query;
+
+		try {
+			if (!status) {
+				return res.status(400).json({ message: 'Please provide a valid status' });
+			}
+
+			const courses = await CoursesModel.find({ status: status });
+
+			if (courses.length === 0) {
+				return res.status(404).json({ message: `No courses found with status: ${status}` });
+			}
+
+			return res.status(200).json({
+				message: `Courses with status '${status}' retrieved successfully`,
+				courses,
+			});
+		} catch (err) {
+			return res.status(500).json({ message: 'Server error', error: err.message });
 		}
 	},
 
@@ -71,5 +95,26 @@ module.exports = {
 		}
 	},
 
-	//TODO: Add get course by plan
+	getCoursesByPlanId: async (req, res) => {
+		const { planId } = req.query;
+
+		try {
+			if (!planId) {
+				return res.status(400).json({ message: 'Please provide planId' });
+			}
+
+			const courses = await CoursesModel.find({ requiredPlan: planId });
+
+			if (courses.length === 0) {
+				return res.status(404).json({ message: 'No courses found for the given planId' });
+			}
+
+			return res.status(200).json({
+				message: 'Courses retrieved successfully',
+				courses,
+			});
+		} catch (err) {
+			return res.status(500).json({ message: 'Server error', error: err.message });
+		}
+	},
 };
