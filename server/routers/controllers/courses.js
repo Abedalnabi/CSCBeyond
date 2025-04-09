@@ -1,9 +1,7 @@
-const CoursesModel = require('../../config/module/course');
-const PlanModel = require('../../config/module/plan');
-
-const CoursesTypes = require('../../config/enums/CoursesTypes');
+const courseService = require('./services/courseService');
 
 module.exports = {
+	// Get course by ID
 	getCourseByID: async (req, res) => {
 		const { id } = req.params;
 
@@ -12,29 +10,29 @@ module.exports = {
 		}
 
 		try {
-			const course = await CoursesModel.findById(id);
-
+			const course = await courseService.getCourseByID(id);
 			if (!course) {
 				return res.status(404).json({ message: 'Course not found' });
 			}
-
 			return res.status(200).json(course);
 		} catch (error) {
 			return res.status(500).json({ message: 'Internal server error', error });
 		}
 	},
 
+	// Get all courses
 	getAllCourses: async (req, res) => {
+		// TODO: add pagination
 		try {
-			const courses = await CoursesModel.find();
+			const courses = await courseService.getAllCourses();
 			return res.status(200).json(courses);
 		} catch (error) {
 			return res.status(500).json({ message: 'Internal server error', error });
 		}
 	},
 
+	// Get courses by status
 	getCourseByStatus: async (req, res) => {
-		// TODO: add paginations
 		const { status } = req.query;
 
 		try {
@@ -42,8 +40,7 @@ module.exports = {
 				return res.status(400).json({ message: 'Please provide a valid status' });
 			}
 
-			const courses = await CoursesModel.find({ status: status });
-
+			const courses = await courseService.getCourseByStatus(status);
 			if (courses.length === 0) {
 				return res.status(404).json({ message: `No courses found with status: ${status}` });
 			}
@@ -57,75 +54,23 @@ module.exports = {
 		}
 	},
 
-	getCoursesByPlanId: async (req, res) => {
-		const { planId } = req.query;
+	// Update course
+	updateCourseById: async (req, res) => {
+		const { id } = req.params;
+		const updatedData = req.body;
 
 		try {
-			if (!planId) {
-				return res.status(400).json({ message: 'Please provide planId' });
-			}
-
-			const courses = await CoursesModel.find({ requiredPlan: planId });
-
-			if (courses.length === 0) {
-				return res.status(404).json({ message: 'No courses found for the given planId' });
-			}
-
-			return res.status(200).json({
-				message: 'Courses retrieved successfully',
-				courses,
-			});
-		} catch (err) {
-			return res.status(500).json({ message: 'Server error', error: err.message });
-		}
-	},
-
-	updateCourse: async (req, res) => {
-		const { courseId } = req.params;
-		const { title, description, price, requiredPlan, content, objectives, projects, status } = req.body;
-
-		try {
-			const course = await CoursesModel.findById(courseId);
-			if (!course) {
-				return res.status(404).json({ message: 'Course not found' });
-			}
-
-			if (status && !Object.values(CoursesTypes).includes(status)) {
-				return res
-					.status(400)
-					.json({ message: 'Invalid status value. Valid values are "OPENED", "COMING_SOON", "ARCHIVED".' });
-			}
-
-			course.title = title || course.title;
-			course.description = description || course.description;
-			course.price = price || course.price;
-			course.requiredPlan = requiredPlan || course.requiredPlan;
-			course.content = content || course.content;
-			course.objectives = objectives || course.objectives;
-			course.projects = projects || course.projects;
-			course.status = status || course.status;
-
-			await course.save();
-
+			const course = await courseService.updateCourseById(id, updatedData);
 			return res.status(200).json({
 				message: 'Course updated successfully',
-				course: {
-					id: course._id,
-					title: course.title,
-					description: course.description,
-					price: course.price,
-					requiredPlan: course.requiredPlan,
-					content: course.content,
-					objectives: course.objectives,
-					projects: course.projects,
-					createdAt: course.createdAt,
-				},
+				course,
 			});
 		} catch (err) {
 			return res.status(500).json({ message: 'Server error', error: err.message });
 		}
 	},
-	// search for courses by title
+
+	// Search for courses by name
 	getCourseByName: async (req, res) => {
 		const { title } = req.query;
 
@@ -134,8 +79,7 @@ module.exports = {
 				return res.status(400).json({ message: 'Please provide a course name (title)' });
 			}
 
-			const courses = await CoursesModel.find({ title: { $regex: title, $options: 'i' } });
-
+			const courses = await courseService.getCourseByName(title);
 			if (courses.length === 0) {
 				return res.status(404).json({ message: `No courses found with title: ${title}` });
 			}
@@ -149,40 +93,24 @@ module.exports = {
 		}
 	},
 
+	// Add a course
 	addCourse: async (req, res) => {
-		const { title, description, price, requiredPlan, content, objectives, projects } = req.body;
+		const { title, description, price, requiredPlans, content, objectives, projects } = req.body;
 
 		try {
-			const plan = await PlanModel.findById(requiredPlan);
-			if (!plan) {
-				return res.status(400).json({ message: 'Plan not found' });
-			}
-
-			const newCourse = new CoursesModel({
+			const newCourse = await courseService.addCourse({
 				title,
 				description,
 				price,
-				requiredPlan,
+				requiredPlans,
 				content,
 				objectives,
 				projects,
 			});
 
-			await newCourse.save();
-
 			return res.status(201).json({
 				message: 'Course created successfully',
-				course: {
-					id: newCourse._id,
-					title: newCourse.title,
-					description: newCourse.description,
-					price: newCourse.price,
-					requiredPlan: newCourse.requiredPlan,
-					content: newCourse.content,
-					objectives: newCourse.objectives,
-					projects: newCourse.projects,
-					createdAt: newCourse.createdAt,
-				},
+				course: newCourse,
 			});
 		} catch (err) {
 			return res.status(500).json({ message: 'Server error', error: err.message });

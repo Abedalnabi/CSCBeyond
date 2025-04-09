@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const CoursesTypes = require('../../config/enums/CoursesTypes');
 
 const coursesSchema = new mongoose.Schema({
-	title: { type: String, required: true },
+	title: { type: String, required: true, unique: true },
 	description: { type: String, required: true },
 	price: { type: Number, required: true },
 	salesCount: { type: Number, default: 0 },
@@ -17,20 +17,21 @@ const coursesSchema = new mongoose.Schema({
 			title: { type: String },
 			description: { type: String },
 		},
-	], // Array of projects related to the course
+	],
 	content: [
 		{
-			title: { type: String, required: true }, // Title of each lesson/unit
-			description: { type: String }, // Main text for the lesson/unit
-			videoUrl: { type: String }, // Optional URL for the video
-			resources: [{ type: String }], // Optional array of resource links
+			title: { type: String, required: true },
+			videoUrl: { type: String },
+			resources: [{ type: String }],
 		},
 	],
-	requiredPlan: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Plan',
-		required: true,
-	},
+	requiredPlans: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Plan',
+			required: true,
+		},
+	],
 	createdAt: { type: Date, default: Date.now },
 });
 
