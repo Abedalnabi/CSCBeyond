@@ -1,7 +1,9 @@
 const UserModel = require('../../../config/module/usesr');
 const { hashPasswordFun, comparePassword } = require('../controllersHelper/users');
 const CoursesModel = require('../../../config/module/course');
+const RolesModel = require('../../../config/module/role');
 const { generateToken } = require('../../../middleware/auth');
+const Roles = require('../../../config/enums/Roles');
 
 const addUser = async (userData) => {
 	const { email, password } = userData;
@@ -34,8 +36,14 @@ const loginUser = async (email, password) => {
 	if (!isMatchPassword) {
 		throw new Error('Invalid email or password');
 	}
+	const roleId = user.role.toString();
+
+	const roleCollection = await RolesModel.findById(roleId);
+	const roleName = roleCollection?.role;
+	user.roleName = roleName;
 
 	const token = generateToken(user);
+
 	return token;
 };
 

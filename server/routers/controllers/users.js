@@ -59,10 +59,10 @@ module.exports = {
 
 	// Get courses enrolled by user
 	getEnrolledUserCourses: async (req, res) => {
-		const { userId } = req.params;
+		const { id } = req.params;
 
 		try {
-			const userCourses = await userService.getEnrolledCourses(userId);
+			const userCourses = await userService.getEnrolledCourses(id);
 
 			return res.status(200).json({
 				message: 'User courses retrieved successfully',

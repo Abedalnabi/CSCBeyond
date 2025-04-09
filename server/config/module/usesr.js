@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function (next) {
 	if (!this.role) {
-		const userRole = await RoleModel.findOne({ role: RolesEnums.user });
+		const userRole = await RoleModel.findOne({ role: RolesEnums.USER });
 		this.role = userRole ? userRole._id : null;
 	}
 	next();

@@ -3,7 +3,7 @@ const { verifyFields } = require('../../utils/verification');
 
 module.exports = {
 	addPlan: async (req, res) => {
-		//TODO: add plan just if admin token
+		//TODO: add plan just if I have admin token
 		const { planName, price, description, features } = req.body;
 
 		try {
