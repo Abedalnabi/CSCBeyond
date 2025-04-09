@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const CoursesTypes = require('../../config/enums/CoursesTypes');
 
 const coursesSchema = new mongoose.Schema({
 	title: { type: String, required: true },
@@ -8,8 +9,8 @@ const coursesSchema = new mongoose.Schema({
 	objectives: [{ type: String }], // Array of objectives for the course
 	status: {
 		type: String,
-		enum: ['opend', 'commingSoon', 'archived'],
-		default: 'opend',
+		enum: Object.values(CoursesTypes),
+		default: CoursesTypes.OPENED,
 	},
 	projects: [
 		{

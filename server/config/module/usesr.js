@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const RoleModel = require('./role');
+const RolesEnums = require('../enums/Roles');
 
 const userSchema = new mongoose.Schema({
 	name: { type: String },
@@ -7,14 +9,19 @@ const userSchema = new mongoose.Schema({
 	role: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Role',
-		//TODO: remove this default value and make it dynimac added in the code
-		default: '67f54a004da2dfde60e97192',
 	},
 	plan: { type: mongoose.Schema.Types.ObjectId, ref: 'Plan', default: null },
-	//TODO: add active field in the code if need to send an email to the user
-
 	enrolledCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
+	active: { type: Boolean, default: true },
 	createdAt: { type: Date, default: Date.now },
+});
+
+userSchema.pre('save', async function (next) {
+	if (!this.role) {
+		const userRole = await RoleModel.findOne({ role: RolesEnums.user });
+		this.role = userRole ? userRole._id : null;
+	}
+	next();
 });
 
 const UserModel = mongoose.model('User', userSchema, 'Users');

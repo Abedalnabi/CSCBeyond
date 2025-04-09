@@ -1,6 +1,8 @@
 const CoursesModel = require('../../config/module/course');
 const PlanModel = require('../../config/module/plan');
 
+const CoursesTypes = require('../../config/enums/CoursesTypes');
+
 module.exports = {
 	getCourseByID: async (req, res) => {
 		const { id } = req.params;
@@ -80,12 +82,18 @@ module.exports = {
 
 	updateCourse: async (req, res) => {
 		const { courseId } = req.params;
-		const { title, description, price, requiredPlan, content, objectives, projects } = req.body;
+		const { title, description, price, requiredPlan, content, objectives, projects, status } = req.body;
 
 		try {
 			const course = await CoursesModel.findById(courseId);
 			if (!course) {
 				return res.status(404).json({ message: 'Course not found' });
+			}
+
+			if (status && !Object.values(CoursesTypes).includes(status)) {
+				return res
+					.status(400)
+					.json({ message: 'Invalid status value. Valid values are "OPENED", "COMING_SOON", "ARCHIVED".' });
 			}
 
 			course.title = title || course.title;
@@ -95,6 +103,7 @@ module.exports = {
 			course.content = content || course.content;
 			course.objectives = objectives || course.objectives;
 			course.projects = projects || course.projects;
+			course.status = status || course.status;
 
 			await course.save();
 

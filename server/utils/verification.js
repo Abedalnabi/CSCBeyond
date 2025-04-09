@@ -13,7 +13,6 @@ module.exports = {
 
 	// Function to check if all required fields are provided
 	verifyFields: (data) => {
-		console.log('data', data);
 		for (let field in data) {
 			const value = data[field];
 

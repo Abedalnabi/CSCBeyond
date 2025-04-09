@@ -51,7 +51,6 @@ module.exports = {
 	},
 	// TODO: seperate login in onother file
 	loginUser: async (req, res) => {
-		console.log('login');
 		const { email, password } = req.body;
 
 		// --- Verification
@@ -64,14 +63,11 @@ module.exports = {
 		const emailAfterLowercase = email.toLowerCase();
 
 		try {
-			// Check if user exists
 			const user = await UserModel.findOne({ email: emailAfterLowercase });
 			if (!user) {
 				return res.status(400).json({ message: 'Invalid email or password' });
 			}
-			console.log('user', user);
 
-			// Compare password with the stored hashed password
 			const isMatchPassword = await comparePassword(password, user.password);
 
 			if (!isMatchPassword) {
@@ -80,10 +76,9 @@ module.exports = {
 
 			// Create a JWT token
 			const token = generateToken(user);
-			// Send the token in the response
 			return res.status(200).json({
 				message: 'Login successful',
-				token: token, // The token is sent to the user
+				token: token,
 			});
 		} catch (err) {
 			return res.status(500).json({ message: 'Server error', error: err.message });
