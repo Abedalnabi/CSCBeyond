@@ -55,6 +55,91 @@ module.exports = {
 		}
 	},
 
+	getCoursesByPlanId: async (req, res) => {
+		const { planId } = req.query;
+
+		try {
+			if (!planId) {
+				return res.status(400).json({ message: 'Please provide planId' });
+			}
+
+			const courses = await CoursesModel.find({ requiredPlan: planId });
+
+			if (courses.length === 0) {
+				return res.status(404).json({ message: 'No courses found for the given planId' });
+			}
+
+			return res.status(200).json({
+				message: 'Courses retrieved successfully',
+				courses,
+			});
+		} catch (err) {
+			return res.status(500).json({ message: 'Server error', error: err.message });
+		}
+	},
+
+	updateCourse: async (req, res) => {
+		const { courseId } = req.params;
+		const { title, description, price, requiredPlan, content, objectives, projects } = req.body;
+
+		try {
+			const course = await CoursesModel.findById(courseId);
+			if (!course) {
+				return res.status(404).json({ message: 'Course not found' });
+			}
+
+			course.title = title || course.title;
+			course.description = description || course.description;
+			course.price = price || course.price;
+			course.requiredPlan = requiredPlan || course.requiredPlan;
+			course.content = content || course.content;
+			course.objectives = objectives || course.objectives;
+			course.projects = projects || course.projects;
+
+			await course.save();
+
+			return res.status(200).json({
+				message: 'Course updated successfully',
+				course: {
+					id: course._id,
+					title: course.title,
+					description: course.description,
+					price: course.price,
+					requiredPlan: course.requiredPlan,
+					content: course.content,
+					objectives: course.objectives,
+					projects: course.projects,
+					createdAt: course.createdAt,
+				},
+			});
+		} catch (err) {
+			return res.status(500).json({ message: 'Server error', error: err.message });
+		}
+	},
+	// search for courses by title
+	getCourseByName: async (req, res) => {
+		const { title } = req.query;
+
+		try {
+			if (!title) {
+				return res.status(400).json({ message: 'Please provide a course name (title)' });
+			}
+
+			const courses = await CoursesModel.find({ title: { $regex: title, $options: 'i' } });
+
+			if (courses.length === 0) {
+				return res.status(404).json({ message: `No courses found with title: ${title}` });
+			}
+
+			return res.status(200).json({
+				message: `Courses with title '${title}' retrieved successfully`,
+				courses,
+			});
+		} catch (err) {
+			return res.status(500).json({ message: 'Server error', error: err.message });
+		}
+	},
+
 	addCourse: async (req, res) => {
 		const { title, description, price, requiredPlan, content, objectives, projects } = req.body;
 
@@ -89,29 +174,6 @@ module.exports = {
 					projects: newCourse.projects,
 					createdAt: newCourse.createdAt,
 				},
-			});
-		} catch (err) {
-			return res.status(500).json({ message: 'Server error', error: err.message });
-		}
-	},
-
-	getCoursesByPlanId: async (req, res) => {
-		const { planId } = req.query;
-
-		try {
-			if (!planId) {
-				return res.status(400).json({ message: 'Please provide planId' });
-			}
-
-			const courses = await CoursesModel.find({ requiredPlan: planId });
-
-			if (courses.length === 0) {
-				return res.status(404).json({ message: 'No courses found for the given planId' });
-			}
-
-			return res.status(200).json({
-				message: 'Courses retrieved successfully',
-				courses,
 			});
 		} catch (err) {
 			return res.status(500).json({ message: 'Server error', error: err.message });

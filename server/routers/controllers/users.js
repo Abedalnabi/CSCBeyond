@@ -90,6 +90,41 @@ module.exports = {
 		}
 	},
 
+	enrollCourse: async (req, res) => {
+		const { userId, courseId } = req.body;
+
+		try {
+			const course = await CoursesModel.findById(courseId);
+			if (!course) {
+				return res.status(404).json({ message: 'Course not found' });
+			}
+
+			const user = await UserModel.findById(userId);
+			if (!user) {
+				return res.status(404).json({ message: 'User not found' });
+			}
+
+			if (user.enrolledCourses.includes(courseId)) {
+				return res.status(400).json({ message: 'User is already enrolled in this course' });
+			}
+
+			user.enrolledCourses.push(courseId);
+
+			await user.save();
+
+			return res.status(200).json({
+				message: 'User enrolled in course successfully',
+				user: {
+					id: user._id,
+					name: user.name,
+					enrolledCourses: user.enrolledCourses,
+				},
+			});
+		} catch (err) {
+			return res.status(500).json({ message: 'Server error', error: err.message });
+		}
+	},
+
 	getEnrolledUserCourses: async (req, res) => {
 		const { userId } = req.params; // الحصول على userId من الـ URL params
 
