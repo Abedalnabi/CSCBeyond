@@ -22,10 +22,13 @@ module.exports = {
 
 	// Get all courses
 	getAllCourses: async (req, res) => {
-		// TODO: add pagination
+		const { page = 1, limit = 10 } = req.query;
 		try {
-			const courses = await courseService.getAllCourses();
-			return res.status(200).json(courses);
+			const courses = await courseService.getAllCourses(page, limit);
+			return res.status(200).json({
+				message: 'All courses retrieved successfully',
+				data: courses,
+			});
 		} catch (error) {
 			return res.status(500).json({ message: 'Internal server error', error });
 		}
@@ -34,23 +37,22 @@ module.exports = {
 	// Get courses by status
 	getCourseByStatus: async (req, res) => {
 		const { status } = req.query;
-
+		const { page = 1, limit = 10 } = req.query; // Pagination params
 		try {
 			if (!status) {
 				return res.status(400).json({ message: 'Please provide a valid status' });
 			}
 
-			const courses = await courseService.getCourseByStatus(status);
+			const courses = await courseService.getCourseByStatus(status, page, limit);
 			if (courses.length === 0) {
 				return res.status(404).json({ message: `No courses found with status: ${status}` });
 			}
-
 			return res.status(200).json({
 				message: `Courses with status '${status}' retrieved successfully`,
-				courses,
+				data: courses,
 			});
-		} catch (err) {
-			return res.status(500).json({ message: 'Server error', error: err.message });
+		} catch (error) {
+			return res.status(500).json({ message: 'Server error', error: error.message });
 		}
 	},
 
@@ -70,26 +72,25 @@ module.exports = {
 		}
 	},
 
-	// Search for courses by name
+	// Get course by name with pagination
 	getCourseByName: async (req, res) => {
 		const { title } = req.query;
-
+		const { page = 1, limit = 10 } = req.query; // Pagination params
 		try {
 			if (!title) {
 				return res.status(400).json({ message: 'Please provide a course name (title)' });
 			}
 
-			const courses = await courseService.getCourseByName(title);
+			const courses = await courseService.getCourseByName(title, page, limit);
 			if (courses.length === 0) {
 				return res.status(404).json({ message: `No courses found with title: ${title}` });
 			}
-
 			return res.status(200).json({
 				message: `Courses with title '${title}' retrieved successfully`,
-				courses,
+				data: courses,
 			});
-		} catch (err) {
-			return res.status(500).json({ message: 'Server error', error: err.message });
+		} catch (error) {
+			return res.status(500).json({ message: 'Server error', error: error.message });
 		}
 	},
 

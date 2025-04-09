@@ -2,6 +2,14 @@ const CoursesModel = require('../../../config/module/course');
 const PlanModel = require('../../../config/module/plan');
 const CoursesTypes = require('../../../config/enums/CoursesTypes');
 
+// Function to get courses based on various filters (pagination, status, title)
+const getCourses = async (filter = {}, page = 1, limit = 10) => {
+	const courses = await CoursesModel.find(filter)
+		.skip((page - 1) * limit) // Skip to the correct page
+		.limit(limit); // Limit the number of courses per page
+	return courses;
+};
+
 // Add a course
 const addCourse = async (courseData) => {
 	const { title, description, price, requiredPlans, content, objectives, projects } = courseData;
@@ -27,8 +35,8 @@ const addCourse = async (courseData) => {
 };
 
 // Get all courses
-const getAllCourses = async () => {
-	return await CoursesModel.find();
+const getAllCourses = async (page, limit) => {
+	return await getCourses({}, page, limit);
 };
 
 // Get course by ID
@@ -36,14 +44,14 @@ const getCourseByID = async (courseId) => {
 	return await CoursesModel.findById(courseId);
 };
 
-// Get course by status
-const getCourseByStatus = async (status) => {
-	return await CoursesModel.find({ status: status });
+// Get courses by status with pagination
+const getCourseByStatus = async (status, page, limit) => {
+	return await getCourses({ status }, page, limit);
 };
 
-// Get courses by title
-const getCourseByName = async (title) => {
-	return await CoursesModel.find({ title: { $regex: title, $options: 'i' } });
+// Get courses by title // OR for serch fetcher
+const getCourseByName = async (title, page, limit) => {
+	return await getCourses({ title: { $regex: title, $options: 'i' } }, page, limit);
 };
 
 // Update course
