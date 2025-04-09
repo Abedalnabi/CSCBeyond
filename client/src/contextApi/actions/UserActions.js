@@ -1,0 +1,6 @@
+const USER_ACTIONS = {
+	SET_USER_TOKEN: 'SET_USER_TOKEN',
+	SET_USER_INFO: 'SET_USER_INFO',
+};
+
+export default USER_ACTIONS;

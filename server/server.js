@@ -16,14 +16,6 @@ require('./config/db/database');
 const Routes = require('./middleware/routes');
 Routes.register(app);
 
-//import Routers
-// const userRouter = require('./routers/routes/users');
-// const CorsesRouter = require('./routers/routes/courses');
-
-// RestfulAPI's
-// app.use(userRouter);
-// app.use(CorsesRouter);
-
 app.get('/', (req, res) => {
 	res.send('Hello World');
 });
