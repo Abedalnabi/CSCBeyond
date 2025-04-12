@@ -3,7 +3,7 @@ const PlanModel = require('../../../config/module/plan');
 const CoursesTypes = require('../../../config/enums/CoursesTypes');
 
 // Function to get courses based on various filters (pagination, status, title)
-const getCourses = async (filter = {}, page = 1, limit = 10) => {
+const getCourses = async (filter = {}, page = 1, limit = 20) => {
 	const courses = await CoursesModel.find(filter)
 		.skip((page - 1) * limit) // Skip to the correct page
 		.limit(limit); // Limit the number of courses per page
