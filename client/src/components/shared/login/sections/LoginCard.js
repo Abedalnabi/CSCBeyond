@@ -3,41 +3,41 @@ import { Button, Box, Typography, Grid, Card, CardContent, Alert, CircularProgre
 import { Facebook, Google, Apple } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import CustomTextField from '../../Utilities/CustomTextField/CustomTextField';
-import { register } from '../../../../api/RestfulAPI//user';
+import { loginUser } from '../../../../api/RestfulAPI//user';
 import STATIC_TEXT from '../staticText';
 import { useValidation } from '../../common/helper/useValidation';
+import useUserContext from '../../../../contextApi/contexts/UserContext';
 
-const CreateAccountCard = () => {
+const LoginCard = () => {
 	const theme = useTheme();
 	const navigate = useNavigate();
 
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
-		confirmPassword: '',
 	});
-	const [error, setError] = useState('');
 	const [success, setSuccess] = useState('');
-	const [loading, setLoading] = useState(false);
+	const [isLoading, setLoading] = useState(false);
+
+	const { login, setError, error } = useUserContext();
 
 	const { fieldErrors, validateField } = useValidation();
 
 	const fields = [
 		{ name: 'email', label: 'Email Address', type: 'email' },
 		{ name: 'password', label: 'Password', type: 'password' },
-		{ name: 'confirmPassword', label: 'Confirm Password', type: 'password' },
 	];
 
 	const handleChange = useCallback(
 		(e) => {
 			const { name, value } = e.target;
 			setFormData((prev) => ({ ...prev, [name]: value }));
-			validateField(name, value, formData.password);
+			validateField(name, value);
 		},
-		[formData.password, validateField]
+		[validateField]
 	);
 
-	const handleRegister = useCallback(
+	const handleLogin = useCallback(
 		async (e) => {
 			e.preventDefault();
 			setError('');
@@ -46,20 +46,31 @@ const CreateAccountCard = () => {
 
 			const { email, password } = formData;
 
-			const res = await register({ email, password });
-			if (res.status !== 201) {
-				setError(res.message);
+			try {
+				const res = await loginUser({ email, password });
+
+				if (res.status !== 200) {
+					setError(res.message);
+					setLoading(false);
+					return;
+				}
+
+				if (res.token) login(res.token);
+				setSuccess(STATIC_TEXT.LOGIN_SUCCESS);
+				setTimeout(() => navigate('/'), 2000);
+			} catch (err) {
+				setError('An error occurred, please try again.');
 				setLoading(false);
-				return;
 			}
-			setSuccess(STATIC_TEXT.ACCOUNT_CREATED_SUCCESS);
-			setTimeout(() => navigate('/login'), 2000);
 		},
-		[formData, navigate]
+		[formData, navigate, login, setError]
 	);
 
+	// Check if form is valid before submitting
+	const isFormValid = Object.values(fieldErrors).every((err) => !err) && formData.email && formData.password;
+
 	return (
-		<Grid size={{ xs: 12, md: 6 }}>
+		<Grid item xs={12} md={6}>
 			<Card
 				sx={{
 					borderRadius: '16px',
@@ -69,11 +80,10 @@ const CreateAccountCard = () => {
 			>
 				<CardContent>
 					<Typography variant="h4" gutterBottom>
-						<span>{STATIC_TEXT.CREATE} </span>
-						<span style={{ color: theme.palette.primary.main }}>{STATIC_TEXT.ACCOUNT}</span>
+						<span style={{ color: theme.palette.secondary.main }}>{STATIC_TEXT.LOGIN}</span>
 					</Typography>
 
-					<form onSubmit={handleRegister}>
+					<form onSubmit={handleLogin}>
 						{fields.map((field) => (
 							<CustomTextField
 								key={field.name}
@@ -106,20 +116,14 @@ const CreateAccountCard = () => {
 							size="large"
 							type="submit"
 							sx={{ mt: 2 }}
-							disabled={
-								loading ||
-								Object.values(fieldErrors).some((err) => err) ||
-								!formData.email ||
-								!formData.password ||
-								!formData.confirmPassword
-							}
+							disabled={isLoading || !isFormValid}
 						>
-							{loading ? <CircularProgress size={24} /> : STATIC_TEXT.CREATE_ACCOUNT}
+							{isLoading ? <CircularProgress size={24} /> : STATIC_TEXT.LOGIN_BUTTON}
 						</Button>
 
 						<Box textAlign="center" sx={{ mt: 2 }}>
 							<Typography variant="body2">
-								{STATIC_TEXT.ALREADY_CREATED} <a href="/login">{STATIC_TEXT.LOGIN_HERE}</a>
+								{STATIC_TEXT.DONT_HAVE_ACCOUNT} <a href="/register">{STATIC_TEXT.REGISTER_HERE}</a>
 							</Typography>
 						</Box>
 
@@ -152,4 +156,4 @@ const CreateAccountCard = () => {
 	);
 };
 
-export default CreateAccountCard;
+export default LoginCard;

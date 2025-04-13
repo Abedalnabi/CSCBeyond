@@ -39,10 +39,9 @@ export const UserProvider = ({ children }) => {
 	};
 
 	const login = async (userToken) => {
-		setLoading(true);
 		try {
 			const decodedToken = JSON.parse(atob(userToken.split('.')[1]));
-			localStorage.setItem('token', userToken);
+
 			dispatch({
 				type: USER_ACTIONS.SET_AUTHENTICATED,
 				payload: { isAuthenticated: true },
@@ -54,7 +53,6 @@ export const UserProvider = ({ children }) => {
 		} catch (error) {
 			setError('An error occurred during login');
 		} finally {
-			setLoading(false);
 		}
 	};
 
@@ -67,13 +65,6 @@ export const UserProvider = ({ children }) => {
 		dispatch({
 			type: USER_ACTIONS.SET_USER_INFO,
 			payload: { userInfo: null },
-		});
-	};
-
-	const setLoading = (isLoading) => {
-		dispatch({
-			type: USER_ACTIONS.SET_LOADING,
-			payload: isLoading,
 		});
 	};
 
@@ -92,7 +83,6 @@ export const UserProvider = ({ children }) => {
 	};
 
 	const value = {
-		setLoading,
 		setError,
 		setUserInfo,
 		login,

@@ -4,7 +4,6 @@ export const initialState = {
 	userInfo: null,
 	isAuthenticated: false,
 	isAdmin: false,
-	isLoading: false,
 	error: null,
 };
 
