@@ -6,7 +6,15 @@ import CreateAccountImage from './sections/CreateAccountImage';
 const RegisterPage = () => {
 	return (
 		<Container>
-			<Grid container>
+			<Grid
+				container
+				spacing={5}
+				sx={{
+					justifyContent: 'center',
+					alignItems: 'center',
+					marginTop: '50px',
+				}}
+			>
 				<CreateAccountCard />
 				<CreateAccountImage />
 			</Grid>

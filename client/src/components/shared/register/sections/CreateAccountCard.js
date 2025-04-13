@@ -1,13 +1,13 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Button, Box, Typography, Grid, Card, CardContent, Alert, CircularProgress } from '@mui/material';
+import React, { useState, useCallback } from 'react';
+import { Button, Box, Typography, Grid, Card, CardContent, Alert, CircularProgress, Divider, useTheme } from '@mui/material';
 import { Facebook, Google, Apple } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import CustomTextField from '../../Utilities/CustomTextField/CustomTextField'; // Import the custom text field component
-import { validatePassword, validateEmail } from '../../common/validation'; // Import validation functions
-
+import CustomTextField from '../../Utilities/CustomTextField/CustomTextField';
 import { register } from '../../../../api/RestfulAPI//user';
-
-const RegisterPage = () => {
+import STATIC_TEXT from '../staticText';
+import { useValidation } from '../helper/useValidation';
+const CreateAccountCard = () => {
+	const theme = useTheme();
 	const navigate = useNavigate();
 
 	const [formData, setFormData] = useState({
@@ -19,11 +19,7 @@ const RegisterPage = () => {
 	const [success, setSuccess] = useState('');
 	const [loading, setLoading] = useState(false);
 
-	const [fieldErrors, setFieldErrors] = useState({
-		email: '',
-		password: '',
-		confirmPassword: '',
-	});
+	const { fieldErrors, validateField } = useValidation();
 
 	const fields = [
 		{ name: 'email', label: 'Email Address', type: 'email' },
@@ -35,27 +31,9 @@ const RegisterPage = () => {
 		(e) => {
 			const { name, value } = e.target;
 			setFormData((prev) => ({ ...prev, [name]: value }));
-
-			if (name === 'email') {
-				setFieldErrors((prev) => ({
-					...prev,
-					email: validateEmail(value),
-				}));
-			}
-			if (name === 'password') {
-				setFieldErrors((prev) => ({
-					...prev,
-					password: validatePassword(value),
-				}));
-			}
-			if (name === 'confirmPassword') {
-				setFieldErrors((prev) => ({
-					...prev,
-					confirmPassword: value !== formData.password ? 'Passwords do not match.' : '',
-				}));
-			}
+			validateField(name, value, formData.password);
 		},
-		[formData]
+		[formData.password, validateField]
 	);
 
 	const handleRegister = useCallback(
@@ -73,7 +51,7 @@ const RegisterPage = () => {
 				setLoading(false);
 				return;
 			}
-			setSuccess('Account created successfully. Redirecting to login page...');
+			setSuccess(STATIC_TEXT.ACCOUNT_CREATED_SUCCESS);
 			setTimeout(() => navigate('/login'), 2000);
 		},
 		[formData, navigate]
@@ -81,10 +59,11 @@ const RegisterPage = () => {
 
 	return (
 		<Grid item xs={12} md={6}>
-			<Card>
+			<Card sx={{ borderRadius: '16px', boxShadow: `0 3px 5px ${theme.palette.grey[700]}`, padding: '16px' }}>
 				<CardContent>
 					<Typography variant="h4" gutterBottom>
-						Create Account
+						<span>{STATIC_TEXT.CREATE} </span>
+						<span style={{ color: theme.palette.primary.main }}>{STATIC_TEXT.ACCOUNT}</span>
 					</Typography>
 
 					<form onSubmit={handleRegister}>
@@ -96,20 +75,22 @@ const RegisterPage = () => {
 								type={field.type}
 								value={formData[field.name]}
 								onChange={handleChange}
-								error={!!fieldErrors[field.name]} // field error state
-								helperText={fieldErrors[field.name]} // (error message)
+								error={!!fieldErrors[field.name]}
+								helperText={fieldErrors[field.name]}
+								fullWidth
+								sx={{ marginBottom: 2 }}
 							/>
 						))}
 
 						<Box>
 							{error && (
 								<Alert severity="error" sx={{ mb: 2 }}>
-									{error} {/* Display error message if there's an error */}
+									{error}
 								</Alert>
 							)}
 							{success && (
 								<Alert severity="success" sx={{ mb: 2 }}>
-									{success} {/* Display success message if registration is successful */}
+									{success}
 								</Alert>
 							)}
 						</Box>
@@ -128,25 +109,36 @@ const RegisterPage = () => {
 								!formData.confirmPassword
 							}
 						>
-							{loading ? <CircularProgress size={24} /> : 'Create Account'}
+							{loading ? <CircularProgress size={24} /> : STATIC_TEXT.CREATE_ACCOUNT}
 						</Button>
 
 						<Box textAlign="center" sx={{ mt: 2 }}>
 							<Typography variant="body2">
-								Already have an account? <a href="/login">Login here</a>
+								{STATIC_TEXT.ALREADY_CREATED} <a href="/login">{STATIC_TEXT.LOGIN_HERE}</a>
 							</Typography>
 						</Box>
 
 						<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
+							<Divider sx={{ margin: '20px', width: '50%' }}>{STATIC_TEXT.OR}</Divider>
+						</Box>
+						<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
 							<Button variant="outlined" startIcon={<Google />}>
-								Google
+								{STATIC_TEXT.GOOGLE}
 							</Button>
 							<Button variant="outlined" startIcon={<Facebook />}>
-								Facebook
+								{STATIC_TEXT.FACEBOOK}
 							</Button>
 							<Button variant="outlined" startIcon={<Apple />}>
-								Apple
+								{STATIC_TEXT.APPLE}
 							</Button>
+						</Box>
+
+						<Box textAlign="center" sx={{ mt: 3 }}>
+							<Typography variant="body2">
+								By continuing, you agree to the{' '}
+								<span style={{ color: theme.palette.primary.main }}>{STATIC_TEXT.TERMS_OF_SERVICE}</span> and{' '}
+								<span style={{ color: theme.palette.primary.main }}>{STATIC_TEXT.PRIVACY_POLICY}</span>
+							</Typography>
 						</Box>
 					</form>
 				</CardContent>
@@ -155,4 +147,4 @@ const RegisterPage = () => {
 	);
 };
 
-export default RegisterPage;
+export default CreateAccountCard;

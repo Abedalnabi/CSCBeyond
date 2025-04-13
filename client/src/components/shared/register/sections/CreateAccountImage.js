@@ -1,19 +1,20 @@
 import React from 'react';
-import { TextField, Button, Box, Typography, Grid, Card, CardContent } from '@mui/material';
-import { Facebook, Google, Apple } from '@mui/icons-material';
+import { Box, Grid } from '@mui/material';
+import Image from '../../assets/img/register.png';
 
-const RegisterPage = () => {
+const CreateAccountImage = () => {
 	return (
-		<Grid item xs={12} md={6}>
-			<Box textAlign="center">
-				<img
-					src="https://miro.medium.com/v2/resize:fit:1400/0*7VyEZgzwUhQMeBqb" // Replace with your custom illustration
-					alt="Illustration"
-					style={{ width: '20%', height: 'auto' }}
-				/>
-			</Box>
+		<Grid size={{ xs: 12, md: 6 }}>
+			<Box
+				sx={{
+					backgroundImage: `url(${Image})`,
+					backgroundSize: 'cover',
+					backgroundPosition: 'center',
+					height: '400px',
+				}}
+			/>
 		</Grid>
 	);
 };
 
-export default RegisterPage;
+export default CreateAccountImage;

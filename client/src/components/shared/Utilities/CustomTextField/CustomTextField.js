@@ -6,7 +6,7 @@ const CustomTextField = ({ label, name, type, value, onChange, error, helperText
 		label={label}
 		name={name}
 		type={type}
-		variant="outlined"
+		variant="standard"
 		fullWidth
 		margin="normal"
 		value={value}
