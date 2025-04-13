@@ -6,6 +6,7 @@ import CustomTextField from '../../Utilities/CustomTextField/CustomTextField';
 import { register } from '../../../../api/RestfulAPI//user';
 import STATIC_TEXT from '../staticText';
 import { useValidation } from '../helper/useValidation';
+
 const CreateAccountCard = () => {
 	const theme = useTheme();
 	const navigate = useNavigate();
@@ -58,8 +59,14 @@ const CreateAccountCard = () => {
 	);
 
 	return (
-		<Grid item xs={12} md={6}>
-			<Card sx={{ borderRadius: '16px', boxShadow: `0 3px 5px ${theme.palette.grey[700]}`, padding: '16px' }}>
+		<Grid size={{ xs: 12, md: 6 }}>
+			<Card
+				sx={{
+					borderRadius: '16px',
+					boxShadow: `0 3px 5px ${theme.palette.grey[700]}`,
+					padding: '16px',
+				}}
+			>
 				<CardContent>
 					<Typography variant="h4" gutterBottom>
 						<span>{STATIC_TEXT.CREATE} </span>
@@ -77,8 +84,6 @@ const CreateAccountCard = () => {
 								onChange={handleChange}
 								error={!!fieldErrors[field.name]}
 								helperText={fieldErrors[field.name]}
-								fullWidth
-								sx={{ marginBottom: 2 }}
 							/>
 						))}
 
