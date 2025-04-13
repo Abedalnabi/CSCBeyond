@@ -1,46 +1,117 @@
-import React from 'react';
-
-import { createContext, useContext, useReducer } from 'react';
-import Reducer, { initialState } from '../reducers/UserReducer';
-import ACTIONS from '../actions/UserActions';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import userReducer, { initialState } from '../reducers/UserReducer';
+import USER_ACTIONS from '../actions/UserActions';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(Reducer, initialState);
+	const [state, dispatch] = useReducer(userReducer, initialState);
 
-	const setToken = (token) => {
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		if (token) {
+			validateToken(token);
+		}
+	}, []);
+
+	const validateToken = (token) => {
+		try {
+			const decodedToken = JSON.parse(atob(token.split('.')[1]));
+			if (decodedToken.exp * 1000 > Date.now()) {
+				dispatch({
+					type: USER_ACTIONS.SET_AUTHENTICATED,
+					payload: { isAuthenticated: true },
+				});
+				dispatch({
+					type: USER_ACTIONS.SET_USER_INFO,
+					payload: { userInfo: decodedToken },
+				});
+				dispatch({
+					type: USER_ACTIONS.SET_ADMIN_STATUS,
+					payload: { isAdmin: decodedToken.role === 'admin' },
+				});
+			} else {
+				logout();
+			}
+		} catch (error) {
+			logout();
+		}
+	};
+
+	const login = async (userToken) => {
+		setLoading(true);
+		try {
+			const decodedToken = JSON.parse(atob(userToken.split('.')[1]));
+			localStorage.setItem('token', userToken);
+			dispatch({
+				type: USER_ACTIONS.SET_AUTHENTICATED,
+				payload: { isAuthenticated: true },
+			});
+			dispatch({
+				type: USER_ACTIONS.SET_USER_INFO,
+				payload: { userInfo: decodedToken },
+			});
+		} catch (error) {
+			setError('An error occurred during login');
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const logout = () => {
+		localStorage.removeItem('token');
 		dispatch({
-			type: ACTIONS.SET_USER_TOKEN,
-			payload: token,
+			type: USER_ACTIONS.SET_AUTHENTICATED,
+			payload: { isAuthenticated: false },
+		});
+		dispatch({
+			type: USER_ACTIONS.SET_USER_INFO,
+			payload: { userInfo: null },
+		});
+	};
+
+	const setLoading = (isLoading) => {
+		dispatch({
+			type: USER_ACTIONS.SET_LOADING,
+			payload: isLoading,
+		});
+	};
+
+	const setError = (error) => {
+		dispatch({
+			type: USER_ACTIONS.SET_ERROR,
+			payload: error,
 		});
 	};
 
 	const setUserInfo = (userInfo) => {
 		dispatch({
-			type: ACTIONS.SET_USER_INFO,
-			payload: { userInfo: userInfo },
+			type: USER_ACTIONS.SET_USER_INFO,
+			payload: { userInfo },
 		});
 	};
 
 	const value = {
-		setToken,
-		token: state.token,
-		userInfo: state.userInfo,
-		userDetails: state.userDetails,
+		setLoading,
+		setError,
 		setUserInfo,
+		login,
+		logout,
+		userInfo: state.userInfo,
+		isAuthenticated: state.isAuthenticated,
+		isLoading: state.isLoading,
+		error: state.error,
 	};
 
 	return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
-const useParentContext = () => {
+const useUserContext = () => {
 	const context = useContext(UserContext);
-
 	if (!context) {
-		throw new Error('useUserContext must be used within Parent and his child');
+		throw new Error('useUserContext must be used within a UserProvider');
 	}
 	return context;
 };
 
-export default useParentContext;
+export default useUserContext;

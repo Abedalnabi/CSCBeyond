@@ -1,21 +1,26 @@
 import USER_ACTIONS from '../actions/UserActions';
 
 export const initialState = {
-	token: '',
-	userInfo: {},
+	userInfo: null,
+	isAuthenticated: false,
+	isAdmin: false,
+	isLoading: false,
+	error: null,
 };
 
-const UserReducer = (state, { type, payload }) => {
-	switch (type) {
-		case USER_ACTIONS.SET_USER_TOKEN:
-			return { ...state, token: payload };
-
+const userReducer = (state, action) => {
+	switch (action.type) {
 		case USER_ACTIONS.SET_USER_INFO:
-			return { ...state, userInfo: payload.userInfo };
-
+			return { ...state, userInfo: action.payload.userInfo };
+		case USER_ACTIONS.SET_LOADING:
+			return { ...state, isLoading: action.payload };
+		case USER_ACTIONS.SET_ERROR:
+			return { ...state, error: action.payload };
+		case USER_ACTIONS.SET_AUTHENTICATED:
+			return { ...state, isAuthenticated: action.payload.isAuthenticated };
 		default:
-			throw new Error(`No case for this type ==> ${type}`);
+			return state;
 	}
 };
 
-export default UserReducer;
+export default userReducer;

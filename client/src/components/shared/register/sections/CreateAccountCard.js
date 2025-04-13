@@ -81,14 +81,27 @@ const RegisterPage = () => {
 
 	return (
 		<Grid item xs={12} md={6}>
-			<Grid container spacing={2} alignItems="center">
-				<Grid item xs={12} md={6}>
-					<Card>
-						<CardContent>
-							<Typography variant="h4" gutterBottom>
-								Create Account
-							</Typography>
+			<Card>
+				<CardContent>
+					<Typography variant="h4" gutterBottom>
+						Create Account
+					</Typography>
 
+					<form onSubmit={handleRegister}>
+						{fields.map((field) => (
+							<CustomTextField
+								key={field.name}
+								label={field.label}
+								name={field.name}
+								type={field.type}
+								value={formData[field.name]}
+								onChange={handleChange}
+								error={!!fieldErrors[field.name]} // field error state
+								helperText={fieldErrors[field.name]} // (error message)
+							/>
+						))}
+
+						<Box>
 							{error && (
 								<Alert severity="error" sx={{ mb: 2 }}>
 									{error} {/* Display error message if there's an error */}
@@ -99,60 +112,45 @@ const RegisterPage = () => {
 									{success} {/* Display success message if registration is successful */}
 								</Alert>
 							)}
+						</Box>
 
-							<form onSubmit={handleRegister}>
-								{fields.map((field) => (
-									<CustomTextField
-										key={field.name}
-										label={field.label}
-										name={field.name}
-										type={field.type}
-										value={formData[field.name]}
-										onChange={handleChange}
-										error={!!fieldErrors[field.name]} // field error state
-										helperText={fieldErrors[field.name]} // (error message)
-									/>
-								))}
+						<Button
+							variant="contained"
+							fullWidth
+							size="large"
+							type="submit"
+							sx={{ mt: 2 }}
+							disabled={
+								loading ||
+								Object.values(fieldErrors).some((err) => err) ||
+								!formData.email ||
+								!formData.password ||
+								!formData.confirmPassword
+							}
+						>
+							{loading ? <CircularProgress size={24} /> : 'Create Account'}
+						</Button>
 
-								<Button
-									variant="contained"
-									fullWidth
-									size="large"
-									type="submit"
-									sx={{ mt: 2 }}
-									disabled={
-										loading ||
-										Object.values(fieldErrors).some((err) => err) ||
-										!formData.email ||
-										!formData.password ||
-										!formData.confirmPassword
-									}
-								>
-									{loading ? <CircularProgress size={24} /> : 'Create Account'}
-								</Button>
+						<Box textAlign="center" sx={{ mt: 2 }}>
+							<Typography variant="body2">
+								Already have an account? <a href="/login">Login here</a>
+							</Typography>
+						</Box>
 
-								<Box textAlign="center" sx={{ mt: 2 }}>
-									<Typography variant="body2">
-										Already have an account? <a href="/login">Login here</a>
-									</Typography>
-								</Box>
-
-								<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
-									<Button variant="outlined" startIcon={<Google />}>
-										Google
-									</Button>
-									<Button variant="outlined" startIcon={<Facebook />}>
-										Facebook
-									</Button>
-									<Button variant="outlined" startIcon={<Apple />}>
-										Apple
-									</Button>
-								</Box>
-							</form>
-						</CardContent>
-					</Card>
-				</Grid>
-			</Grid>
+						<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
+							<Button variant="outlined" startIcon={<Google />}>
+								Google
+							</Button>
+							<Button variant="outlined" startIcon={<Facebook />}>
+								Facebook
+							</Button>
+							<Button variant="outlined" startIcon={<Apple />}>
+								Apple
+							</Button>
+						</Box>
+					</form>
+				</CardContent>
+			</Card>
 		</Grid>
 	);
 };

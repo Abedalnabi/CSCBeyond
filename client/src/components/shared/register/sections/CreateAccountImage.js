@@ -7,9 +7,9 @@ const RegisterPage = () => {
 		<Grid item xs={12} md={6}>
 			<Box textAlign="center">
 				<img
-					src="https://via.placeholder.com/400x400" // Replace with your custom illustration
+					src="https://miro.medium.com/v2/resize:fit:1400/0*7VyEZgzwUhQMeBqb" // Replace with your custom illustration
 					alt="Illustration"
-					style={{ width: '100%', height: 'auto' }}
+					style={{ width: '20%', height: 'auto' }}
 				/>
 			</Box>
 		</Grid>

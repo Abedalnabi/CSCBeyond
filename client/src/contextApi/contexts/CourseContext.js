@@ -14,10 +14,10 @@ export const CourseProvider = ({ children }) => {
 		});
 	};
 
-	const updateCourse = (post_id, updatedValue) => {
+	const updateCourse = (course_id, updatedValue) => {
 		dispatch({
 			type: ACTIONS.UPDATE_COURSE,
-			payload: { post_id, updatedValue },
+			payload: { course_id, updatedValue },
 		});
 	};
 
@@ -28,11 +28,30 @@ export const CourseProvider = ({ children }) => {
 		});
 	};
 
+	const setLoading = (loadingState) => {
+		dispatch({
+			type: ACTIONS.SET_LOADING,
+			payload: loadingState,
+		});
+	};
+
+	const setError = (errorMessage) => {
+		dispatch({
+			type: ACTIONS.SET_ERROR,
+			payload: errorMessage,
+		});
+	};
+
 	const value = {
-		posts: state?.posts,
+		courses: state.courses,
+		isLoading: state.isLoading,
+		error: state.error,
+		isAdmin: state.isAdmin,
 		setCourses,
 		updateCourse,
 		addCourse,
+		setLoading,
+		setError,
 	};
 
 	return <CourseContext.Provider value={value}>{children}</CourseContext.Provider>;
@@ -42,7 +61,7 @@ const useCourseContext = () => {
 	const context = useContext(CourseContext);
 
 	if (!context) {
-		throw new Error('useCourseContext must be used within Parent and his child');
+		throw new Error('useCourseContext must be used within a CourseProvider');
 	}
 
 	return context;
