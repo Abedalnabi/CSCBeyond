@@ -4,8 +4,7 @@ import Footer from './shared/footer/Footer';
 import { Routes, Route } from 'react-router-dom';
 import RegisterPage from './shared/register/RegisterPage';
 import LoginPage from './shared/login/LoginPage';
-// login
-// nav
+import NavBar from './shared/navBar/NavBar';
 // coursesPage
 // coursePage
 // about us
@@ -18,6 +17,7 @@ function CscApp() {
 	return (
 		<>
 			<div className="App">
+				<NavBar />
 				<Routes>
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/login" element={<LoginPage />} />
