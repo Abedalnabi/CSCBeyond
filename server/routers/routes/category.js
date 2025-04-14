@@ -1,6 +1,6 @@
 const express = require('express');
 const categoryRouter = express.Router();
-const { addPlan, getPlans } = require('../controllers/plans');
+const { addPlan, getPlans } = require('../controllers/category');
 const { authenticateToken, isAdmin } = require('../../middleware/auth');
 
 categoryRouter.get('/category', authenticateToken, isAdmin, getPlans);

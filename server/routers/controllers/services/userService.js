@@ -71,7 +71,6 @@ const getUsers = async () => {
 };
 
 const updateUser = async (userId, updatedData) => {
-	console.log('updatedData', updatedData);
 	try {
 		const user = await UserModel.findById(userId);
 
