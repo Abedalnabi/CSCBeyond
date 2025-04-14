@@ -11,10 +11,6 @@ const userReducer = (state, action) => {
 	switch (action.type) {
 		case USER_ACTIONS.SET_USER_INFO:
 			return { ...state, userInfo: action.payload.userInfo };
-		case USER_ACTIONS.SET_LOADING:
-			return { ...state, isLoading: action.payload };
-		case USER_ACTIONS.SET_ERROR:
-			return { ...state, error: action.payload };
 		case USER_ACTIONS.SET_AUTHENTICATED:
 			return { ...state, isAuthenticated: action.payload.isAuthenticated };
 		default:

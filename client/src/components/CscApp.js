@@ -17,7 +17,7 @@ function CscApp() {
 	return (
 		<>
 			<div className="App">
-				<NavBar />
+				{/* <NavBar /> */}
 				<Routes>
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/login" element={<LoginPage />} />

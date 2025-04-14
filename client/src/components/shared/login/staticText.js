@@ -3,6 +3,7 @@ const STATIC_TEXT = {
 	LOGIN: 'Log in',
 	LOGIN_BUTTON: 'Login',
 	TERMS_OF_SERVICE: 'Terms of Service',
+	FORGET_PASSWORD: 'Forget your Password?',
 	PRIVACY_POLICY: 'Privacy Policy',
 	DONT_HAVE_ACCOUNT: 'Dont have an Account?',
 	LOGIN_SUCCESS: 'Login Success',

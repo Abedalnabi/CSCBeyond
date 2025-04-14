@@ -59,95 +59,97 @@ const CreateAccountCard = () => {
 	);
 
 	return (
-		<Grid size={{ xs: 12, md: 6 }}>
-			<Card
-				sx={{
-					borderRadius: '16px',
-					boxShadow: `0 3px 5px ${theme.palette.grey[700]}`,
-					padding: '16px',
-				}}
-			>
-				<CardContent>
-					<Typography variant="h4" gutterBottom>
-						<span>{STATIC_TEXT.CREATE} </span>
-						<span style={{ color: theme.palette.primary.main }}>{STATIC_TEXT.ACCOUNT}</span>
-					</Typography>
+		<Grid
+			container
+			spacing={5}
+			sx={{
+				justifyContent: 'center',
+				alignItems: 'center',
+				marginTop: '50px',
+			}}
+		>
+			<Grid size={{ xs: 12, md: 6 }}>
+				<Card
+					sx={{
+						borderRadius: '16px',
+						boxShadow: `0 3px 5px ${theme.palette.grey[700]}`,
+						padding: '16px',
+					}}
+				>
+					<CardContent>
+						<Typography variant="h4" gutterBottom>
+							<span>{STATIC_TEXT.CREATE} </span>
+							<span style={{ color: theme.palette.primary.main }}>{STATIC_TEXT.ACCOUNT}</span>
+						</Typography>
 
-					<form onSubmit={handleRegister}>
-						{fields.map((field) => (
-							<CustomTextField
-								key={field.name}
-								label={field.label}
-								name={field.name}
-								type={field.type}
-								value={formData[field.name]}
-								onChange={handleChange}
-								error={!!fieldErrors[field.name]}
-								helperText={fieldErrors[field.name]}
-							/>
-						))}
+						<form onSubmit={handleRegister}>
+							{fields.map((field) => (
+								<CustomTextField
+									key={field.name}
+									label={field.label}
+									name={field.name}
+									type={field.type}
+									value={formData[field.name]}
+									onChange={handleChange}
+									error={!!fieldErrors[field.name]}
+									helperText={fieldErrors[field.name]}
+								/>
+							))}
 
-						<Box>
-							{error && (
-								<Alert severity="error" sx={{ mb: 2 }}>
-									{error}
-								</Alert>
-							)}
-							{success && (
-								<Alert severity="success" sx={{ mb: 2 }}>
-									{success}
-								</Alert>
-							)}
-						</Box>
+							<Box>
+								{error && (
+									<Alert severity="error" sx={{ mb: 2 }}>
+										{error}
+									</Alert>
+								)}
+								{success && (
+									<Alert severity="success" sx={{ mb: 2 }}>
+										{success}
+									</Alert>
+								)}
+							</Box>
 
-						<Button
-							variant="contained"
-							fullWidth
-							size="large"
-							type="submit"
-							sx={{ mt: 2 }}
-							disabled={
-								loading ||
-								Object.values(fieldErrors).some((err) => err) ||
-								!formData.email ||
-								!formData.password ||
-								!formData.confirmPassword
-							}
-						>
-							{loading ? <CircularProgress size={24} /> : STATIC_TEXT.CREATE_ACCOUNT}
-						</Button>
-
-						<Box textAlign="center" sx={{ mt: 2 }}>
-							<Typography variant="body2">
-								{STATIC_TEXT.ALREADY_CREATED} <a href="/login">{STATIC_TEXT.LOGIN_HERE}</a>
-							</Typography>
-						</Box>
-
-						<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
-							<Divider sx={{ margin: '20px', width: '50%' }}>{STATIC_TEXT.OR}</Divider>
-						</Box>
-						<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
-							<Button variant="outlined" startIcon={<Google />}>
-								{STATIC_TEXT.GOOGLE}
+							<Button
+								variant="contained"
+								fullWidth
+								size="large"
+								type="submit"
+								sx={{ mt: 2 }}
+								disabled={
+									loading ||
+									Object.values(fieldErrors).some((err) => err) ||
+									!formData.email ||
+									!formData.password ||
+									!formData.confirmPassword
+								}
+							>
+								{loading ? <CircularProgress size={24} /> : STATIC_TEXT.CREATE_ACCOUNT}
 							</Button>
-							<Button variant="outlined" startIcon={<Facebook />}>
-								{STATIC_TEXT.FACEBOOK}
-							</Button>
-							<Button variant="outlined" startIcon={<Apple />}>
-								{STATIC_TEXT.APPLE}
-							</Button>
-						</Box>
 
-						<Box textAlign="center" sx={{ mt: 3 }}>
-							<Typography variant="body2">
-								By continuing, you agree to the{' '}
-								<span style={{ color: theme.palette.primary.main }}>{STATIC_TEXT.TERMS_OF_SERVICE}</span> and{' '}
-								<span style={{ color: theme.palette.primary.main }}>{STATIC_TEXT.PRIVACY_POLICY}</span>
-							</Typography>
-						</Box>
-					</form>
-				</CardContent>
-			</Card>
+							<Box textAlign="center" sx={{ mt: 2 }}>
+								<Typography variant="body2">
+									{STATIC_TEXT.ALREADY_CREATED} <a href="/login">{STATIC_TEXT.LOGIN_HERE}</a>
+								</Typography>
+							</Box>
+
+							<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
+								<Divider sx={{ margin: '20px', width: '50%' }}>{STATIC_TEXT.OR}</Divider>
+							</Box>
+							<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
+								<Button variant="outlined" startIcon={<Google />}>
+									{STATIC_TEXT.GOOGLE}
+								</Button>
+								<Button variant="outlined" startIcon={<Facebook />}>
+									{STATIC_TEXT.FACEBOOK}
+								</Button>
+								<Button variant="outlined" startIcon={<Apple />}>
+									{STATIC_TEXT.APPLE}
+								</Button>
+							</Box>
+						</form>
+					</CardContent>
+				</Card>
+			</Grid>
 		</Grid>
 	);
 };
