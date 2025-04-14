@@ -12,4 +12,5 @@ userRouter.get('/user-orders/:userId', authenticateToken, getUserOrders); // Get
 userRouter.get('/users', authenticateToken, getUsers); // Get all users
 userRouter.put('/user/:userId', authenticateToken, updateUser); // Update user information
 userRouter.delete('/user/:userId', authenticateToken, deleteUser); // Delete user
+
 module.exports = userRouter;

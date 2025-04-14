@@ -9,7 +9,7 @@ mongoose
 
 require('../module/category');
 require('../module/contactus');
-require('../module/usesr');
+require('../module/user');
 require('../module/role');
 require('../module/order');
 require('../module/product');

@@ -1,14 +1,18 @@
 // userService.js
-const UserModel = require('../../../config/module/usesr');
+const UserModel = require('../../../config/module/user');
 const OrderModel = require('../../../config/module/order');
 const { generateToken } = require('../../../middleware/auth');
 const RolesModel = require('../../../config/module/role');
 const { comparePassword, hashPasswordFun } = require('../../../routers/controllers/controllersHelper/users');
+const { verifyEmail, verifyFields, verifyPasswordStrength } = require('../../../utils/verification');
 
 // Add a new user
 const addUser = async (userData) => {
 	const { email, password, name } = userData;
 
+	verifyFields(email, password);
+	verifyEmail(email);
+	verifyPasswordStrength(password);
 	const emailAfterLowercase = email.toLowerCase();
 
 	const existingUser = await UserModel.findOne({ email: emailAfterLowercase });
@@ -30,6 +34,8 @@ const addUser = async (userData) => {
 // Login user
 const loginUser = async (email, password) => {
 	const emailAfterLowercase = email.toLowerCase();
+
+	verifyFields(email, password);
 	const user = await UserModel.findOne({ email: emailAfterLowercase });
 	if (!user) {
 		throw new Error('Invalid email or password');
