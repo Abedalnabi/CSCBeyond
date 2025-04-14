@@ -1,12 +1,12 @@
 const userRouter = require('../routers/routes/users');
-const coursesRouter = require('../routers/routes/courses');
-const planRouter = require('../routers/routes/plans');
+const categoryRouter = require('../routers/routes/category');
+// const planRouter = require('../routers/routes/plans');
 
 const routes = {
 	register: async (app) => {
 		app.use('/api', userRouter);
-		app.use('/api', coursesRouter);
-		app.use('/api', planRouter);
+		app.use('/api', categoryRouter);
+		// app.use('/api', planRouter);
 	},
 };
 

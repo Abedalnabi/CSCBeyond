@@ -1,33 +1,28 @@
-const PlanModel = require('../../config/module/plan');
+const CategoryModel = require('../../config/module/category');
 const { verifyFields } = require('../../utils/verification');
 
 module.exports = {
 	addPlan: async (req, res) => {
-		const { planName, price, description, features } = req.body;
+		const { name, description } = req.body;
 
 		try {
 			// Check if all required fields are provided
-			verifyFields({ planName, price, description, features });
+			verifyFields({ name, description });
 
-			const newPlan = new PlanModel({
-				planName,
-				price,
+			const newCategory = new CategoryModel({
+				name,
 				description,
-				features,
 			});
 
-			await newPlan.save();
+			await newCategory.save();
 
 			// Return the newly created plan
 			return res.status(201).json({
-				message: 'Plan created successfully',
-				plan: {
-					id: newPlan._id,
-					planName: newPlan.planName,
-					price: newPlan.price,
-					description: newPlan.description,
-					features: newPlan.features,
-					createdAt: newPlan.createdAt,
+				message: 'Category added successfully',
+				category: {
+					id: newCategory._id,
+					name: newCategory.name,
+					description: newCategory.description,
 				},
 			});
 		} catch (err) {
@@ -36,15 +31,15 @@ module.exports = {
 	},
 	getPlans: async (req, res) => {
 		try {
-			const plans = await PlanModel.find();
+			const categories = await CategoryModel.find();
 
-			if (plans.length === 0) {
-				return res.status(404).json({ message: 'No plans found' });
+			if (categories.length === 0) {
+				return res.status(404).json({ message: 'No category found' });
 			}
 
 			return res.status(200).json({
-				message: 'Plans retrieved successfully',
-				plans: plans,
+				message: 'Categories fetched successfully',
+				categories: categories,
 			});
 		} catch (err) {
 			return res.status(500).json({ message: 'Server error', error: err.message });

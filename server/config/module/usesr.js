@@ -10,8 +10,6 @@ const userSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Role',
 	},
-	plan: { type: mongoose.Schema.Types.ObjectId, ref: 'Plan', default: null },
-	enrolledCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
 	active: { type: Boolean, default: true },
 	createdAt: { type: Date, default: Date.now },
 });
@@ -23,6 +21,8 @@ userSchema.pre('save', async function (next) {
 	}
 	next();
 });
+
+userSchema.index({ email: 1 });
 
 const UserModel = mongoose.model('User', userSchema, 'Users');
 

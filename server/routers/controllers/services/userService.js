@@ -1,12 +1,13 @@
+// userService.js
 const UserModel = require('../../../config/module/usesr');
-const { hashPasswordFun, comparePassword } = require('../controllersHelper/users');
-const CoursesModel = require('../../../config/module/course');
-const RolesModel = require('../../../config/module/role');
+const OrderModel = require('../../../config/module/order');
 const { generateToken } = require('../../../middleware/auth');
-const Roles = require('../../../config/enums/Roles');
+const RolesModel = require('../../../config/module/role');
+const { comparePassword, hashPasswordFun } = require('../../../routers/controllers/controllersHelper/users');
 
+// Add a new user
 const addUser = async (userData) => {
-	const { email, password } = userData;
+	const { email, password, name } = userData;
 
 	const emailAfterLowercase = email.toLowerCase();
 
@@ -19,12 +20,14 @@ const addUser = async (userData) => {
 	const newUser = new UserModel({
 		email: emailAfterLowercase,
 		password: hashedPassword,
+		name: name,
 	});
 
 	await newUser.save();
 	return newUser;
 };
 
+// Login user
 const loginUser = async (email, password) => {
 	const emailAfterLowercase = email.toLowerCase();
 	const user = await UserModel.findOne({ email: emailAfterLowercase });
@@ -47,43 +50,74 @@ const loginUser = async (email, password) => {
 	return token;
 };
 
-const enrollCourse = async (userId, courseId) => {
-	const course = await CoursesModel.findById(courseId);
-	if (!course) {
-		throw new Error('Course not found');
+// Get orders for a specific user
+const getUserOrders = async (userId) => {
+	try {
+		const orders = await OrderModel.find({ user: userId }).populate('products.product');
+		return orders;
+	} catch (err) {
+		throw new Error('Error fetching orders');
 	}
-
-	const user = await UserModel.findById(userId);
-	if (!user) {
-		throw new Error('User not found');
-	}
-
-	if (user.enrolledCourses.includes(courseId)) {
-		throw new Error('User is already enrolled in this course');
-	}
-
-	user.enrolledCourses.push(courseId);
-	await user.save();
-
-	return user;
 };
 
-const getEnrolledCourses = async (userId) => {
-	const user = await UserModel.findById(userId).populate('enrolledCourses').exec();
-	if (!user) {
-		throw new Error('User not found');
+// Get all users
+const getUsers = async () => {
+	try {
+		const users = await UserModel.find();
+		return users;
+	} catch (err) {
+		throw new Error('Error fetching users');
 	}
+};
 
-	if (user.enrolledCourses.length === 0) {
-		throw new Error('No courses found for the user');
+const updateUser = async (userId, updatedData) => {
+	console.log('updatedData', updatedData);
+	try {
+		const user = await UserModel.findById(userId);
+
+		if (!user) {
+			throw new Error('User not found');
+		}
+
+		if (updatedData.email) {
+			user.email = updatedData.email.toLowerCase();
+		}
+		if (updatedData.password) {
+			user.password = await hashPasswordFun(updatedData.password);
+		}
+		if (updatedData.role) {
+			user.role = updatedData.role;
+		}
+
+		await user.save();
+		return user;
+	} catch (err) {
+		throw new Error('Error updating user');
 	}
+};
 
-	return user.enrolledCourses;
+// Delete user
+const deleteUser = async (userId) => {
+	try {
+		const user = await UserModel.findById(userId);
+		if (!user) {
+			throw new Error('User not found');
+		}
+
+		await OrderModel.deleteMany({ user: userId });
+
+		await user.remove();
+		return { message: 'User deleted successfully' };
+	} catch (err) {
+		throw new Error('Error deleting user');
+	}
 };
 
 module.exports = {
 	addUser,
 	loginUser,
-	enrollCourse,
-	getEnrolledCourses,
+	getUserOrders,
+	getUsers,
+	updateUser,
+	deleteUser,
 };

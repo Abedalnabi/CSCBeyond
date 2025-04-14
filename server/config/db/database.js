@@ -7,8 +7,9 @@ mongoose
 	.then(() => console.log('MongoDB Connected', db.db.uri))
 	.catch((err) => console.log(err));
 
-require('../module/course');
-require('../module/plan');
+require('../module/category');
+require('../module/contactus');
 require('../module/usesr');
 require('../module/role');
-require('../module/enrollment');
+require('../module/order');
+require('../module/product');
