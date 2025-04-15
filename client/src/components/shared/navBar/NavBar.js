@@ -50,10 +50,7 @@ const Navbar = () => {
 
 	return (
 		<Container>
-			<AppBar
-				position="static"
-				sx={{ backgroundColor: 'white', boxShadow: 'none', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', padding: '0' }}
-			>
+			<AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 'none', padding: '0' }}>
 				<Toolbar sx={{ display: 'flex', justifyContent: 'space-around' }}>
 					<Box sx={{ display: 'flex', alignItems: 'center' }}>
 						<Typography variant="h6" sx={{ color: 'black', fontWeight: 'bold' }}>

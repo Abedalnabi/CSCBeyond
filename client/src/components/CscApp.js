@@ -5,7 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import RegisterPage from './shared/register/RegisterPage';
 import LoginPage from './shared/login/LoginPage';
 import NavBar from './shared/navBar/NavBar';
-import ProductsList from './shared/productsList/ProductsList';
+import ProductsList from './shared/productsList/index';
 
 // about us
 // contact us

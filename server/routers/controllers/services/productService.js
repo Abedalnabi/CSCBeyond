@@ -28,7 +28,8 @@ const addProduct = async (productData) => {
 const getProducts = async (filter = {}, page = 1, limit = 20) => {
 	const products = await ProductModel.find(filter)
 		.skip((page - 1) * limit)
-		.limit(limit);
+		.limit(limit)
+		.populate('category');
 	return products;
 };
 
