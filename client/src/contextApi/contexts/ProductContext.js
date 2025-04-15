@@ -1,27 +1,27 @@
 import { createContext, useContext, useReducer } from 'react';
-import Reducer, { initialState } from '../reducers/CourseReducer';
-import ACTIONS from '../actions/CourseAction';
+import Reducer, { initialState } from '../reducers/ProductReducer';
+import ACTIONS from '../actions/ProductAction';
 
-const CourseContext = createContext();
+const ProductContext = createContext();
 
-export const CourseProvider = ({ children }) => {
+export const ProductProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(Reducer, initialState);
 
-	const setCourses = (courses) => {
+	const setProducts = (courses) => {
 		dispatch({
 			type: ACTIONS.SET_COURSES,
 			payload: courses,
 		});
 	};
 
-	const updateCourse = (course_id, updatedValue) => {
+	const updateProduct = (course_id, updatedValue) => {
 		dispatch({
 			type: ACTIONS.UPDATE_COURSE,
 			payload: { course_id, updatedValue },
 		});
 	};
 
-	const addCourse = (newAddedValue) => {
+	const addProduct = (newAddedValue) => {
 		dispatch({
 			type: ACTIONS.ADD_COURSE,
 			payload: { newAddedValue },
@@ -43,25 +43,25 @@ export const CourseProvider = ({ children }) => {
 	};
 
 	const value = {
-		courses: state.courses,
+		products: state.productss,
 		isLoading: state.isLoading,
 		error: state.error,
 		isAdmin: state.isAdmin,
-		setCourses,
-		updateCourse,
-		addCourse,
+		setProducts,
+		updateProduct,
+		addProduct,
 		setLoading,
 		setError,
 	};
 
-	return <CourseContext.Provider value={value}>{children}</CourseContext.Provider>;
+	return <ProductContext.Provider value={value}>{children}</ProductContext.Provider>;
 };
 
 const useCourseContext = () => {
-	const context = useContext(CourseContext);
+	const context = useContext(ProductContext);
 
 	if (!context) {
-		throw new Error('useCourseContext must be used within a CourseProvider');
+		throw new Error('useProductContext must be used within a CourseProvider');
 	}
 
 	return context;

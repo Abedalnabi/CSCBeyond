@@ -1,29 +1,29 @@
-import ACTIONS from '../actions/CourseAction';
+import ACTIONS from '../actions/ProductAction';
 
 export const initialState = {
-	courses: [],
+	products: [],
 	isLoading: false,
 	error: null,
 };
 
 const Reducer = (state, { type, payload }) => {
 	switch (type) {
-		case ACTIONS.SET_COURSES:
-			return { ...state, courses: payload, isLoading: false };
+		case ACTIONS.SET_PRODUCTS:
+			return { ...state, products: payload, isLoading: false };
 
-		case ACTIONS.UPDATE_COURSE:
+		case ACTIONS.UPDATE_PRODUCT:
 			return {
 				...state,
-				courses: state.courses.map((courseElement) =>
-					courseElement._id === payload.course_id ? { ...courseElement, ...payload.updatedValue } : courseElement
+				products: state.products.map((productElement) =>
+					productElement._id === payload.product_id ? { ...productElement, ...payload.updatedValue } : productElement
 				),
 				isLoading: false,
 			};
 
-		case ACTIONS.ADD_COURSE:
+		case ACTIONS.ADD_product:
 			return {
 				...state,
-				courses: [...state.courses, payload.newAddedValue],
+				products: [...state.products, payload.newAddedValue],
 				isLoading: false,
 			};
 

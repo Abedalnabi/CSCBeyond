@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, Box, Container, IconButton, Drawer } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Box, Container, IconButton, Drawer, TextField } from '@mui/material';
 import { NavLink, useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Navbar = () => {
 	const theme = useTheme();
 	const [activeButton, setActiveButton] = useState('');
 	const [drawerOpen, setDrawerOpen] = useState(false);
+	const [searchQuery, setSearchQuery] = useState('');
 	const navigate = useNavigate();
 
 	const getButtonStyle = (route) => {
-		// Check if the theme and its properties are defined
 		if (!theme || !theme.palette || !theme.palette.primary) {
-			return { color: 'blue' }; // Fallback color if theme or palette is undefined
+			return { color: 'blue' };
 		}
-
 		return {
 			color: activeButton === route ? theme.palette.primary.main : theme.palette.default?.main || 'gray',
 		};
@@ -29,13 +29,20 @@ const Navbar = () => {
 		navigate(route);
 	};
 
+	const handleSearchChange = (e) => {
+		setSearchQuery(e.target.value);
+		// يتم توجيه المستخدم إلى صفحة البحث مع النص المدخل في خانة البحث
+		navigate(`/search?query=${e.target.value}`);
+	};
+
 	const navItems = [
 		{ path: '/', label: 'Home' },
-		{ path: '/course-selector', label: 'Course Selector' },
-		{ path: '/courses', label: 'Courses' },
+		{ path: '/pages', label: 'Pages' },
+		{ path: '/products', label: 'Products' },
 		{ path: '/faq', label: 'FAQ' },
 		{ path: '/contact', label: 'Contact' },
-		{ path: '/about', label: 'About Us' },
+		{ path: '/shop', label: 'Shop' },
+		{ path: '/blog', label: 'Blog' },
 	];
 
 	const isMobile = useMediaQuery('(max-width: 600px)');
@@ -43,13 +50,18 @@ const Navbar = () => {
 
 	return (
 		<Container>
-			<AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 'none' }}>
-				<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+			<AppBar
+				position="static"
+				sx={{ backgroundColor: 'white', boxShadow: 'none', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', padding: '0' }}
+			>
+				<Toolbar sx={{ display: 'flex', justifyContent: 'space-around' }}>
 					<Box sx={{ display: 'flex', alignItems: 'center' }}>
-						<Typography variant="h6" sx={{ color: '#0061f2', fontWeight: 'bold' }}>
-							EZY SKILLS
+						<Typography variant="h6" sx={{ color: 'black', fontWeight: 'bold' }}>
+							Hekto
 						</Typography>
 					</Box>
+
+					{/* Desktop Search Field with Search Icon */}
 
 					{isMobile ? (
 						<IconButton sx={{ color: '#757575' }} onClick={() => setDrawerOpen(true)}>
@@ -65,23 +77,31 @@ const Navbar = () => {
 
 							{!isLoggedIn ? (
 								<>
-									<Button
-										variant="outlined"
-										sx={{ color: theme.palette.primary.main, borderColor: theme.palette.primary.main }}
-										onClick={() => navigate('/login')}
-									>
-										Log In
-									</Button>
-									<Button
-										variant="contained"
-										sx={{
-											backgroundColor: theme.palette.primary.main,
-											'&:hover': { backgroundColor: '#f4511e' },
-										}}
-										onClick={() => navigate('/register')}
-									>
-										Create Account
-									</Button>
+									{!isMobile && (
+										<Box sx={{ display: 'flex', alignItems: 'center' }}>
+											<TextField
+												value={searchQuery}
+												onChange={handleSearchChange}
+												label="Search"
+												variant="outlined"
+												size="small"
+												sx={{
+													backgroundColor: '#f5f5f5',
+													width: '100',
+												}}
+											/>
+											<IconButton
+												sx={{
+													backgroundColor: '#f50057',
+													color: 'white',
+													borderRadius: '0%',
+													padding: '8px',
+												}}
+											>
+												<SearchIcon />
+											</IconButton>
+										</Box>
+									)}
 								</>
 							) : (
 								<Box sx={{ display: 'flex', gap: 2 }}>

@@ -63,3 +63,10 @@ code {
 		transform: rotate(360deg);
 	}
 }
+
+/* custimize material ui */
+
+.css-5c1adp-MuiContainer-root {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
