@@ -2,7 +2,7 @@ const ProductModel = require('../../../config/module/product');
 const CategoryModel = require('../../../config/module/category');
 
 const addProduct = async (productData) => {
-	const { name, price, rated, brand, color, category, salesCount, isFeatured } = productData;
+	const { name, price, rated, brand, color, category, salesCount, isFeatured, imageUrl } = productData;
 
 	const categoryExists = await CategoryModel.findById(category);
 	if (!categoryExists) {
@@ -15,6 +15,7 @@ const addProduct = async (productData) => {
 		rated,
 		brand,
 		color,
+		imageUrl,
 		category,
 		salesCount,
 		isFeatured,

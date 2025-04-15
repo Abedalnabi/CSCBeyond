@@ -56,12 +56,13 @@ module.exports = {
 
 	// Add a new product
 	addProduct: async (req, res) => {
-		const { name, price, rated, brand, color, category, salesCount, isFeatured } = req.body;
+		const { name, price, rated, brand, color, category, salesCount, isFeatured, imageUrl } = req.body;
 		try {
 			const newProduct = await productService.addProduct({
 				name,
 				price,
 				rated,
+				imageUrl,
 				brand,
 				color,
 				category,
