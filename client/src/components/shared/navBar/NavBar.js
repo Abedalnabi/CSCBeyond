@@ -31,7 +31,6 @@ const Navbar = () => {
 
 	const handleSearchChange = (e) => {
 		setSearchQuery(e.target.value);
-		// يتم توجيه المستخدم إلى صفحة البحث مع النص المدخل في خانة البحث
 		navigate(`/search?query=${e.target.value}`);
 	};
 
@@ -40,7 +39,7 @@ const Navbar = () => {
 		{ path: '/pages', label: 'Pages' },
 		{ path: '/products', label: 'Products' },
 		{ path: '/faq', label: 'FAQ' },
-		{ path: '/contact', label: 'Contact' },
+		{ path: '/contac-us', label: 'Contact' },
 		{ path: '/shop', label: 'Shop' },
 		{ path: '/about-us', label: 'About' },
 	];

@@ -8,9 +8,9 @@ import NavBar from './shared/navBar/NavBar';
 import ProductsList from './shared/productsList/index';
 import ProductDetails from './shared/productDetails/index';
 import AboutUs from './shared/aboutUs/index';
+import ContactUs from './shared/contacUs/index';
 
-// about us
-// contact us
+// Cart
 // FAQ
 // Homepage
 // 404
@@ -26,6 +26,7 @@ function CscApp() {
 					<Route path="/products" element={<ProductsList />} />
 					<Route path="/product/:id" element={<ProductDetails />} />
 					<Route path="/about-us" element={<AboutUs />} />
+					<Route path="/contac-us" element={<ContactUs />} />
 				</Routes>
 			</div>
 			<div className="footer">
