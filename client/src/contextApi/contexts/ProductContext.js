@@ -9,55 +9,36 @@ export const ProductProvider = ({ children }) => {
 
 	const setProducts = (courses) => {
 		dispatch({
-			type: ACTIONS.SET_COURSES,
+			type: ACTIONS.SET_PRODUCTS,
 			payload: courses,
 		});
 	};
 
 	const updateProduct = (course_id, updatedValue) => {
 		dispatch({
-			type: ACTIONS.UPDATE_COURSE,
+			type: ACTIONS.UPDATE_PRODUCT,
 			payload: { course_id, updatedValue },
 		});
 	};
 
 	const addProduct = (newAddedValue) => {
 		dispatch({
-			type: ACTIONS.ADD_COURSE,
+			type: ACTIONS.ADD_PRODUCT,
 			payload: { newAddedValue },
 		});
 	};
 
-	const setLoading = (loadingState) => {
-		dispatch({
-			type: ACTIONS.SET_LOADING,
-			payload: loadingState,
-		});
-	};
-
-	const setError = (errorMessage) => {
-		dispatch({
-			type: ACTIONS.SET_ERROR,
-			payload: errorMessage,
-		});
-	};
-
 	const value = {
-		products: state.productss,
-		isLoading: state.isLoading,
-		error: state.error,
-		isAdmin: state.isAdmin,
+		products: state.products,
 		setProducts,
 		updateProduct,
 		addProduct,
-		setLoading,
-		setError,
 	};
 
 	return <ProductContext.Provider value={value}>{children}</ProductContext.Provider>;
 };
 
-const useCourseContext = () => {
+const useProductContext = () => {
 	const context = useContext(ProductContext);
 
 	if (!context) {
@@ -67,4 +48,4 @@ const useCourseContext = () => {
 	return context;
 };
 
-export default useCourseContext;
+export default useProductContext;

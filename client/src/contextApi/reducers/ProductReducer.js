@@ -2,8 +2,6 @@ import ACTIONS from '../actions/ProductAction';
 
 export const initialState = {
 	products: [],
-	isLoading: false,
-	error: null,
 };
 
 const Reducer = (state, { type, payload }) => {
@@ -26,12 +24,6 @@ const Reducer = (state, { type, payload }) => {
 				products: [...state.products, payload.newAddedValue],
 				isLoading: false,
 			};
-
-		case ACTIONS.SET_LOADING:
-			return { ...state, isLoading: payload };
-
-		case ACTIONS.SET_ERROR:
-			return { ...state, error: payload, isLoading: false };
 
 		default:
 			throw new Error(`No case for this type ==> ${type}`);

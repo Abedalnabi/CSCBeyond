@@ -1,8 +1,8 @@
 import React from 'react';
-import { Grid, Container } from '@mui/material';
+import { Container } from '@mui/material';
 import LoginCard from './sections/LoginCard';
 
-const RegisterPage = () => {
+const LoginPage = () => {
 	return (
 		<Container>
 			<LoginCard />
@@ -10,4 +10,4 @@ const RegisterPage = () => {
 	);
 };
 
-export default RegisterPage;
+export default LoginPage;
