@@ -59,6 +59,7 @@ const ProductsList = () => {
 			{products?.map((product) => (
 				<Box key={product._id} sx={{ width: '100%', maxWidth: 800 }}>
 					<ProductCard
+						id={product._id}
 						name={product.name}
 						price={product.price}
 						rated={product.rated}

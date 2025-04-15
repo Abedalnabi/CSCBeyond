@@ -1,12 +1,18 @@
 import React from 'react';
 import { Box, Card, CardContent, Typography, Rating, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 
-const ProductCard = ({ name, price, rated, imageUrl, brand, isFeatured, category }) => {
-	console.log('category', category);
+const ProductCard = ({ id, name, price, rated, imageUrl, brand, category }) => {
+	const navigate = useNavigate();
+
+	const handleCardClick = () => {
+		navigate(`/product/${id}`);
+	};
+
 	return (
 		<Card
 			sx={{
@@ -14,7 +20,9 @@ const ProductCard = ({ name, price, rated, imageUrl, brand, isFeatured, category
 				alignItems: 'center',
 				borderRadius: 2,
 				boxShadow: 'none',
+				cursor: 'pointer',
 			}}
+			onClick={handleCardClick}
 		>
 			{/* Product Image */}
 			<Box
@@ -51,6 +59,7 @@ const ProductCard = ({ name, price, rated, imageUrl, brand, isFeatured, category
 				<Box display="flex" alignItems="center" gap={1} mt={0.5}>
 					<Rating value={rated} precision={0.5} readOnly size="small" sx={{ mt: 0.5 }} />
 				</Box>
+
 				{/* Description */}
 				<Box display="flex" alignItems="center" gap={1} mt={0.5}>
 					<Typography textAlign={'left'} variant="body2" color="text.secondary" mt={1}>

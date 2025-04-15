@@ -42,7 +42,7 @@ const Navbar = () => {
 		{ path: '/faq', label: 'FAQ' },
 		{ path: '/contact', label: 'Contact' },
 		{ path: '/shop', label: 'Shop' },
-		{ path: '/blog', label: 'Blog' },
+		{ path: '/about-us', label: 'About' },
 	];
 
 	const isMobile = useMediaQuery('(max-width: 600px)');

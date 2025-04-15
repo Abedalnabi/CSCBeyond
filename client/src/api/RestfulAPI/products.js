@@ -2,10 +2,11 @@ import axios from '../axios';
 
 // Endpoints
 const getAllProducts = '/api/products';
+const getProductByIDEndPoint = '/api/product';
 
-export async function getProducts(data) {
+export async function getProducts() {
 	try {
-		const response = await axios.get(getAllProducts, data);
+		const response = await axios.get(getAllProducts);
 
 		return {
 			data: response.data?.data,
@@ -16,6 +17,42 @@ export async function getProducts(data) {
 		return {
 			data: null,
 			status: error.response.status,
+			message: error.response?.data?.error,
+		};
+	}
+}
+
+export async function getProductByID(id) {
+	try {
+		const response = await axios.get(`${getProductByIDEndPoint}/${id}`);
+
+		return {
+			data: response.data,
+			status: response.status,
+			message: response.data?.message,
+		};
+	} catch (error) {
+		return {
+			data: null,
+			status: error.response?.status,
+			message: error.response?.data?.error,
+		};
+	}
+}
+
+export async function getProductByCategory(category) {
+	try {
+		const response = await axios.get(`${getAllProducts}/?category=${category}`);
+
+		return {
+			data: response.data,
+			status: response.status,
+			message: response.data?.message,
+		};
+	} catch (error) {
+		return {
+			data: null,
+			status: error.response?.status,
 			message: error.response?.data?.error,
 		};
 	}

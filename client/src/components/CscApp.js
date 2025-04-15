@@ -6,6 +6,8 @@ import RegisterPage from './shared/register/RegisterPage';
 import LoginPage from './shared/login/LoginPage';
 import NavBar from './shared/navBar/NavBar';
 import ProductsList from './shared/productsList/index';
+import ProductDetails from './shared/productDetails/index';
+import AboutUs from './shared/aboutUs/index';
 
 // about us
 // contact us
@@ -22,6 +24,8 @@ function CscApp() {
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/products" element={<ProductsList />} />
+					<Route path="/product/:id" element={<ProductDetails />} />
+					<Route path="/about-us" element={<AboutUs />} />
 				</Routes>
 			</div>
 			<div className="footer">

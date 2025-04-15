@@ -34,7 +34,7 @@ const getProducts = async (filter = {}, page = 1, limit = 20) => {
 };
 
 const getProductByID = async (productId) => {
-	return await ProductModel.findById(productId);
+	return await ProductModel.findById(productId).populate('category');
 };
 
 const updateProductById = async (productId, updatedData) => {
