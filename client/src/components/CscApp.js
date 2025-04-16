@@ -10,8 +10,9 @@ import ProductDetails from './shared/productDetails/index';
 import AboutUs from './shared/aboutUs';
 import ContactUs from './shared/contacUs/index';
 import Faq from './shared/faq/index';
+import Cart from './shared/cart/index';
+import Complete from './shared/complete/index';
 
-// Cart
 // Homepage
 // 404
 
@@ -28,6 +29,8 @@ function CscApp() {
 					<Route path="/about-us" element={<AboutUs />} />
 					<Route path="/contac-us" element={<ContactUs />} />
 					<Route path="/faq" element={<Faq />} />
+					<Route path="/cart" element={<Cart />} />
+					<Route path="/complete" element={<Complete />} />
 				</Routes>
 			</div>
 			<div className="footer">
