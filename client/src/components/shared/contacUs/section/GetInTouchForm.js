@@ -1,38 +1,29 @@
 import React from 'react';
 import { Box, Typography, TextField, Button } from '@mui/material';
+import styles from './style';
+import STATIC_TEXT from './staticText';
 
 const GetInTouchForm = () => {
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: { xs: 'column', md: 'row' },
-				justifyContent: 'space-between',
-				marginTop: '40px',
-				marginBottom: '100px',
-			}}
-		>
-			<Box sx={{ flex: 1 }}>
-				<Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1A237E' }}>
-					Get In Touch
+		<Box sx={styles.formContainer}>
+			<Box sx={styles.formLeft}>
+				<Typography variant="h4" sx={styles.formTitle}>
+					{STATIC_TEXT.FORM_TITLE}
 				</Typography>
-				<Typography sx={{ color: 'gray', marginTop: '10px' }}>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis neque ultrices tristique amet erat vitae eget
-					dolor los vitae lobortis quis bibendum quam.
-				</Typography>
+				<Typography sx={styles.formDescription}>{STATIC_TEXT.FORM_DESCRIPTION}</Typography>
 
 				<Box sx={{ marginTop: '20px' }}>
-					<TextField fullWidth label="Your Name*" sx={{ marginBottom: '20px' }} />
-					<TextField fullWidth label="Your E-mail*" sx={{ marginBottom: '20px' }} />
-					<TextField fullWidth label="Subject*" sx={{ marginBottom: '20px' }} />
-					<TextField fullWidth label="Type Your Message*" multiline rows={4} sx={{ marginBottom: '20px' }} />
-					<Button variant="contained" color="secondary" sx={{ padding: '10px 20px' }}>
-						Send Mail
+					<TextField fullWidth label={STATIC_TEXT.NAME_LABEL} sx={styles.input} />
+					<TextField fullWidth label={STATIC_TEXT.EMAIL_LABEL} sx={styles.input} />
+					<TextField fullWidth label={STATIC_TEXT.SUBJECT_LABEL} sx={styles.input} />
+					<TextField fullWidth label={STATIC_TEXT.MESSAGE_LABEL} multiline rows={4} sx={styles.input} />
+					<Button variant="contained" color="secondary" sx={styles.submitButton}>
+						{STATIC_TEXT.SEND_BUTTON}
 					</Button>
 				</Box>
 			</Box>
 
-			<Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+			<Box sx={styles.imageBox}>
 				<img
 					src={require('../../assets/img/Group.png')}
 					alt="Get in touch illustration"

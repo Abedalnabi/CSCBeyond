@@ -3,6 +3,7 @@ import { Button, Typography, Box, Container } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useNavigate } from 'react-router-dom';
 
+// TODO: sepreate the static text and the style
 const OrderCompleted = () => {
 	const navigate = useNavigate();
 	return (
