@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomHeader from '../Utilities/CustomHeader/CustomHeader';
-import ContacUs from './section/ContactUs';
+import InfoAndContactSection from './section/InfoAndContactSection ';
 
 const ContacUsSection = () => {
 	return (
@@ -12,7 +12,7 @@ const ContacUsSection = () => {
 					{ label: 'Contact  Us', href: '#' },
 				]}
 			/>
-			<ContacUs />
+			<InfoAndContactSection />
 		</div>
 	);
 };
