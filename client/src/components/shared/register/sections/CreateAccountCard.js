@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { Button, Box, Typography, Grid, Card, CardContent, Alert, CircularProgress, Divider, useTheme } from '@mui/material';
 import { Facebook, Google, Apple } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import CustomTextField from '../../Utilities/CustomTextField/CustomTextField';
-import { register } from '../../../../api/RestfulAPI//user';
+import { register } from '../../../../api/RestfulAPI/user';
 import STATIC_TEXT from './staticText';
 import { useValidation } from '../../common/helper/useValidation';
+import createAccountStyles from './style';
 
 const CreateAccountCard = () => {
 	const theme = useTheme();
@@ -45,13 +47,14 @@ const CreateAccountCard = () => {
 			setLoading(true);
 
 			const { email, password } = formData;
-
 			const res = await register({ email, password });
+
 			if (res.status !== 201) {
 				setError(res.message);
 				setLoading(false);
 				return;
 			}
+
 			setSuccess(STATIC_TEXT.ACCOUNT_CREATED_SUCCESS);
 			setTimeout(() => navigate('/login'), 2000);
 		},
@@ -59,27 +62,13 @@ const CreateAccountCard = () => {
 	);
 
 	return (
-		<Grid
-			container
-			spacing={5}
-			sx={{
-				justifyContent: 'center',
-				alignItems: 'center',
-				marginTop: '50px',
-			}}
-		>
-			<Grid size={{ xs: 12, md: 6 }}>
-				<Card
-					sx={{
-						borderRadius: '16px',
-						boxShadow: `0 3px 5px ${theme.palette.grey[700]}`,
-						padding: '16px',
-					}}
-				>
+		<Grid container spacing={5} sx={createAccountStyles.gridContainer}>
+			<Grid item xs={12} md={6}>
+				<Card sx={createAccountStyles.card(theme)}>
 					<CardContent>
 						<Typography variant="h4" gutterBottom>
 							<span>{STATIC_TEXT.CREATE} </span>
-							<span style={{ color: theme.palette.primary.main }}>{STATIC_TEXT.ACCOUNT}</span>
+							<span style={createAccountStyles.primaryText(theme)}>{STATIC_TEXT.ACCOUNT}</span>
 						</Typography>
 
 						<form onSubmit={handleRegister}>
@@ -98,12 +87,12 @@ const CreateAccountCard = () => {
 
 							<Box>
 								{error && (
-									<Alert severity="error" sx={{ mb: 2 }}>
+									<Alert severity="error" sx={createAccountStyles.alert}>
 										{error}
 									</Alert>
 								)}
 								{success && (
-									<Alert severity="success" sx={{ mb: 2 }}>
+									<Alert severity="success" sx={createAccountStyles.alert}>
 										{success}
 									</Alert>
 								)}
@@ -128,14 +117,18 @@ const CreateAccountCard = () => {
 
 							<Box textAlign="center" sx={{ mt: 2 }}>
 								<Typography variant="body2">
-									{STATIC_TEXT.ALREADY_CREATED} <a href="/login">{STATIC_TEXT.LOGIN_HERE}</a>
+									{STATIC_TEXT.ALREADY_CREATED}{' '}
+									<Link to="/login" style={createAccountStyles.link}>
+										{STATIC_TEXT.LOGIN_HERE}
+									</Link>
 								</Typography>
 							</Box>
 
-							<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
-								<Divider sx={{ margin: '20px', width: '50%' }}>{STATIC_TEXT.OR}</Divider>
+							<Box display="flex" justifyContent="center" sx={{ mt: 2 }}>
+								<Divider sx={createAccountStyles.divider}>{STATIC_TEXT.OR}</Divider>
 							</Box>
-							<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
+
+							<Box sx={createAccountStyles.socialButtons}>
 								<Button variant="outlined" startIcon={<Google />}>
 									{STATIC_TEXT.GOOGLE}
 								</Button>

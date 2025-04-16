@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import CustomTextField from '../../Utilities/CustomTextField/CustomTextField';
 import { loginUser } from '../../../../api/RestfulAPI/user';
-import STATIC_TEXT from '../staticText';
+import STATIC_TEXT from './staticText';
 import { useValidation } from '../../common/helper/useValidation';
 import useUserContext from '../../../../contextApi/contexts/UserContext';
 import loginStyles from './style';

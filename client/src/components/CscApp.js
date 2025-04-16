@@ -2,8 +2,8 @@ import '../App.css';
 import Footer from './shared/footer/Footer';
 
 import { Routes, Route } from 'react-router-dom';
-import RegisterPage from './shared/register/RegisterPage';
-import LoginPage from './shared/login/LoginPage';
+import RegisterPage from './shared/register/index';
+import LoginPage from './shared/login/index';
 import NavBar from './shared/navBar/NavBar';
 import ProductsList from './shared/productsList/index';
 import ProductDetails from './shared/productDetails/index';
