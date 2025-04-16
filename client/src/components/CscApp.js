@@ -27,7 +27,7 @@ function CscApp() {
 					<Route path="/products" element={<ProductsList />} />
 					<Route path="/product/:id" element={<ProductDetails />} />
 					<Route path="/about-us" element={<AboutUs />} />
-					<Route path="/contac-us" element={<ContactUs />} />
+					<Route path="/contact-us" element={<ContactUs />} />
 					<Route path="/faq" element={<Faq />} />
 					<Route path="/cart" element={<Cart />} />
 					<Route path="/complete" element={<Complete />} />

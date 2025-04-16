@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, Typography, Box, Container } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
 
 const OrderCompleted = () => {
