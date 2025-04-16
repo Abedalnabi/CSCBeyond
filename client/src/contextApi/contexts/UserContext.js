@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
 import userReducer, { initialState } from '../reducers/UserReducer';
 import USER_ACTIONS from '../actions/UserActions';
 
@@ -7,41 +7,46 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(userReducer, initialState);
 
+	const validateToken = useCallback(
+		(token) => {
+			try {
+				const decodedToken = JSON.parse(atob(token.split('.')[1]));
+				if (decodedToken.exp * 1000 > Date.now()) {
+					dispatch({
+						type: USER_ACTIONS.SET_AUTHENTICATED,
+						payload: { isAuthenticated: true },
+					});
+					dispatch({
+						type: USER_ACTIONS.SET_USER_INFO,
+						payload: { userInfo: decodedToken },
+					});
+					dispatch({
+						type: USER_ACTIONS.SET_ADMIN_STATUS,
+						payload: { isAdmin: decodedToken.roleName === 'admin' }, // TODO: set enums insted admin
+					});
+				} else {
+					logout();
+				}
+			} catch (error) {
+				console.error('Error validating token:', error);
+				logout();
+			}
+		},
+		[dispatch]
+	);
+
 	useEffect(() => {
 		const token = localStorage.getItem('token');
 		if (token) {
 			validateToken(token);
 		}
-	}, []);
-
-	const validateToken = (token) => {
-		try {
-			const decodedToken = JSON.parse(atob(token.split('.')[1]));
-			if (decodedToken.exp * 1000 > Date.now()) {
-				dispatch({
-					type: USER_ACTIONS.SET_AUTHENTICATED,
-					payload: { isAuthenticated: true },
-				});
-				dispatch({
-					type: USER_ACTIONS.SET_USER_INFO,
-					payload: { userInfo: decodedToken },
-				});
-				dispatch({
-					type: USER_ACTIONS.SET_ADMIN_STATUS,
-					payload: { isAdmin: decodedToken.role === 'admin' },
-				});
-			} else {
-				logout();
-			}
-		} catch (error) {
-			logout();
-		}
-	};
+	}, [validateToken]);
 
 	const login = async (userToken) => {
+		console.log('userToken', userToken);
 		try {
 			const decodedToken = JSON.parse(atob(userToken.split('.')[1]));
-
+			localStorage.setItem('token', userToken);
 			dispatch({
 				type: USER_ACTIONS.SET_AUTHENTICATED,
 				payload: { isAuthenticated: true },
@@ -51,8 +56,8 @@ export const UserProvider = ({ children }) => {
 				payload: { userInfo: decodedToken },
 			});
 		} catch (error) {
+			console.log('Error decoding token', error);
 			setError('An error occurred during login');
-		} finally {
 		}
 	};
 
@@ -87,6 +92,7 @@ export const UserProvider = ({ children }) => {
 		setUserInfo,
 		login,
 		logout,
+		validateToken,
 		userInfo: state.userInfo,
 		isAuthenticated: state.isAuthenticated,
 		isLoading: state.isLoading,
