@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Container, Grid, Box, Typography, Button, IconButton, CircularProgress, Rating, Card, CardContent } from '@mui/material';
 import { Share as ShareIcon } from '@mui/icons-material';
 
-const ProductDetails = ({ id, product, loading, error }) => {
+const ProductDetails = ({ product, loading, error }) => {
 	if (loading) {
 		return <CircularProgress sx={{ display: 'block', margin: 'auto', marginTop: '50px' }} />;
 	}
@@ -99,6 +100,23 @@ const ProductDetails = ({ id, product, loading, error }) => {
 			</Card>
 		</Container>
 	);
+};
+ProductDetails.propTypes = {
+	product: PropTypes.shape({
+		imageUrl: PropTypes.string.isRequired,
+		name: PropTypes.string.isRequired,
+		rated: PropTypes.number.isRequired,
+		salesCount: PropTypes.number.isRequired,
+		price: PropTypes.number.isRequired,
+		description: PropTypes.string.isRequired,
+		color: PropTypes.string.isRequired,
+		category: PropTypes.shape({
+			name: PropTypes.string,
+		}),
+		brand: PropTypes.string.isRequired,
+	}),
+	loading: PropTypes.bool.isRequired,
+	error: PropTypes.string,
 };
 
 export default ProductDetails;

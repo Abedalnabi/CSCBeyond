@@ -13,3 +13,4 @@ require('../module/user');
 require('../module/role');
 require('../module/order');
 require('../module/product');
+require('../module/cart');
