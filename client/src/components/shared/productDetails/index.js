@@ -20,7 +20,8 @@ const Index = () => {
 				const response = await getProductByID(id);
 				setProduct(response.data);
 			} catch (error) {
-				setError('Failed to fetch product details.');
+				console.error('Error fetching product details:', error);
+				setError('Failed to fetch product details. Please try again later.');
 			} finally {
 				setLoading(false);
 			}

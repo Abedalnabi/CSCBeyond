@@ -1,5 +1,5 @@
-// style.js
 const styles = {
+	// ===== ProductDetails =====
 	container: {
 		marginTop: 4,
 	},
@@ -56,6 +56,59 @@ const styles = {
 	noProduct: {
 		textAlign: 'center',
 		marginTop: 20,
+	},
+
+	// ===== RelatedProducts =====
+	relatedProductsContainer: {
+		marginTop: 5,
+		cursor: 'pointer',
+	},
+	relatedProductsTitle: {
+		color: '#2c3e50',
+		marginBottom: 5,
+		fontWeight: 'bold',
+	},
+	relatedProductCard: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		borderRadius: 2,
+		boxShadow: 3,
+	},
+	relatedProductImage: {
+		width: '100%',
+		height: 200,
+		objectFit: 'cover',
+		borderRadius: 2,
+	},
+	relatedCardContent: {
+		textAlign: 'center',
+	},
+
+	// ===== ProductTabs =====
+	tabsWrapper: {
+		backgroundColor: '#f9f8fe',
+	},
+	tabsContainer: {
+		marginTop: 4,
+		textAlign: 'left',
+		bgcolor: '#f9f8fe',
+		paddingTop: '50px',
+		paddingBottom: '50px',
+	},
+	tabBorder: {
+		borderBottom: 2,
+		borderColor: 'divider',
+	},
+	tabContent: {
+		padding: '20px 0',
+	},
+	descriptionList: {
+		marginTop: 2,
+	},
+	descriptionTitle: {
+		fontWeight: 'bold',
+		marginBottom: 1,
 	},
 };
 

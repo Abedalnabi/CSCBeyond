@@ -4,6 +4,8 @@ import { Container, Grid, Typography, Card, CardContent, CardMedia, Rating } fro
 import { getProductByCategory } from '../../../../api/RestfulAPI/products';
 import { useNavigate } from 'react-router-dom';
 import { goToTop } from '../../common/goToTop';
+import styles from './style';
+import STATIC_TEXT from './staticText';
 
 const RelatedProducts = ({ categoryID, setLoading }) => {
 	const navigate = useNavigate();
@@ -23,9 +25,9 @@ const RelatedProducts = ({ categoryID, setLoading }) => {
 	}, [categoryID]);
 
 	return (
-		<Container sx={{ marginTop: 5, cursor: 'pointer' }}>
-			<Typography variant="h4" fontWeight="bold" sx={{ color: '#2c3e50', marginBottom: 5 }}>
-				Related Products
+		<Container sx={styles.relatedProductsContainer}>
+			<Typography variant="h4" sx={styles.relatedProductsTitle}>
+				{STATIC_TEXT.relatedProductsTitle}
 			</Typography>
 
 			<Grid container spacing={3} sx={{ marginTop: 2, justifyContent: 'center' }}>
@@ -35,7 +37,7 @@ const RelatedProducts = ({ categoryID, setLoading }) => {
 						xs={12}
 						sm={6}
 						md={3}
-						key={index}
+						key={product._id}
 						onClick={() => {
 							setLoading(true);
 							navigate(`/product/${product?._id}`);
@@ -45,16 +47,14 @@ const RelatedProducts = ({ categoryID, setLoading }) => {
 							}, 500);
 						}}
 					>
-						<Card
-							sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: 2, boxShadow: 3 }}
-						>
+						<Card sx={styles.relatedProductCard}>
 							<CardMedia
 								component="img"
 								image={product.imageUrl}
 								alt={product.name}
-								sx={{ width: '100%', height: 200, objectFit: 'cover', borderRadius: 2 }}
+								sx={styles.relatedProductImage}
 							/>
-							<CardContent sx={{ textAlign: 'center' }}>
+							<CardContent sx={styles.relatedCardContent}>
 								<Typography variant="h6" sx={{ color: '#2c3e50' }}>
 									{product.name}
 								</Typography>
@@ -70,6 +70,7 @@ const RelatedProducts = ({ categoryID, setLoading }) => {
 		</Container>
 	);
 };
+
 RelatedProducts.propTypes = {
 	categoryID: PropTypes.string.isRequired,
 	setLoading: PropTypes.func.isRequired,
