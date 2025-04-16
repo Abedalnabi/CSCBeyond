@@ -7,7 +7,7 @@ import LoginPage from './shared/login/LoginPage';
 import NavBar from './shared/navBar/NavBar';
 import ProductsList from './shared/productsList/index';
 import ProductDetails from './shared/productDetails/index';
-import AboutUs from './shared/aboutUs/index';
+import AboutUs from './shared/aboutUs';
 import ContactUs from './shared/contacUs/index';
 
 // Cart

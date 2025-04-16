@@ -1,160 +1,141 @@
-import { Box, Typography, Button, Container, Grid, Paper, Icon } from '@mui/material';
-import aboutUsImg from '../../assets/img/Rectangle.png';
+import React from 'react';
+import { Box, Typography, Container } from '@mui/material';
 
-const ContacUsSection = () => {
+const InfoAndContactSection = () => {
 	return (
-		<Container sx={{ marginTop: 4 }}>
-			{/* About Us Section */}
-			<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 2 }}>
-				{/* Left: Image */}
-				<Box sx={{ flex: 1 }}>
-					<img
-						src={aboutUsImg}
-						alt="Ecommerce Business"
-						style={{ width: '100%', borderRadius: '8px', maxHeight: '400px' }}
-					/>
+		<Container sx={{ textAlign: 'left' }}>
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					padding: '20px',
+					backgroundColor: '#fff',
+					flexDirection: { sm: 'column', md: 'row' },
+					width: '100%',
+					marginTop: '50px',
+					gap: '60px',
+				}}
+			>
+				{/* Information About Us Section */}
+				<Box sx={{ flex: 1, paddingRight: '20px' }}>
+					<Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1A237E' }}>
+						Information About us
+					</Typography>
+					<Typography sx={{ color: 'gray', marginTop: '10px' }}>
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis neque ultrices mattis aliquam, malesuada
+						diam est. Malesuada sem tristique amet erat vitae dolor lobortis. Accumsan faucibus vitae lobortis quis
+						bibendum quam.
+					</Typography>
+					<Box sx={{ display: 'flex', marginTop: '20px' }}>
+						<Box
+							sx={{
+								width: '22px',
+								height: '22px',
+								backgroundColor: '#6200ea',
+								borderRadius: '50%',
+								marginRight: '10px',
+							}}
+						/>
+						<Box
+							sx={{
+								width: '22px',
+								height: '22px',
+								backgroundColor: '#f50057',
+								borderRadius: '50%',
+								marginRight: '10px',
+							}}
+						/>
+						<Box
+							sx={{
+								width: '22px',
+								height: '22px',
+								backgroundColor: '#03a9f4',
+								borderRadius: '50%',
+								marginBottom: '30px',
+							}}
+						/>
+					</Box>
 				</Box>
 
-				{/* Right: Text */}
-				<Box sx={{ flex: 1, paddingLeft: 3 }} textAlign={'left'}>
-					<Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2c3e50' }}>
-						Know About Our Ecommerce Business, History
+				{/* Contact Way Section */}
+				<Box sx={{ flex: 1, paddingLeft: '0' }}>
+					<Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1A237E' }}>
+						Contact Way
 					</Typography>
-					<Typography variant="body1" color="text.secondary" sx={{ marginTop: 2 }}>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nec ultricies mauris. Morbi euismod odio
-						neque, et gravida justo feugiat ac. Aliquam vehicula consequat nisl. Mauris eget faucibus cras justo,
-						tortor sed donec tempus.
-					</Typography>
-					<Button variant="contained" color="primary" sx={{ marginTop: 3 }}>
-						Contact Us
-					</Button>
+
+					<Box sx={{ display: 'flex', gap: '50px', marginBottom: '20px' }}>
+						<Box sx={{ display: 'flex', marginTop: '10px', alignItems: 'center' }}>
+							<Box
+								sx={{
+									width: '40px',
+									height: '40px',
+									backgroundColor: '#6200ea',
+									borderRadius: '50%',
+									marginRight: '19px',
+								}}
+							/>
+							<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+								<Typography sx={{ color: '#1A237E' }}>Tel: 877-67-88-99</Typography>
+								<Typography sx={{ color: '#1A237E' }}>E-Mail: shop@store.com</Typography>
+							</Box>
+						</Box>
+						<Box sx={{ display: 'flex', marginTop: '10px', alignItems: 'center' }}>
+							<Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+								<Box
+									sx={{
+										width: '40px',
+										height: '40px',
+										backgroundColor: '#f50057',
+										borderRadius: '50%',
+										marginRight: '19px',
+									}}
+								/>
+								<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+									<Typography sx={{ color: '#1A237E' }}>20 Margaret st, London</Typography>
+									<Typography sx={{ color: '#1A237E' }}>Great britain, 3NM98-LK</Typography>
+								</Box>
+							</Box>
+						</Box>
+					</Box>
+
+					<Box sx={{ display: 'flex', gap: '50px' }}>
+						<Box sx={{ display: 'flex', marginTop: '10px', alignItems: 'center' }}>
+							<Box
+								sx={{
+									width: '40px',
+									height: '40px',
+									backgroundColor: '#ffb265',
+									borderRadius: '50%',
+									marginRight: '19px',
+								}}
+							/>
+							<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+								<Typography sx={{ color: '#1A237E' }}>20 Margaret st, London</Typography>
+								<Typography sx={{ color: '#1A237E' }}>Great britain, 3NM98-LK</Typography>
+							</Box>
+						</Box>
+						<Box sx={{ display: 'flex', marginTop: '10px', alignItems: 'center' }}>
+							<Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+								<Box
+									sx={{
+										width: '40px',
+										height: '40px',
+										backgroundColor: '#1be982',
+										borderRadius: '50%',
+										marginRight: '19px',
+									}}
+								/>
+								<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+									<Typography sx={{ color: '#1A237E' }}>Free standard shipping</Typography>
+									<Typography sx={{ color: '#1A237E' }}>on all orders.</Typography>
+								</Box>
+							</Box>
+						</Box>
+					</Box>
 				</Box>
 			</Box>
-
-			<div>
-				<Container sx={{ marginTop: 4 }}>
-					{/* Our Features Section */}
-					<Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2c3e50', marginTop: 6, marginBottom: 4 }}>
-						Our Features
-					</Typography>
-
-					<Grid
-						container
-						spacing={3}
-						sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '150px' }}
-					>
-						<Grid item xs={6} sm={6} md={3}>
-							<Paper
-								sx={{
-									padding: 3,
-									width: '200px',
-									textAlign: 'center',
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									borderRadius: 2,
-									boxShadow: 3,
-									transition: 'transform 0.3s ease-in-out',
-									'&:hover': {
-										transform: 'scale(1.05)',
-									},
-								}}
-							>
-								<Icon sx={{ fontSize: 40, color: 'primary.main' }}>local_shipping</Icon>
-								<Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold' }}>
-									Free Delivery
-								</Typography>
-								<Typography variant="body2" color="text.secondary" sx={{ marginTop: 1 }}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus gravida.
-								</Typography>
-							</Paper>
-						</Grid>
-
-						<Grid item xs={12} sm={6} md={3}>
-							<Paper
-								sx={{
-									padding: 3,
-									textAlign: 'center',
-									width: '200px',
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									borderRadius: 2,
-									boxShadow: 3,
-									transition: 'transform 0.3s ease-in-out',
-									'&:hover': {
-										transform: 'scale(1.05)',
-									},
-								}}
-							>
-								<Icon sx={{ fontSize: 40, color: 'primary.main' }}>money_off</Icon>
-								<Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold' }}>
-									100% Cash Back
-								</Typography>
-								<Typography variant="body2" color="text.secondary" sx={{ marginTop: 1 }}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus gravida.
-								</Typography>
-							</Paper>
-						</Grid>
-
-						<Grid item xs={12} sm={6} md={3}>
-							<Paper
-								sx={{
-									padding: 3,
-									textAlign: 'center',
-									width: '200px',
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									borderRadius: 2,
-									boxShadow: 3,
-									transition: 'transform 0.3s ease-in-out',
-									'&:hover': {
-										transform: 'scale(1.05)',
-									},
-								}}
-							>
-								<Icon sx={{ fontSize: 40, color: 'primary.main' }}>check_circle</Icon>
-								<Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold' }}>
-									Quality Product
-								</Typography>
-								<Typography variant="body2" color="text.secondary" sx={{ marginTop: 1 }}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus gravida.
-								</Typography>
-							</Paper>
-						</Grid>
-
-						<Grid item xs={12} sm={6} md={3}>
-							<Paper
-								sx={{
-									padding: 3,
-									textAlign: 'center',
-									width: '200px',
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									borderRadius: 2,
-									boxShadow: 3,
-									transition: 'transform 0.3s ease-in-out',
-									'&:hover': {
-										transform: 'scale(1.05)',
-									},
-								}}
-							>
-								<Icon sx={{ fontSize: 40, color: 'primary.main' }}>support_agent</Icon>
-								<Typography variant="h6" sx={{ marginTop: 2, fontWeight: 'bold' }}>
-									24/7 Support
-								</Typography>
-								<Typography variant="body2" color="text.secondary" sx={{ marginTop: 1 }}>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus gravida.
-								</Typography>
-							</Paper>
-						</Grid>
-					</Grid>
-				</Container>
-			</div>
 		</Container>
 	);
 };
 
-export default ContacUsSection;
+export default InfoAndContactSection;
