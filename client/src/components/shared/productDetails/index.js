@@ -40,7 +40,7 @@ const Index = () => {
 			<CustomHeader title="Product details" breadcrumbLinks={breadcrumbLinks} />
 			<ProductDetailsCard id={id} product={product} loading={loading} error={error} />
 			<ProductTabs />
-			<RelatedProducts categoryID={product?.category?._id} />
+			<RelatedProducts categoryID={product?.category?._id} setLoading={setLoading} />
 		</Box>
 	);
 };
