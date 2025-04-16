@@ -1,12 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { Button, Box, Typography, Grid, Card, CardContent, Alert, CircularProgress, Divider, useTheme } from '@mui/material';
 import { Facebook, Google, Apple } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import CustomTextField from '../../Utilities/CustomTextField/CustomTextField';
-import { loginUser } from '../../../../api/RestfulAPI//user';
+import { loginUser } from '../../../../api/RestfulAPI/user';
 import STATIC_TEXT from '../staticText';
 import { useValidation } from '../../common/helper/useValidation';
 import useUserContext from '../../../../contextApi/contexts/UserContext';
+import loginStyles from './style';
 
 const LoginCard = () => {
 	const theme = useTheme();
@@ -18,9 +20,9 @@ const LoginCard = () => {
 	});
 	const [success, setSuccess] = useState('');
 	const [isLoading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 
-	const { login, setError, error } = useUserContext();
-
+	const { login } = useUserContext();
 	const { fieldErrors, validateField } = useValidation();
 
 	const fields = [
@@ -59,6 +61,7 @@ const LoginCard = () => {
 				setSuccess(STATIC_TEXT.LOGIN_SUCCESS);
 				setTimeout(() => navigate('/'), 2000);
 			} catch (err) {
+				console.error('Login error:', err);
 				setError('An error occurred, please try again.');
 				setLoading(false);
 			}
@@ -66,30 +69,15 @@ const LoginCard = () => {
 		[formData, navigate, login, setError]
 	);
 
-	// Check if form is valid before submitting
 	const isFormValid = Object.values(fieldErrors).every((err) => !err) && formData.email && formData.password;
 
 	return (
-		<Grid
-			container
-			spacing={5}
-			sx={{
-				justifyContent: 'center',
-				alignItems: 'center',
-				marginTop: '50px',
-			}}
-		>
+		<Grid container spacing={5} sx={loginStyles.gridContainer}>
 			<Grid item xs={12} md={6}>
-				<Card
-					sx={{
-						borderRadius: '16px',
-						boxShadow: `0 3px 5px ${theme.palette.grey[700]}`,
-						padding: '16px',
-					}}
-				>
+				<Card sx={loginStyles.card(theme)}>
 					<CardContent>
 						<Typography variant="h4" gutterBottom>
-							<span style={{ color: theme.palette.secondary.main }}>{STATIC_TEXT.LOGIN}</span>
+							<span style={loginStyles.loginTitle(theme)}>{STATIC_TEXT.LOGIN}</span>
 						</Typography>
 
 						<form onSubmit={handleLogin}>
@@ -108,23 +96,25 @@ const LoginCard = () => {
 
 							<Box>
 								{error && (
-									<Alert severity="error" sx={{ mb: 2 }}>
+									<Alert severity="error" sx={loginStyles.alertBox}>
 										{error}
 									</Alert>
 								)}
 								{success && (
-									<Alert severity="success" sx={{ mb: 2 }}>
+									<Alert severity="success" sx={loginStyles.alertBox}>
 										{success}
 									</Alert>
 								)}
 							</Box>
+
 							<Box sx={{ mt: 2 }}>
 								<Typography textAlign="start" variant="body2">
-									<a style={{ color: 'gray' }} href="/forgetPassword">
+									<Link to="/forgetPassword" style={loginStyles.forgotPasswordLink}>
 										{STATIC_TEXT.FORGET_PASSWORD}
-									</a>
+									</Link>
 								</Typography>
 							</Box>
+
 							<Button
 								variant="contained"
 								fullWidth
@@ -138,14 +128,15 @@ const LoginCard = () => {
 
 							<Box textAlign="center" sx={{ mt: 2 }}>
 								<Typography variant="body2">
-									{STATIC_TEXT.DONT_HAVE_ACCOUNT} <a href="/register">{STATIC_TEXT.REGISTER_HERE}</a>
+									{STATIC_TEXT.DONT_HAVE_ACCOUNT} <Link to="/register">{STATIC_TEXT.REGISTER_HERE}</Link>
 								</Typography>
 							</Box>
 
 							<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
-								<Divider sx={{ margin: '20px', width: '50%' }}>{STATIC_TEXT.OR}</Divider>
+								<Divider sx={loginStyles.orDivider}>{STATIC_TEXT.OR}</Divider>
 							</Box>
-							<Box display="flex" justifyContent="center" sx={{ mt: 2, gap: 1 }}>
+
+							<Box sx={loginStyles.socialButtonsBox}>
 								<Button variant="outlined" startIcon={<Google />}>
 									{STATIC_TEXT.GOOGLE}
 								</Button>
