@@ -4,7 +4,7 @@ import { Facebook, Google, Apple } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import CustomTextField from '../../Utilities/CustomTextField/CustomTextField';
 import { register } from '../../../../api/RestfulAPI//user';
-import STATIC_TEXT from '../staticText';
+import STATIC_TEXT from './staticText';
 import { useValidation } from '../../common/helper/useValidation';
 
 const CreateAccountCard = () => {
