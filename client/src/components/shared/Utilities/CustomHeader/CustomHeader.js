@@ -5,31 +5,38 @@ const ShopLeftSidebar = ({ title, breadcrumbLinks }) => {
 	return (
 		<Box
 			sx={{
-				padding: '20px',
 				backgroundColor: '#f6f5ff',
-				height: '200px',
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
 			}}
 		>
-			<Container sx={{ padding: '20px' }}>
-				<Box textAlign={'left'}>
-					<Typography variant="h4" fontWeight="bold">
-						{title}
-					</Typography>
+			<Container>
+				<Box
+					sx={{
+						backgroundColor: '#f6f5ff',
+						height: '200px',
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center',
+					}}
+				>
+					<Container sx={{ padding: '20px' }}>
+						<Box textAlign={'left'}>
+							<Typography variant="h4" fontWeight="bold">
+								{title}
+							</Typography>
 
-					<Breadcrumbs aria-label="breadcrumb" sx={{ marginTop: '10px' }}>
-						{breadcrumbLinks?.map((link, index) => (
-							<Link
-								key={index}
-								color={index === breadcrumbLinks.length - 1 ? 'text.primary' : 'inherit'}
-								href={link.href}
-							>
-								{link.label}
-							</Link>
-						))}
-					</Breadcrumbs>
+							<Breadcrumbs aria-label="breadcrumb" sx={{ marginTop: '10px' }}>
+								{breadcrumbLinks?.map((link, index) => (
+									<Link
+										key={index}
+										color={index === breadcrumbLinks.length - 1 ? 'text.primary' : 'inherit'}
+										href={link.href}
+									>
+										{link.label}
+									</Link>
+								))}
+							</Breadcrumbs>
+						</Box>
+					</Container>
 				</Box>
 			</Container>
 		</Box>
