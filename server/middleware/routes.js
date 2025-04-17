@@ -9,6 +9,7 @@ const routes = {
 		app.use('/api', userRouter);
 		app.use('/api', categoryRouter);
 		app.use('/api', productRouter);
+		app.use('/api', orderRouter);
 		app.use('/api', cartRouter);
 	},
 };

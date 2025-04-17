@@ -13,23 +13,23 @@ import {
 	Container,
 	Divider,
 } from '@mui/material';
-import { getCart, clearUserCart } from '../../../../api/RestfulAPI/cart';
+import { getCart, updateCart, clearUserCart, checkout } from '../../../../api/RestfulAPI/cart'; // Added the new checkout function
 import useCartContext from '../../../../contextApi/contexts/CartContext';
 
 const CartComponent = () => {
 	const [loading, setLoading] = useState(true);
 	const { cart, setCart, clearCart } = useCartContext();
 
+	// Fetch cart items on component mount
 	useEffect(() => {
 		const fetchCartItems = async () => {
 			try {
 				const response = await getCart();
-
+				// Calculate total price for each item in the cart
 				const updatedCart = response.cart.products.map((item) => ({
 					...item,
-					total: item.quantity * item.product.price, // calculate total
+					total: item.quantity * item.product.price,
 				}));
-
 				setCart(updatedCart);
 			} catch (error) {
 				console.error('Error fetching cart items', error);
@@ -40,8 +40,8 @@ const CartComponent = () => {
 		fetchCartItems();
 	}, []);
 
+	// Handle quantity change for an item in the cart
 	const handleQuantityChange = (id, change) => {
-		// تحديث الكمية في السلة وحساب الـ total
 		const updatedItems = cart?.map((item) =>
 			item._id === id
 				? {
@@ -54,23 +54,86 @@ const CartComponent = () => {
 		setCart(updatedItems);
 	};
 
+	// Clear the cart by removing all items
 	const handleClearCart = () => {
 		clearCart();
 		clearUserCart();
 	};
 
-	const handleUpdateCart = () => {
-		console.log('Cart updated', cart);
+	// Update the cart with the modified quantities
+	const handleUpdateCart = async () => {
+		try {
+			// Prepare the updated products to send to the API
+			const updatedProducts = cart.map((item) => ({
+				productId: item.product._id,
+				quantity: item.quantity,
+			}));
+
+			const response = await updateCart(updatedProducts);
+			if (response.status === 200) {
+				// Recalculate total price after updating the cart
+				setCart(
+					response.data?.cart.products.map((item) => ({
+						...item,
+						total: item.quantity * item.product.price,
+					}))
+				);
+			} else {
+				console.error('Error updating cart:', response?.data?.message);
+			}
+		} catch (error) {
+			console.error('Error updating cart:', error);
+		}
 	};
 
+	// Handle the checkout process
+	const handleCheckout = async () => {
+		const shippingAddress = {
+			addressLine1: '123 Main Street',
+			addressLine2: 'Apt 4B',
+			city: 'Amman',
+			postalCode: '12345',
+			country: 'Jordan',
+			phoneNumber: '1234567890',
+		};
+
+		// Prepare the data to send for the checkout
+		const checkoutData = {
+			products: cart.map((item) => ({
+				product: item.product._id,
+				quantity: item.quantity,
+			})),
+			shippingAddress,
+		};
+
+		try {
+			const response = await checkout(checkoutData);
+
+			console.log('response', response);
+			if (response.status === 'success') {
+				// Clear the cart after successful checkout
+				handleClearCart();
+				alert('Order placed successfully!');
+			} else {
+				alert('Error placing the order!');
+			}
+		} catch (error) {
+			console.error('Error during checkout:', error);
+			alert('There was an error with your checkout process.');
+		}
+	};
+
+	// Calculate the subtotal of all items in the cart
 	const getSubtotal = () => {
 		return cart?.reduce((total, item) => total + item.total, 0);
 	};
 
+	// Calculate the total cost of the cart
 	const getTotal = () => {
 		return getSubtotal();
 	};
 
+	// Loading state while cart items are being fetched
 	if (loading) {
 		return <Typography variant="h6">Loading cart items...</Typography>;
 	}
@@ -154,13 +217,13 @@ const CartComponent = () => {
 							<Typography variant="h6">${getTotal()?.toFixed(2)}</Typography>
 						</Box>
 						<Divider />
-
 						<Typography mb={3} mt={3} variant="body2" color="#19d16f">
 							Shipping & taxes calculated at checkout
 						</Typography>
 						<Button
 							variant="contained"
 							sx={{ color: 'white', bgcolor: '#19d16f' }}
+							onClick={handleCheckout} // Link to the new checkout function
 							style={{ marginTop: '16px', width: '100%' }}
 						>
 							Proceed To Checkout

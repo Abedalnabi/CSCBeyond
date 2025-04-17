@@ -3,11 +3,11 @@ const orderService = require('./services/orderService');
 module.exports = {
 	// Add a new order
 	addOrder: async (req, res) => {
-		const { userId, products, shippingAddress } = req.body;
+		const { products, shippingAddress } = req.body;
 
 		try {
-			const newOrder = await orderService.addOrder(userId, products, shippingAddress);
-			return res.status(201).json({ message: 'Order placed successfully', order: newOrder });
+			const newOrder = await orderService.addOrder(req.user?.userId, products, shippingAddress);
+			return res.status(201).json({ message: 'Order placed successfully', status: 'success', order: newOrder });
 		} catch (err) {
 			console.error(err);
 			return res.status(500).json({ message: err.message });

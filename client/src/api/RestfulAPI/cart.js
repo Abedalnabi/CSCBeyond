@@ -4,6 +4,7 @@ import axios from '../axios';
 import { getToken } from '../../components/shared/common/auth';
 
 const CartEndpoint = '/api/cart';
+const checkOutEndPoint = '/api/order';
 
 // Function to add product to cart
 export async function addToCart(productWithQuantity) {
@@ -31,6 +32,32 @@ export async function addToCart(productWithQuantity) {
 	}
 }
 
+// Function to update products in the cart
+export async function updateCart(products) {
+	try {
+		const token = getToken();
+
+		const response = await axios.put(
+			`${CartEndpoint}`,
+			{
+				products, // Array of products with their productId and quantity
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+
+		return response.data;
+	} catch (error) {
+		console.log('error', error);
+		console.error('Error updating cart:', error);
+		throw error;
+	}
+}
+
+// Function to clear the user's cart
 export async function clearUserCart() {
 	try {
 		const token = getToken();
@@ -48,6 +75,7 @@ export async function clearUserCart() {
 	}
 }
 
+// Function to get the user's cart
 export async function getCart() {
 	try {
 		const token = getToken();
@@ -61,6 +89,24 @@ export async function getCart() {
 		return response.data;
 	} catch (error) {
 		console.error('Error getting cart:', error);
+		throw error;
+	}
+}
+
+// Function to handle checkout
+export async function checkout(cartData) {
+	try {
+		const token = getToken();
+
+		const response = await axios.post(`${checkOutEndPoint}`, cartData, {
+			headers: {
+				Authorization: `Bearer ${token}`, // Add the token to the header
+			},
+		});
+
+		return response.data;
+	} catch (error) {
+		console.error('Error during checkout:', error);
 		throw error;
 	}
 }
