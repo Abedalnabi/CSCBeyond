@@ -89,7 +89,10 @@ const getOrdersByUserId = async (userId) => {
 	try {
 		const orders = await OrderModel.find({ user: userId })
 			.populate('user', 'name email')
-			.populate('products.product', 'name price')
+			.populate({
+				path: 'products.product',
+				select: 'name price',
+			})
 			.exec();
 
 		if (orders.length === 0) {

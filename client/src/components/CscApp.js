@@ -12,6 +12,8 @@ import ContactUs from './shared/contacUs/index';
 import Faq from './shared/faq/index';
 import Cart from './shared/cart/index';
 import Complete from './shared/complete/index';
+import Account from './shared/account/index';
+
 import AppRoutes from '../config/appRoutes';
 // Homepage
 // 404
@@ -31,6 +33,7 @@ function CscApp() {
 					<Route path={AppRoutes.FAQ} element={<Faq />} />
 					<Route path={AppRoutes.CART} element={<Cart />} />
 					<Route path={AppRoutes.COMPLETE} element={<Complete />} />
+					<Route path={AppRoutes.ACCOUNT} element={<Account />} />
 				</Routes>
 			</div>
 			<div className="footer">

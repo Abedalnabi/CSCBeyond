@@ -11,6 +11,7 @@ const AppRoutes = Object.freeze({
 	FAQ: '/faq',
 	CART: '/cart',
 	COMPLETE: '/complete',
+	ACCOUNT: '/accout',
 });
 
 export default AppRoutes;
