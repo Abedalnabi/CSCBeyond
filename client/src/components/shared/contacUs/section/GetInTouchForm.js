@@ -1,9 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, TextField, Button } from '@mui/material';
 import styles from './style';
 import STATIC_TEXT from './staticText';
+import { addToContact } from '../../../../api/RestfulAPI/contact';
+const type = 'contact';
 
 const GetInTouchForm = () => {
+	const [formData, setFormData] = useState({
+		name: '',
+		email: '',
+		subject: '',
+		message: '',
+		type: type,
+	});
+
+	const fields = [
+		{ name: 'name', label: STATIC_TEXT.NAME_LABEL },
+		{ name: 'email', label: STATIC_TEXT.EMAIL_LABEL },
+		{ name: 'subject', label: STATIC_TEXT.SUBJECT_LABEL },
+		{ name: 'message', label: STATIC_TEXT.MESSAGE_LABEL, multiline: true, rows: 4 },
+	];
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prevData) => ({
+			...prevData,
+			[name]: value,
+		}));
+	};
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			const response = await addToContact(formData);
+
+			if (response) {
+				alert('Your message has been sent successfully!');
+				setFormData({
+					name: '',
+					email: '',
+					subject: '',
+					message: '',
+					type: type,
+				});
+			} else {
+				alert('There was an error sending your message.');
+			}
+		} catch (error) {
+			console.error('Error:', error);
+			alert('An error occurred. Please try again later.');
+		}
+	};
+
 	return (
 		<Box sx={styles.formContainer}>
 			<Box sx={styles.formLeft}>
@@ -13,11 +61,20 @@ const GetInTouchForm = () => {
 				<Typography sx={styles.formDescription}>{STATIC_TEXT.FORM_DESCRIPTION}</Typography>
 
 				<Box sx={{ marginTop: '20px' }}>
-					<TextField fullWidth label={STATIC_TEXT.NAME_LABEL} sx={styles.input} />
-					<TextField fullWidth label={STATIC_TEXT.EMAIL_LABEL} sx={styles.input} />
-					<TextField fullWidth label={STATIC_TEXT.SUBJECT_LABEL} sx={styles.input} />
-					<TextField fullWidth label={STATIC_TEXT.MESSAGE_LABEL} multiline rows={4} sx={styles.input} />
-					<Button variant="contained" color="secondary" sx={styles.submitButton}>
+					{fields.map((field) => (
+						<TextField
+							key={field.name}
+							fullWidth
+							label={field.label}
+							sx={styles.input}
+							name={field.name}
+							value={formData[field.name]}
+							onChange={handleChange}
+							multiline={field.multiline || false}
+							rows={field.rows || 1}
+						/>
+					))}
+					<Button variant="contained" color="secondary" sx={styles.submitButton} onClick={handleSubmit}>
 						{STATIC_TEXT.SEND_BUTTON}
 					</Button>
 				</Box>
