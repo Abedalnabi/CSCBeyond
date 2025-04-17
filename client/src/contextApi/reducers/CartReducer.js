@@ -1,13 +1,13 @@
-import ACTIONS from '../actions/PlanAction';
+import ACTIONS from '../actions/CartAction';
 
 export const initialState = {
-	plans: [],
+	cart: [],
 };
 
 const Reducer = (state, { type, payload }) => {
 	switch (type) {
-		case ACTIONS.SET_PLANS:
-			return { ...state, plans: payload };
+		case ACTIONS.SET_CART:
+			return { ...state, cart: payload };
 
 		default:
 			throw new Error(`No case for this type ==> ${type}`);

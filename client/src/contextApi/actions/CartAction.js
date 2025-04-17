@@ -1,0 +1,7 @@
+const CART_ACTIONS = {
+	SET_CART: 'SET_CART',
+	UPDATE_CART: 'UPDATE_CART',
+	DELETE_CART: 'DELETE_CART',
+};
+
+export default CART_ACTIONS;
