@@ -1,28 +1,17 @@
 // ProtectedRoute.js
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import useUserContext from '../context/UserContext';
+import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ element, ...rest }) => {
-	const { isAuthenticated, isAdmin } = useUserContext();
+	const token = localStorage.getItem('token');
+	const decdToken = token ? JSON.parse(atob(token.split('.')[1])) : null;
+	const roleName = decdToken.roleName;
+	// TODO: set enums instead of admin and use redux insted of localStorage (isAdmin var)
+	if (roleName !== 'admin') {
+		return <Navigate to="/" replace />;
+	}
 
-	return (
-		<Route
-			{...rest}
-			render={({ location }) =>
-				isAuthenticated && isAdmin ? (
-					element
-				) : (
-					<Redirect
-						to={{
-							pathname: '/login',
-							state: { from: location },
-						}}
-					/>
-				)
-			}
-		/>
-	);
+	return element;
 };
 
 export default ProtectedRoute;

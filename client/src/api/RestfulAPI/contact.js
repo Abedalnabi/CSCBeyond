@@ -20,7 +20,7 @@ export async function addToContact(contactFields) {
 	}
 }
 
-export async function getCart() {
+export async function getContacts() {
 	try {
 		const token = getToken();
 
@@ -30,7 +30,7 @@ export async function getCart() {
 			},
 		});
 
-		return response.data;
+		return response;
 	} catch (error) {
 		console.error('Error getting cart:', error);
 		throw error;

@@ -34,7 +34,6 @@ const Navbar = () => {
 
 	const isLoggedIn = isAuthenticated;
 
-	console.log('isLoggedIn', isLoggedIn);
 	const getButtonStyle = (route) => navbarStyles.buttonStyle(route, activeButton);
 	const handleButtonClick = (route) => {
 		setActiveButton(route);

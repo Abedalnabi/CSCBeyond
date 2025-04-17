@@ -2,6 +2,7 @@ import '../App.css';
 import Footer from './shared/footer/Footer';
 
 import { Routes, Route } from 'react-router-dom';
+import ProtectedRoute from './shared/Utilities/ProtectedRoute/ProtectedRoute';
 import RegisterPage from './shared/register/index';
 import LoginPage from './shared/login/index';
 import NavBar from './shared/navBar/index';
@@ -13,6 +14,7 @@ import Faq from './shared/faq/index';
 import Cart from './shared/cart/index';
 import Complete from './shared/complete/index';
 import Account from './shared/account/index';
+import Admin from './shared/Admin/index';
 
 import AppRoutes from '../config/appRoutes';
 // Homepage
@@ -34,6 +36,8 @@ function CscApp() {
 					<Route path={AppRoutes.CART} element={<Cart />} />
 					<Route path={AppRoutes.COMPLETE} element={<Complete />} />
 					<Route path={AppRoutes.ACCOUNT} element={<Account />} />
+
+					<Route path={AppRoutes.ADMIN} element={<ProtectedRoute element={<Admin />} />} />
 				</Routes>
 			</div>
 			<div className="footer">

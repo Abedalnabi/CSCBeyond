@@ -22,7 +22,9 @@ const OrderList = () => {
 
 	return (
 		<Box sx={styles.box}>
-			<Typography sx={styles.typographyTitle}>{staticText.orderListTitle}</Typography>
+			<Typography mb={5} variant="h3" sx={styles.typographyTitle}>
+				{staticText.orderListTitle}
+			</Typography>
 			<Grid container spacing={3}>
 				{orders.length === 0 ? (
 					<Typography sx={styles.typographyNoOrders}>{staticText.noOrders}</Typography>

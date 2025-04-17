@@ -95,6 +95,7 @@ export const UserProvider = ({ children }) => {
 		validateToken,
 		userInfo: state.userInfo,
 		isAuthenticated: state.isAuthenticated,
+		isAdmin: state.isAdmin,
 		isLoading: state.isLoading,
 		error: state.error,
 	};
