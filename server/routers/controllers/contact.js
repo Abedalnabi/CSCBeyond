@@ -2,9 +2,9 @@ const { addContact, getAllContacts } = require('./services/contact');
 
 module.exports = {
 	addToContactOrAsk: async (req, res) => {
-		const { name, email, message, type } = req.body;
+		const { name, email, message, type, subject } = req.body;
 
-		const result = await addContact(name, email, message, type);
+		const result = await addContact(name, email, message, type, subject);
 
 		if (result.success) {
 			res.status(201).json({ message: result.message, contact: result.contact });

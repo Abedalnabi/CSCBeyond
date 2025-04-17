@@ -1,11 +1,12 @@
 const ContactModel = require('../../../config/module/contactus');
 
-const addContact = async (name, email, message, type) => {
+const addContact = async (name, email, message, type, subject) => {
 	try {
 		const newContact = new ContactModel({
 			name,
 			email,
 			message,
+			subject,
 			type,
 		});
 
