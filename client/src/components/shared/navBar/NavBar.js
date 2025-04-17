@@ -116,6 +116,7 @@ const Navbar = () => {
 								Login
 							</Button>
 						)}
+						{/* TODO: AppRoutes.Route insted of static */}
 						<IconButton color="inherit" sx={{ marginRight: 2 }} onClick={() => navigate('/wishlist')}>
 							<Favorite />
 						</IconButton>

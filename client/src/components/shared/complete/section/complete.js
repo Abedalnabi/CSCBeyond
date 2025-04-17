@@ -4,6 +4,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useNavigate } from 'react-router-dom';
 import styles from './style';
 import STATIC_TEXT from './staticText';
+import AppRoutes from '../../../../config/appRoutes';
 
 const OrderCompleted = () => {
 	const navigate = useNavigate();
@@ -22,7 +23,7 @@ const OrderCompleted = () => {
 				{STATIC_TEXT.DESCRIPTION}
 			</Typography>
 
-			<Button variant="contained" color="primary" sx={styles.button} onClick={() => navigate('/products')}>
+			<Button variant="contained" color="primary" sx={styles.button} onClick={() => navigate(AppRoutes.PRODUCTS)}>
 				{STATIC_TEXT.BUTTON}
 			</Button>
 		</Container>

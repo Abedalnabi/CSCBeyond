@@ -1,11 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Container, Grid, Box, Typography, Button, IconButton, CircularProgress, Rating, Card, CardContent } from '@mui/material';
+import {
+	Container,
+	Grid,
+	Box,
+	Typography,
+	Button,
+	IconButton,
+	CircularProgress,
+	Rating,
+	Card,
+	CardContent,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+} from '@mui/material';
 import { Share as ShareIcon } from '@mui/icons-material';
 import styles from './style';
 import STATIC_TEXT from './staticText';
+import { addToCart } from '../../../../api/RestfulAPI/cart';
+import { useNavigate } from 'react-router-dom';
+import AppRoutes from '../../../../config/appRoutes';
 
 const ProductDetails = ({ product, loading, error }) => {
+	const [dialogOpen, setDialogOpen] = useState(false);
+	const [dialogContent, setDialogContent] = useState('');
+	const [dialogTitle, setDialogTitle] = useState('');
+	const navigate = useNavigate();
+
+	const handleAddToCart = async () => {
+		try {
+			const productWithQuantity = {
+				productId: product._id,
+				quantity: 1,
+			};
+
+			const data = await addToCart(productWithQuantity);
+
+			setDialogTitle('Success');
+			setDialogContent(data.message);
+			setDialogOpen(true);
+		} catch (err) {
+			console.error('Error adding product to cart:', err);
+			setDialogTitle('Error');
+			setDialogContent('Failed to add the product to the cart.');
+			setDialogOpen(true);
+		}
+	};
+
+	const handleCloseDialog = () => {
+		setDialogOpen(false);
+	};
+
+	const handleGoToCart = () => {
+		navigate(AppRoutes.CART);
+		handleCloseDialog();
+	};
+
 	if (loading) {
 		return <CircularProgress sx={{ display: 'block', margin: 'auto', marginTop: '50px' }} />;
 	}
@@ -24,6 +76,19 @@ const ProductDetails = ({ product, loading, error }) => {
 
 	return (
 		<Container sx={styles.container}>
+			<Dialog open={dialogOpen} onClose={handleCloseDialog}>
+				<DialogTitle>{dialogTitle}</DialogTitle>
+				<DialogContent>
+					<Typography>{dialogContent}</Typography>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleCloseDialog}>Close</Button>
+					<Button onClick={handleGoToCart} color="primary">
+						Go to Cart
+					</Button>
+				</DialogActions>
+			</Dialog>
+
 			<Card sx={styles.card}>
 				<Grid container spacing={3}>
 					<Grid item xs={12} md={5}>
@@ -58,7 +123,7 @@ const ProductDetails = ({ product, loading, error }) => {
 							</Typography>
 
 							<Box sx={styles.button}>
-								<Button variant="contained" color="primary" fullWidth>
+								<Button variant="contained" color="primary" fullWidth onClick={handleAddToCart}>
 									{STATIC_TEXT.addToCart}
 								</Button>
 							</Box>
@@ -90,6 +155,7 @@ const ProductDetails = ({ product, loading, error }) => {
 
 ProductDetails.propTypes = {
 	product: PropTypes.shape({
+		_id: PropTypes.string.isRequired,
 		imageUrl: PropTypes.string.isRequired,
 		name: PropTypes.string.isRequired,
 		rated: PropTypes.number.isRequired,

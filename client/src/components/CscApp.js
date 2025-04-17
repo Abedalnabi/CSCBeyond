@@ -12,7 +12,7 @@ import ContactUs from './shared/contacUs/index';
 import Faq from './shared/faq/index';
 import Cart from './shared/cart/index';
 import Complete from './shared/complete/index';
-
+import AppRoutes from '../config/appRoutes';
 // Homepage
 // 404
 
@@ -22,15 +22,15 @@ function CscApp() {
 			<div className="App">
 				<NavBar />
 				<Routes>
-					<Route path="/register" element={<RegisterPage />} />
-					<Route path="/login" element={<LoginPage />} />
-					<Route path="/products" element={<ProductsList />} />
-					<Route path="/product/:id" element={<ProductDetails />} />
-					<Route path="/about-us" element={<AboutUs />} />
-					<Route path="/contact-us" element={<ContactUs />} />
-					<Route path="/faq" element={<Faq />} />
-					<Route path="/cart" element={<Cart />} />
-					<Route path="/complete" element={<Complete />} />
+					<Route path={AppRoutes.REGISTER} element={<RegisterPage />} />
+					<Route path={AppRoutes.LOGIN} element={<LoginPage />} />
+					<Route path={AppRoutes.PRODUCTS} element={<ProductsList />} />
+					<Route path={AppRoutes.PRODUCT_DETAILS} element={<ProductDetails />} />
+					<Route path={AppRoutes.ABOUT_US} element={<AboutUs />} />
+					<Route path={AppRoutes.CONTACT_US} element={<ContactUs />} />
+					<Route path={AppRoutes.FAQ} element={<Faq />} />
+					<Route path={AppRoutes.CART} element={<Cart />} />
+					<Route path={AppRoutes.COMPLETE} element={<Complete />} />
 				</Routes>
 			</div>
 			<div className="footer">

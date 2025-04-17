@@ -1,5 +1,5 @@
 import { getStorage } from '../../../config/storage';
-import jwt_decode from 'jwt-decode';
+// import jwt_decode from 'jwt-decode';
 
 export function getToken() {
 	const token = getStorage('token');
@@ -13,11 +13,11 @@ export function isLoggedIn() {
 	return loggedInd;
 }
 
-export function decodeToken() {
-	const token = getStorage('token');
-	let userInfo;
-	if (token) {
-		userInfo = jwt_decode(token);
-	}
-	return userInfo;
-}
+// export function decodeToken() {
+// 	const token = getStorage('token');
+// 	let userInfo;
+// 	if (token) {
+// 		userInfo = jwt_decode(token);
+// 	}
+// 	return userInfo;
+// }
