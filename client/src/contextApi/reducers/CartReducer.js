@@ -9,6 +9,8 @@ const Reducer = (state, { type, payload }) => {
 		case ACTIONS.SET_CART:
 			return { ...state, cart: payload };
 
+		case ACTIONS.DELETE_CART:
+			return { ...state, cart: [] };
 		default:
 			throw new Error(`No case for this type ==> ${type}`);
 	}

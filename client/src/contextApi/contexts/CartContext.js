@@ -14,9 +14,17 @@ export const CartProvider = ({ children }) => {
 		});
 	};
 
+	const clearCart = () => {
+		dispatch({
+			type: ACTIONS.DELETE_CART,
+			payload: [],
+		});
+	};
+
 	const value = {
 		cart: state.cart,
 		setCart,
+		clearCart,
 	};
 
 	return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

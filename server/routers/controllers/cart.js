@@ -21,7 +21,7 @@ module.exports = {
 
 	updateCart: async (req, res) => {
 		try {
-			const response = await CartService.updateCart(req.user?.userId, req.body);
+			const response = await CartService.updateCart(req.user?.userId, req.body.products);
 			return res.status(response.status).json(response.data);
 		} catch (err) {
 			return res.status(500).json({ message: 'Server error', error: err.message });

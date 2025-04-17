@@ -3,7 +3,7 @@
 import axios from '../axios';
 import { getToken } from '../../components/shared/common/auth';
 
-const addToCartEndpoint = '/api/cart';
+const CartEndpoint = '/api/cart';
 
 // Function to add product to cart
 export async function addToCart(productWithQuantity) {
@@ -11,7 +11,7 @@ export async function addToCart(productWithQuantity) {
 		const token = getToken();
 
 		const response = await axios.post(
-			addToCartEndpoint,
+			CartEndpoint,
 			{
 				productId: productWithQuantity.productId,
 				quantity: productWithQuantity.quantity,
@@ -31,14 +31,28 @@ export async function addToCart(productWithQuantity) {
 	}
 }
 
-// Function to get cart by userId
-export async function getCart(userId) {
+export async function clearUserCart() {
 	try {
-		// Get the token from localStorage
 		const token = getToken();
 
-		// Send GET request with token in Authorization header
-		const response = await axios.get(`${addToCartEndpoint}/${userId}`, {
+		const response = await axios.delete(`${CartEndpoint}`, {
+			headers: {
+				Authorization: `Bearer ${token}`, // Add the token to the header
+			},
+		});
+
+		return response.data;
+	} catch (error) {
+		console.error('Error clearing cart:', error);
+		throw error;
+	}
+}
+
+export async function getCart() {
+	try {
+		const token = getToken();
+
+		const response = await axios.get(`${CartEndpoint}`, {
 			headers: {
 				Authorization: `Bearer ${token}`, // Add the token to the header
 			},
