@@ -1,9 +1,8 @@
-const Contact = require('../models/contactModel'); // مسار نموذج الـ Contact
+const ContactModel = require('../../../config/module/contactus');
 
-// إضافة رسالة جديدة أو استفسار
 const addContact = async (name, email, message, type) => {
 	try {
-		const newContact = new Contact({
+		const newContact = new ContactModel({
 			name,
 			email,
 			message,
@@ -18,10 +17,9 @@ const addContact = async (name, email, message, type) => {
 	}
 };
 
-// جلب جميع الرسائل أو الاستفسارات
 const getAllContacts = async () => {
 	try {
-		const contacts = await Contact.find();
+		const contacts = await ContactModel.find();
 		return { success: true, contacts };
 	} catch (error) {
 		console.error('Error fetching contacts:', error);
