@@ -85,9 +85,27 @@ const getOrderByID = async (orderId) => {
 	}
 };
 
+const getOrdersByUserId = async (userId) => {
+	try {
+		const orders = await OrderModel.find({ user: userId })
+			.populate('user', 'name email')
+			.populate('products.product', 'name price')
+			.exec();
+
+		if (orders.length === 0) {
+			throw new Error('No orders found for this user');
+		}
+
+		return orders;
+	} catch (err) {
+		throw new Error(err.message || 'Server error');
+	}
+};
+
 module.exports = {
 	addOrder,
 	getOrders,
 	updateOrderStatus,
 	getOrderByID,
+	getOrdersByUserId,
 };
