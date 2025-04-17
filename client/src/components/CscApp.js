@@ -4,7 +4,7 @@ import Footer from './shared/footer/Footer';
 import { Routes, Route } from 'react-router-dom';
 import RegisterPage from './shared/register/index';
 import LoginPage from './shared/login/index';
-import NavBar from './shared/navBar/NavBar';
+import NavBar from './shared/navBar/index';
 import ProductsList from './shared/productsList/index';
 import ProductDetails from './shared/productDetails/index';
 import AboutUs from './shared/aboutUs';

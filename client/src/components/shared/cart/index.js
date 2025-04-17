@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomHeader from '../Utilities/CustomHeader/CustomHeader';
-import CartSection from './section/cartSection';
+import CartSection from './section/CartSection';
 
 const ContacUsSection = () => {
 	return (
