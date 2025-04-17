@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	Container,
@@ -22,6 +22,7 @@ import STATIC_TEXT from './staticText';
 import { addToCart } from '../../../../api/RestfulAPI/cart';
 import { useNavigate } from 'react-router-dom';
 import AppRoutes from '../../../../config/appRoutes';
+import { goToTop } from '../../common/goToTop';
 
 const ProductDetails = ({ product, loading, error }) => {
 	const [dialogOpen, setDialogOpen] = useState(false);
@@ -29,13 +30,16 @@ const ProductDetails = ({ product, loading, error }) => {
 	const [dialogTitle, setDialogTitle] = useState('');
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		goToTop();
+	}, []);
+
 	const handleAddToCart = async () => {
 		try {
 			const productWithQuantity = {
 				productId: product._id,
 				quantity: 1,
 			};
-
 			const data = await addToCart(productWithQuantity);
 
 			setDialogTitle('Success');

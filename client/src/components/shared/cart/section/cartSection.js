@@ -8,6 +8,7 @@ import CartTable from './CartTable';
 import CartTotals from './CartTotals';
 import NotificationDialog from './NotificationDialog';
 import { staticText } from './staticText';
+import { goToTop } from '../../common/goToTop';
 
 const CartSection = () => {
 	const [loading, setLoading] = useState(true);
@@ -15,6 +16,10 @@ const CartSection = () => {
 	const [dialogMessage, setDialogMessage] = useState('');
 	const { cart, setCart, clearCart } = useCartContext();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		goToTop();
+	}, []);
 
 	const fetchCartItems = async () => {
 		try {
@@ -54,6 +59,7 @@ const CartSection = () => {
 		clearUserCart();
 		setDialogMessage(staticText.notifications.cartCleared);
 		setOpenDialog(true);
+		goToTop();
 	};
 
 	const handleUpdateCart = async () => {

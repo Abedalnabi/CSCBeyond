@@ -2,7 +2,7 @@ import React from 'react';
 import CustomHeader from '../Utilities/CustomHeader/CustomHeader';
 import CartSection from './section/CartSection';
 
-const ContacUsSection = () => {
+const AppCartSection = () => {
 	return (
 		<div>
 			<CustomHeader
@@ -17,4 +17,4 @@ const ContacUsSection = () => {
 	);
 };
 
-export default ContacUsSection;
+export default AppCartSection;
