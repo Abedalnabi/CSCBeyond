@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
 	Table,
 	TableBody,
@@ -12,37 +12,48 @@ import {
 	Box,
 	Container,
 	Divider,
+	CircularProgress,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
 } from '@mui/material';
-import { getCart, updateCart, clearUserCart, checkout } from '../../../../api/RestfulAPI/cart'; // Added the new checkout function
+import { getCart, updateCart, clearUserCart, checkout } from '../../../../api/RestfulAPI/cart';
 import useCartContext from '../../../../contextApi/contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
+import AppRoutes from '../../../../config/appRoutes';
 
 const CartComponent = () => {
 	const [loading, setLoading] = useState(true);
+	const [openDialog, setOpenDialog] = useState(false);
+	const [dialogMessage, setDialogMessage] = useState('');
 	const { cart, setCart, clearCart } = useCartContext();
+	const navigate = useNavigate(); // For redirecting to home page
 
-	// Fetch cart items on component mount
+	// Fetch cart items from API
+	const fetchCartItems = async () => {
+		try {
+			const response = await getCart();
+			const updatedCart = response.cart.products.map((item) => ({
+				...item,
+				total: item.quantity * item.product.price,
+			}));
+			setCart(updatedCart);
+		} catch (error) {
+			console.error('Error fetching cart items', error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	useEffect(() => {
-		const fetchCartItems = async () => {
-			try {
-				const response = await getCart();
-				// Calculate total price for each item in the cart
-				const updatedCart = response.cart.products.map((item) => ({
-					...item,
-					total: item.quantity * item.product.price,
-				}));
-				setCart(updatedCart);
-			} catch (error) {
-				console.error('Error fetching cart items', error);
-			} finally {
-				setLoading(false);
-			}
-		};
 		fetchCartItems();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Handle quantity change for an item in the cart
 	const handleQuantityChange = (id, change) => {
-		const updatedItems = cart?.map((item) =>
+		const updatedItems = cart.map((item) =>
 			item._id === id
 				? {
 						...item,
@@ -55,15 +66,16 @@ const CartComponent = () => {
 	};
 
 	// Clear the cart by removing all items
-	const handleClearCart = () => {
+	const handleClearCart = async () => {
 		clearCart();
 		clearUserCart();
+		setDialogMessage('Cart cleared successfully!');
+		setOpenDialog(true);
 	};
 
 	// Update the cart with the modified quantities
 	const handleUpdateCart = async () => {
 		try {
-			// Prepare the updated products to send to the API
 			const updatedProducts = cart.map((item) => ({
 				productId: item.product._id,
 				quantity: item.quantity,
@@ -71,18 +83,21 @@ const CartComponent = () => {
 
 			const response = await updateCart(updatedProducts);
 			if (response.status === 200) {
-				// Recalculate total price after updating the cart
-				setCart(
-					response.data?.cart.products.map((item) => ({
-						...item,
-						total: item.quantity * item.product.price,
-					}))
-				);
+				const updatedCart = response.data.cart.products.map((item) => ({
+					...item,
+					total: item.quantity * item.product.price,
+				}));
+				setCart(updatedCart);
+				setDialogMessage('Cart updated successfully!');
+				setOpenDialog(true);
 			} else {
-				console.error('Error updating cart:', response?.data?.message);
+				setDialogMessage('Error updating cart!');
+				setOpenDialog(true);
 			}
 		} catch (error) {
 			console.error('Error updating cart:', error);
+			setDialogMessage('Error updating cart!');
+			setOpenDialog(true);
 		}
 	};
 
@@ -97,7 +112,6 @@ const CartComponent = () => {
 			phoneNumber: '1234567890',
 		};
 
-		// Prepare the data to send for the checkout
 		const checkoutData = {
 			products: cart.map((item) => ({
 				product: item.product._id,
@@ -108,34 +122,54 @@ const CartComponent = () => {
 
 		try {
 			const response = await checkout(checkoutData);
-
 			console.log('response', response);
 			if (response.status === 'success') {
-				// Clear the cart after successful checkout
-				handleClearCart();
-				alert('Order placed successfully!');
+				// Show dialog first
+				setDialogMessage('Checkout successful! Waiting for admin approval...');
+				setOpenDialog(true);
+
+				// Wait for 3 seconds, then redirect to home page
+				setTimeout(() => {
+					navigate(AppRoutes.HOME); // Redirect to home page
+				}, 3000);
+
+				// Optionally, clear the cart after the dialog is shown
+				setTimeout(() => {
+					handleClearCart(); // Clear cart after dialog
+				}, 3000);
 			} else {
-				alert('Error placing the order!');
+				setDialogMessage('Error placing the order!');
+				setOpenDialog(true);
 			}
 		} catch (error) {
 			console.error('Error during checkout:', error);
-			alert('There was an error with your checkout process.');
+			setDialogMessage('There was an error with your checkout process.');
+			setOpenDialog(true);
 		}
 	};
 
-	// Calculate the subtotal of all items in the cart
-	const getSubtotal = () => {
-		return cart?.reduce((total, item) => total + item.total, 0);
-	};
+	const getSubtotal = useMemo(() => {
+		return cart.reduce((total, item) => total + item.total, 0);
+	}, [cart]);
 
-	// Calculate the total cost of the cart
-	const getTotal = () => {
-		return getSubtotal();
-	};
+	const getTotal = useMemo(() => getSubtotal, [getSubtotal]);
 
-	// Loading state while cart items are being fetched
+	// Loading state check
 	if (loading) {
-		return <Typography variant="h6">Loading cart items...</Typography>;
+		return (
+			<Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+				<CircularProgress />
+			</Box>
+		);
+	}
+
+	// Empty cart check
+	if (cart.length === 0) {
+		return (
+			<Typography variant="h6" align="center">
+				Cart is empty
+			</Typography>
+		);
 	}
 
 	return (
@@ -155,7 +189,7 @@ const CartComponent = () => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{cart?.map((item) => (
+								{cart.map((item) => (
 									<TableRow key={item._id}>
 										<TableCell>{item.product.name}</TableCell>
 										<TableCell>{`$${item.product.price?.toFixed(2)}`}</TableCell>
@@ -209,12 +243,12 @@ const CartComponent = () => {
 					<Box p={2} borderRadius={1} bgcolor="#f4f4fc">
 						<Box mb={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
 							<Typography variant="h6">Subtotals:</Typography>
-							<Typography variant="h6">${getSubtotal()?.toFixed(2)}</Typography>
+							<Typography variant="h6">${getSubtotal?.toFixed(2)}</Typography>
 						</Box>
 						<Divider />
 						<Box mb={2} mt={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
 							<Typography variant="h6">Total: </Typography>
-							<Typography variant="h6">${getTotal()?.toFixed(2)}</Typography>
+							<Typography variant="h6">${getTotal?.toFixed(2)}</Typography>
 						</Box>
 						<Divider />
 						<Typography mb={3} mt={3} variant="body2" color="#19d16f">
@@ -223,7 +257,7 @@ const CartComponent = () => {
 						<Button
 							variant="contained"
 							sx={{ color: 'white', bgcolor: '#19d16f' }}
-							onClick={handleCheckout} // Link to the new checkout function
+							onClick={handleCheckout}
 							style={{ marginTop: '16px', width: '100%' }}
 						>
 							Proceed To Checkout
@@ -231,6 +265,19 @@ const CartComponent = () => {
 					</Box>
 				</Box>
 			</Box>
+
+			{/* Dialog for success/failure messages */}
+			<Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+				<DialogTitle>Notification</DialogTitle>
+				<DialogContent>
+					<Typography variant="body1">{dialogMessage}</Typography>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => setOpenDialog(false)} color="primary">
+						OK
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</Container>
 	);
 };
