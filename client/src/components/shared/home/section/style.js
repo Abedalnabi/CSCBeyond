@@ -219,3 +219,45 @@ export const uniqueStyles = {
 		},
 	},
 };
+
+export const trendingProductsStyles = {
+	container: {
+		padding: '50px 10%',
+		textAlign: 'center',
+	},
+	heading: {
+		fontWeight: 'bold',
+		color: '#151875',
+		marginBottom: 4,
+	},
+	paper: {
+		padding: 2,
+		textAlign: 'center',
+		boxShadow: 1,
+		transition: 'transform 0.3s ease-in-out',
+		'&:hover': {
+			transform: 'scale(1.05)',
+		},
+	},
+	image: {
+		width: '100%',
+		height: '250px',
+		objectFit: 'cover',
+	},
+	productName: {
+		fontWeight: 'bold',
+		marginTop: 2,
+	},
+	priceContainer: {
+		display: 'flex',
+		justifyContent: 'center',
+		gap: 6,
+	},
+	originalPrice: {
+		color: 'gray',
+		textDecoration: 'line-through',
+	},
+	currentPrice: {
+		color: '#e74c3c',
+	},
+};

@@ -28,3 +28,7 @@ export const uniqueStylesStaticText = {
 	feature3: 'Arms, backs and seats are structurally reinforced',
 	buttonText: 'Add To Cart',
 };
+
+export const trendingStaticText = {
+	heading: 'Trending Products',
+};
