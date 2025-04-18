@@ -115,3 +115,21 @@ export const productCardStyles = {
 		fontSize: '0.9rem',
 	},
 };
+
+export const featuredProductsStyle = {
+	container: {
+		padding: '40px 10%',
+		textAlign: 'center',
+	},
+	heading: {
+		marginBottom: '40px',
+		fontWeight: 'bold',
+	},
+	paginationBox: {
+		margin: 'auto',
+		display: 'flex',
+	},
+	gridContainer: {
+		justifyContent: 'center',
+	},
+};

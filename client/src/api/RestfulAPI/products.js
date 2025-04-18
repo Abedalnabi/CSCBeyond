@@ -58,10 +58,11 @@ export async function getProductByCategory(category) {
 	}
 }
 
-export async function getProductsFetured() {
+export async function getProductsFetured(page, productsPerPage) {
 	try {
-		const response = await axios.get(`${getAllProducts}/featured`);
+		const response = await axios.get(`${getAllProducts}/featured/?page=${page}&limit=${productsPerPage}`);
 
+		console.log('response', response);
 		return {
 			data: response.data,
 			status: response.status,
