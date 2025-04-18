@@ -128,9 +128,11 @@ const FeaturedProducts = () => {
 
 	return (
 		<Box sx={featuredProductsStyle.container}>
-			<Typography variant="h4" sx={featuredProductsStyle.heading}>
+			<Typography mt={4} mb={6} variant="h3" sx={{ color: '#151875' }}>
 				{staticTextsFeatured.heading.main}
 			</Typography>
+
+			<Typography variant="h4" sx={featuredProductsStyle.heading}></Typography>
 			<Grid container spacing={4} sx={featuredProductsStyle.gridContainer}>
 				{productsToDisplay}
 			</Grid>

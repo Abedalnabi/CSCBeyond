@@ -1,3 +1,4 @@
+import myIcon from '../../assets/img/Group1.png';
 const STATIC_TEXT = {
 	HEADER_TITLE: 'About Us',
 	BREADCRUMBS: [
@@ -12,7 +13,7 @@ const STATIC_TEXT = {
 	FEATURES_TITLE: 'Our Features',
 	FEATURES: [
 		{
-			icon: 'local_shipping',
+			icon: myIcon,
 			title: 'Free Delivery',
 			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus gravida.',
 		},

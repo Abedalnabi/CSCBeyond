@@ -11,7 +11,7 @@ export const bannerStyles = {
 		position: 'relative',
 		textAlign: 'left',
 		maxWidth: 'auto',
-		maxHeight: '800px',
+		maxHeight: '600px',
 	},
 	lamp: {
 		position: 'absolute',
@@ -33,7 +33,7 @@ export const bannerStyles = {
 		backgroundColor: '#f54291',
 	},
 	chair: {
-		width: { xs: 200, sm: 250, md: 300 },
+		width: { xs: 200, sm: 250, md: 400 },
 		height: 'auto',
 	},
 	discountBox: {
@@ -131,5 +131,42 @@ export const featuredProductsStyle = {
 	},
 	gridContainer: {
 		justifyContent: 'center',
+	},
+};
+
+export const LatestProductsStyle = {
+	title: {
+		marginTop: '4rem',
+		marginBottom: '4rem',
+		color: '#151875',
+	},
+	productBox: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		gap: 0,
+		padding: '50px 12%',
+		textAlign: 'center',
+		justifyContent: 'center',
+		cursor: 'pointer',
+	},
+	productItem: {
+		width: { xs: '100%', sm: '100%', md: 'calc(33.33% - 16px)' },
+		overflow: 'hidden',
+		padding: { sm: 0, md: 2 },
+	},
+	productImage: {
+		objectFit: 'cover',
+		height: 350,
+		width: '100%',
+		backgroundColor: '#f7f7f7',
+	},
+	productDetails: {
+		padding: 2,
+	},
+	productName: {
+		textAlign: 'right',
+	},
+	productPrice: {
+		textAlign: 'left',
 	},
 };

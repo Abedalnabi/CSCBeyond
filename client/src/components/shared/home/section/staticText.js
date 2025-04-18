@@ -15,3 +15,8 @@ export const staticTextsFeatured = {
 	buttonText: 'View Details',
 	description: 'Explore the best collection of furniture for your home.',
 };
+
+export const LatestProducts = {
+	loading: 'Loading products...',
+	latestProducts: 'Latest Products',
+};

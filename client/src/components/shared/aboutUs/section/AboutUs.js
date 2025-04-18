@@ -3,6 +3,7 @@ import { Box, Typography, Button, Container, Grid, Paper, Icon } from '@mui/mate
 import aboutUsImg from '../../assets/img/Rectangle.png';
 import styles from './style';
 import STATIC_TEXT from './staticText';
+import myImage from '../../assets/img/Group1.png';
 
 const AboutUs = () => {
 	return (
@@ -39,7 +40,7 @@ const AboutUs = () => {
 						{STATIC_TEXT.FEATURES.map((feature) => (
 							<Grid key={feature.title} item xs={12} sm={6} md={3}>
 								<Paper sx={styles.featureCard}>
-									<Icon sx={styles.featureIcon}>{feature.icon}</Icon>
+									<img src={myImage} alt="My Image" style={{ width: '40px', height: 'auto' }} />
 									<Typography variant="h6" sx={styles.featureTitle}>
 										{feature.title}
 									</Typography>

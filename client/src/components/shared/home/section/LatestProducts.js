@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Box } from '@mui/material';
 import { getProductByLatest } from '../../../../api/RestfulAPI/products';
+import { useNavigate } from 'react-router-dom';
+import { LatestProductsStyle } from './style';
+import { LatestProducts } from './staticText';
 
 const ProductCard = () => {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -24,53 +28,39 @@ const ProductCard = () => {
 	if (loading) {
 		return (
 			<Typography variant="h6" color="text.secondary">
-				Loading products...
+				{LatestProducts.loading}
 			</Typography>
 		);
 	}
 
 	return (
 		<>
-			<Typography variant="h4" sx={{}}>
-				Latest Products
+			<Typography mt={4} mb={4} variant="h3" sx={LatestProductsStyle.title}>
+				{LatestProducts.latestProducts}
 			</Typography>
-			<Box
-				sx={{
-					display: 'flex',
-					flexWrap: 'wrap',
-					gap: 0,
-					padding: '50px 12%',
-					textAlign: 'center',
-					justifyContent: 'center',
-				}}
-			>
+
+			<Box sx={LatestProductsStyle.productBox}>
 				{products.length &&
 					products?.map((product) => (
 						<Box
-							key={product.id}
-							sx={{
-								width: { xs: '100%', sm: '100%', md: 'calc(33.33% - 16px)' }, // عرض 1 منتج لكل سطر في الموبايل و 3 منتجات لكل سطر في الشاشات الأكبر
-								overflow: 'hidden',
-								padding: { sm: 0, md: 2 },
+							key={product._id}
+							onClick={() => {
+								navigate(`/product/${product._id}`);
 							}}
+							sx={LatestProductsStyle.productItem}
 						>
 							<Box
 								component="img"
-								sx={{
-									objectFit: 'cover',
-									height: 350,
-									width: '100%',
-									backgroundColor: '#f7f7f7',
-								}}
+								sx={LatestProductsStyle.productImage}
 								src={product.imageUrl}
 								alt={product.name}
 							/>
-							<Box sx={{ padding: 2 }}>
+							<Box sx={LatestProductsStyle.productDetails}>
 								<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-									<Typography variant="h5" component="div" sx={{ textAlign: 'right' }}>
+									<Typography variant="h5" component="div" sx={LatestProductsStyle.productName}>
 										{product.name}
 									</Typography>
-									<Typography variant="h6" color="primary" sx={{ textAlign: 'left' }}>
+									<Typography variant="h6" color="primary" sx={LatestProductsStyle.productPrice}>
 										${product.price}{' '}
 										<span style={{ textDecoration: 'line-through', color: 'gray' }}>
 											${product.originalPrice}
