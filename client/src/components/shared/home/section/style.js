@@ -72,7 +72,7 @@ export const productCardStyles = {
 		justifyContent: 'center',
 	},
 	img: {
-		borderRadius: '16px 16px 0 0',
+		borderRadius: '0 0 0 0',
 		width: '100%',
 	},
 	button: {

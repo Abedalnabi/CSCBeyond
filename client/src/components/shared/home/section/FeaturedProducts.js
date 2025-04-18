@@ -40,7 +40,7 @@ const FeaturedProducts = () => {
 	};
 
 	const productsToDisplay = useMemo(() => {
-		return products.map((product) => (
+		return products?.map((product) => (
 			<Grid item xs={12} sm={6} md={3} key={product._id}>
 				<Box sx={productCardStyles.container}>
 					<Box sx={productCardStyles.image} onClick={() => handleProductClick(product._id)}>

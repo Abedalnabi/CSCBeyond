@@ -69,6 +69,18 @@ const getTopSellingProducts = async (page = 1, limit = 20) => {
 	}
 };
 
+const getProductsByLatest = async (filter = {}, page = 1, limit = 6) => {
+	const totalProducts = await ProductModel.countDocuments(filter);
+
+	const products = await ProductModel.find(filter)
+		.sort({ addedAt: -1 })
+		.skip((page - 1) * limit)
+		.limit(limit);
+	products.totalProducts = totalProducts;
+
+	return products;
+};
+
 module.exports = {
 	addProduct,
 	getProducts,
@@ -76,4 +88,5 @@ module.exports = {
 	updateProductById,
 	getFeaturedProducts,
 	getTopSellingProducts,
+	getProductsByLatest,
 };

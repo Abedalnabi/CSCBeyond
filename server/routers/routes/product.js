@@ -8,6 +8,7 @@ const {
 	getTopSellingProducts,
 	addProduct,
 	updateProductById,
+	getProductsByLatest,
 } = require('../controllers/product');
 
 productsRouter.get('/product/:id', getProductByID);
@@ -15,6 +16,7 @@ productsRouter.get('/products', getAllProducts);
 
 productsRouter.get('/products/featured', getFeaturedProducts);
 productsRouter.get('/products/top-selling', getTopSellingProducts);
+productsRouter.get('/latestProducts', getProductsByLatest);
 
 // Apply authenticateToken to all routes below this line
 

@@ -111,6 +111,23 @@ module.exports = {
 		}
 	},
 
+	getProductsByLatest: async (req, res) => {
+		let { page = 1, limit = 6 } = req.query;
+
+		page = parseInt(page, 10);
+		limit = parseInt(limit, 10);
+
+		try {
+			const products = await productService.getProductsByLatest({}, page, limit);
+			return res.status(200).json({
+				message: 'Latest products retrieved successfully',
+				data: products,
+			});
+		} catch (error) {
+			return res.status(500).json({ message: 'Server error', error });
+		}
+	},
+
 	// Get top-selling products with pagination
 	getTopSellingProducts: async (req, res) => {
 		const { page = 1, limit = 10 } = req.query;
