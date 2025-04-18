@@ -1,4 +1,3 @@
-// style.js
 export const bannerStyles = {
 	container: {
 		backgroundColor: '#f8f6ff',
@@ -42,6 +41,69 @@ export const bannerStyles = {
 		top: 0,
 		right: -30,
 		backgroundColor: '#00c2ff',
+		color: 'white',
+		borderRadius: '50%',
+		width: 70,
+		height: 70,
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		fontWeight: 'bold',
+		fontSize: '0.9rem',
+	},
+};
+
+export const productCardStyles = {
+	container: {
+		position: 'relative',
+		maxWidth: 345,
+		borderRadius: '5px',
+		boxShadow: 3,
+		minHeight: '413px',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'space-between',
+	},
+	image: {
+		position: 'relative',
+		cursor: 'pointer',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+	},
+	img: {
+		borderRadius: '16px 16px 0 0',
+		width: '100%',
+	},
+	button: {
+		width: '150px',
+		height: '40px',
+		backgroundColor: '#08d15f',
+		borderRadius: '2px',
+		'&:hover': {
+			backgroundColor: '#00c2ff',
+		},
+	},
+	infoContainer: {
+		padding: 2,
+		textAlign: 'center',
+		backgroundColor: (active) => (active ? '#2f1ac4' : 'transparent'),
+	},
+	infoText: {
+		fontWeight: 'bold',
+		marginBottom: 1,
+		color: (active) => (active ? 'white' : 'black'),
+	},
+	priceText: {
+		fontWeight: 'bold',
+		marginBottom: 2,
+		color: (active) => (active ? 'white' : 'black'),
+	},
+	discountBox: {
+		position: 'absolute',
+		top: '10px',
+		right: '10px',
+		backgroundColor: '#f54291',
 		color: 'white',
 		borderRadius: '50%',
 		width: 70,
