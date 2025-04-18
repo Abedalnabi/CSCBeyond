@@ -20,3 +20,11 @@ export const LatestProducts = {
 	loading: 'Loading products...',
 	latestProducts: 'Latest Products',
 };
+
+export const uniqueStylesStaticText = {
+	heading: 'Unique Features Of Latest & Trending Products',
+	feature1: 'All frames constructed with hardwood solids and laminates',
+	feature2: 'Reinforced with double wood dowels, glue, screw - nails corner blocks and machine nails',
+	feature3: 'Arms, backs and seats are structurally reinforced',
+	buttonText: 'Add To Cart',
+};

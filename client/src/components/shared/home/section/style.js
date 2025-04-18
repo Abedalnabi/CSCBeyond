@@ -170,3 +170,52 @@ export const LatestProductsStyle = {
 		textAlign: 'left',
 	},
 };
+
+export const uniqueStyles = {
+	container: {
+		display: 'flex',
+		flexDirection: { xs: 'column', sm: 'row' },
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#f1f0ff',
+		padding: 4,
+		textAlign: 'left',
+		margin: 'auto',
+		minHeight: '500px',
+		marginTop: { xs: '20px', sm: '0' },
+	},
+	image: {
+		width: 500,
+		height: 350,
+		objectFit: 'cover',
+		borderRadius: 1,
+		marginBottom: { xs: 3, sm: 0 },
+	},
+	textContainer: {
+		marginLeft: { sm: 3 },
+		width: '530px',
+		textAlign: { xs: 'center', sm: 'left' },
+	},
+	heading: {
+		fontWeight: 'bold',
+		color: '#151875',
+	},
+	featureBox: {
+		display: 'flex',
+		alignItems: 'center',
+		marginTop: 2,
+	},
+	circle: {
+		width: '10px',
+		height: '10px',
+		borderRadius: '50%',
+		marginRight: '10px',
+	},
+	button: {
+		marginTop: 3,
+		backgroundColor: '#ff5f5f',
+		'&:hover': {
+			backgroundColor: '#ff4444',
+		},
+	},
+};
