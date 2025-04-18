@@ -14,6 +14,7 @@ const UniqueFeatures = () => {
 				padding: 4,
 				textAlign: 'left',
 				margin: 'auto',
+				minHeight: '500px',
 				marginTop: { xs: '20px', sm: '0' },
 			}}
 		>
@@ -22,8 +23,8 @@ const UniqueFeatures = () => {
 				src={HomeCharImg}
 				alt="product"
 				sx={{
-					width: 350,
-					height: 250,
+					width: 500,
+					height: 350,
 					objectFit: 'cover',
 					borderRadius: 1,
 					marginBottom: { xs: 3, sm: 0 },
