@@ -57,3 +57,21 @@ export async function getProductByCategory(category) {
 		};
 	}
 }
+
+export async function getProductsFetured() {
+	try {
+		const response = await axios.get(`${getAllProducts}/featured`);
+
+		return {
+			data: response.data,
+			status: response.status,
+			message: response.data?.message,
+		};
+	} catch (error) {
+		return {
+			data: null,
+			status: error.response?.status,
+			message: error.response?.data?.error,
+		};
+	}
+}

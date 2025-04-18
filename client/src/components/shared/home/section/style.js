@@ -1,0 +1,55 @@
+// style.js
+export const bannerStyles = {
+	container: {
+		backgroundColor: '#f8f6ff',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: { xs: 'column-reverse', md: 'row' },
+		padding: { xs: 4, md: 10 },
+		height: '100vh',
+		gap: 10,
+		position: 'relative',
+		textAlign: 'left',
+		maxWidth: 'auto',
+		maxHeight: '800px',
+	},
+	lamp: {
+		position: 'absolute',
+		top: 0,
+		left: { xs: 10, sm: 30, md: 40 },
+		width: { xs: 100, sm: 180, md: 250, lg: 300 },
+		height: { xs: '150px', sm: '150px', md: '200px', lg: 'auto' },
+		display: { xs: 'none', sm: 'block' },
+	},
+	heading: {
+		my: 2,
+		fontSize: {
+			xs: '1.6rem',
+			sm: '2rem',
+			md: '2.5rem',
+		},
+	},
+	button: {
+		backgroundColor: '#f54291',
+	},
+	chair: {
+		width: { xs: 200, sm: 250, md: 300 },
+		height: 'auto',
+	},
+	discountBox: {
+		position: 'absolute',
+		top: 0,
+		right: -30,
+		backgroundColor: '#00c2ff',
+		color: 'white',
+		borderRadius: '50%',
+		width: 70,
+		height: 70,
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		fontWeight: 'bold',
+		fontSize: '0.9rem',
+	},
+};

@@ -15,6 +15,7 @@ import Cart from './shared/cart/index';
 import Complete from './shared/complete/index';
 import Account from './shared/account/index';
 import Admin from './shared/Admin/index';
+import HomePage from './shared/home/index';
 
 import AppRoutes from '../config/appRoutes';
 // Homepage
@@ -36,6 +37,7 @@ function CscApp() {
 					<Route path={AppRoutes.CART} element={<Cart />} />
 					<Route path={AppRoutes.COMPLETE} element={<Complete />} />
 					<Route path={AppRoutes.ACCOUNT} element={<Account />} />
+					<Route path={AppRoutes.HOME} element={<HomePage />} />
 
 					<Route path={AppRoutes.ADMIN} element={<ProtectedRoute element={<Admin />} />} />
 				</Routes>
