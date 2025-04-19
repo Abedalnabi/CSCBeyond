@@ -30,7 +30,7 @@ module.exports = {
 			return res.status(200).json({
 				message: 'Filtered products retrieved successfully',
 				data: products,
-				totalProducts: products.totalProducts,
+				totalProducts: products?.totalProducts,
 			});
 		} catch (error) {
 			return res.status(500).json({ message: 'Server error', error });

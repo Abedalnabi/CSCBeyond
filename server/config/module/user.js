@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
 		ref: 'Role',
 	},
 	active: { type: Boolean, default: true },
+	fcmToken: { type: String },
 	createdAt: { type: Date, default: Date.now },
 });
 

@@ -6,6 +6,7 @@ import CustomHeader from '../Utilities/CustomHeader/CustomHeader';
 
 const Index = () => {
 	const [products, setProducts] = useState([]);
+
 	const breadcrumbLinks = [
 		{ label: 'Home', href: '/' },
 		{ label: 'Pages', href: '/pages' },

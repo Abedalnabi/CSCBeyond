@@ -56,7 +56,7 @@ module.exports = {
 	},
 
 	isAdmin: (req, res, next) => {
-		if (req.user.roleName !== RolesEnums.ADMIN) {
+		if (req.user?.roleName !== RolesEnums.ADMIN) {
 			return res.status(403).send('Permission denied: Admins only');
 		}
 		next();

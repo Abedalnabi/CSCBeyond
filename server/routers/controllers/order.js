@@ -6,7 +6,7 @@ module.exports = {
 		const { products, shippingAddress } = req.body;
 
 		try {
-			const newOrder = await orderService.addOrder(req.user?.userId, products, shippingAddress);
+			const newOrder = await orderService.addOrder(req.user?.userId, products, shippingAddress, req);
 			return res.status(201).json({ message: 'Order placed successfully', status: 'success', order: newOrder });
 		} catch (err) {
 			console.error(err);
@@ -28,9 +28,10 @@ module.exports = {
 	// Update the status of an order
 	updateOrderStatus: async (req, res) => {
 		const { orderId, status } = req.body;
+		console.log('req.', req.user);
 
 		try {
-			const order = await orderService.updateOrderStatus(orderId, status);
+			const order = await orderService.updateOrderStatus(orderId, status, req);
 			return res.status(200).json({ message: 'Order status updated successfully', order });
 		} catch (err) {
 			console.error(err);

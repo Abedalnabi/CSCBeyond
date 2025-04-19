@@ -1,9 +1,10 @@
 const OrderModel = require('../../../config/module/order');
 const ProductModel = require('../../../config/module/product');
+const RoleModel = require('../../../config/module/role');
 const UserModel = require('../../../config/module/user');
-
+const admin = require('../../../firebaseAdmin');
 // Add a new order
-const addOrder = async (userId, products, shippingAddress) => {
+const addOrder = async (userId, products, shippingAddress, req) => {
 	try {
 		// Ensure the user exists
 		const user = await UserModel.findById(userId);
@@ -17,6 +18,24 @@ const addOrder = async (userId, products, shippingAddress) => {
 			products,
 			shippingAddress,
 			status: 'pending',
+		});
+
+		const message = {
+			notification: {
+				title: 'New order submitted , you can approve it',
+				body: `${user.email}`,
+			},
+		};
+
+		const roleID = await RoleModel.find({ role: 'admin' });
+		const admins = await UserModel.find({ role: roleID });
+
+		admins.forEach((adminUser) => {
+			console.log('adminUser', adminUser);
+			if (adminUser.fcmToken) {
+				message.token = adminUser.fcmToken;
+				admin.messaging().send(message);
+			}
 		});
 
 		// Save the order
@@ -57,9 +76,19 @@ const updateOrderStatus = async (orderId, status) => {
 		if (!order) {
 			throw new Error('Order not found');
 		}
-
 		// Update order status
 		order.status = status;
+		const user = await UserModel.findById(order.user);
+
+		const message = {
+			notification: {
+				title: 'Your order is approved',
+				body: `${order._id}`,
+			},
+			token: user.fcmToken,
+		};
+		await admin.messaging().send(message);
+
 		await order.save();
 
 		return order;
