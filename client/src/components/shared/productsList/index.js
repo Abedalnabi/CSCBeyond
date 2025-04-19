@@ -12,23 +12,14 @@ const Index = () => {
 		{ label: 'Pages', href: '/pages' },
 		{ label: 'Shop Left Sidebar', href: '#' },
 	];
-	// States to store selected filters
-	const [filters, setFilters] = useState({
-		brands: [],
-		discounts: [],
-		ratings: [],
-		categories: [],
-		priceRange: [0, 500],
-		colors: [],
-	});
 
 	return (
 		<Box>
 			<CustomHeader title="Shop Left Sidebar" breadcrumbLinks={breadcrumbLinks} />
 			<Container maxWidth="xl">
 				<Grid container spacing={2} sx={{ justifyContent: 'center', alignItems: 'flex-start', marginTop: '20px' }}>
-					<FilterSidebar products={products} setProducts={setProducts} filters={filters} setFilters={setFilters} />
-					<ProductsList products={products} setProducts={setProducts} filters={filters} />
+					<FilterSidebar setProducts={setProducts} />
+					<ProductsList products={products} setProducts={setProducts} />
 				</Grid>
 			</Container>
 		</Box>
