@@ -7,10 +7,10 @@ const ProductContext = createContext();
 export const ProductProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(Reducer, initialState);
 
-	const setProducts = (courses) => {
+	const setProducts = (products) => {
 		dispatch({
 			type: ACTIONS.SET_PRODUCTS,
-			payload: courses,
+			payload: products,
 		});
 	};
 
@@ -28,11 +28,19 @@ export const ProductProvider = ({ children }) => {
 		});
 	};
 
+	const addProducts = (newAddedValues) => {
+		dispatch({
+			type: ACTIONS.ADD_PRODUCTS,
+			payload: newAddedValues,
+		});
+	};
+
 	const value = {
 		products: state.products,
 		setProducts,
 		updateProduct,
 		addProduct,
+		addProducts,
 	};
 
 	return <ProductContext.Provider value={value}>{children}</ProductContext.Provider>;

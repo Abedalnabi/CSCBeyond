@@ -7,7 +7,7 @@ export const initialState = {
 const Reducer = (state, { type, payload }) => {
 	switch (type) {
 		case ACTIONS.SET_PRODUCTS:
-			return { ...state, products: payload, isLoading: false };
+			return { ...state, products: [...state.products, ...payload] };
 
 		case ACTIONS.UPDATE_PRODUCT:
 			return {
@@ -15,14 +15,18 @@ const Reducer = (state, { type, payload }) => {
 				products: state.products.map((productElement) =>
 					productElement._id === payload.product_id ? { ...productElement, ...payload.updatedValue } : productElement
 				),
-				isLoading: false,
 			};
 
-		case ACTIONS.ADD_product:
+		case ACTIONS.ADD_PRODUCT:
 			return {
 				...state,
 				products: [...state.products, payload.newAddedValue],
-				isLoading: false,
+			};
+
+		case ACTIONS.ADD_PRODUCTS:
+			return {
+				...state,
+				products: [...state.products, ...payload.newAddedValues],
 			};
 
 		default:

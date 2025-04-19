@@ -5,14 +5,15 @@ const getAllProducts = '/api/products';
 const getProductByIDEndPoint = '/api/product';
 const getProductByLatestEndPoint = '/api/latestProducts';
 
-export async function getProducts() {
+export async function getProducts(page = 1, limit = 5) {
 	try {
-		const response = await axios.get(getAllProducts);
+		const response = await axios.get(`${getAllProducts}/?page=${page}&limit=${limit}`);
 
 		return {
 			data: response.data?.data,
 			status: response.status,
 			message: response.data.message,
+			totalProducts: response.data.totalProducts,
 		};
 	} catch (error) {
 		return {

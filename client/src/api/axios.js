@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { SERVER_PATH } from '../config/env/env';
 
-console.log('SERVER_PATH', SERVER_PATH);
 axios.defaults.baseURL = 'http://localhost:4000';
 
 axios.interceptors.request.use(

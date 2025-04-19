@@ -103,11 +103,12 @@ const CartSection = () => {
 			const response = await checkout(checkoutData);
 			if (response.status === 'success') {
 				setDialogMessage(staticText.notifications.checkoutSuccess);
-				setOpenDialog(true);
+				navigate('/complete');
+				// setOpenDialog(true);
 
-				setTimeout(() => {
-					navigate(AppRoutes.HOME);
-				}, 3000);
+				// setTimeout(() => {
+				// 	navigate(AppRoutes.HOME);
+				// }, 3000);
 
 				setTimeout(() => {
 					handleClearCart();

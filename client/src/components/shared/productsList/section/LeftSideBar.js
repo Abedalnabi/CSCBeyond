@@ -1,42 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, FormGroup, FormControlLabel, Checkbox, Slider, TextField, Rating } from '@mui/material';
+import axios from 'axios';
 
-const FilterSidebar = () => {
-	// States
+const FilterSidebar = ({ products, setProducts }) => {
 	const [selectedBrands, setSelectedBrands] = useState([]);
 	const [selectedDiscounts, setSelectedDiscounts] = useState([]);
 	const [selectedRatings, setSelectedRatings] = useState([]);
 	const [selectedCategories, setSelectedCategories] = useState([]);
-	const [selectedPriceRange, setSelectedPriceRange] = useState([50, 500]);
+	const [selectedPriceRange, setSelectedPriceRange] = useState([]);
 	const [selectedColors, setSelectedColors] = useState([]);
 
-	// Data
-	const brands = [
-		'Coaster Furniture',
-		'Fusion Dot High Fashion',
-		'Unique Furniture Restor',
-		'Dream Furniture Flipping',
-		'Young Repurposed',
-		'Green DIY Furniture',
-	];
-
-	const discounts = ['20% Cashback', '5% Cashback Offer', '25% Discount Offer'];
-
-	const categories = [
-		'Prestashop',
-		'Magento',
-		'Bigcommerce',
-		'osCommerce',
-		'3dcart',
-		'Bags',
-		'Accessories',
-		'Jewellery',
-		'Watches',
-	];
-
-	const colors = ['Blue', 'Orange', 'Brown', 'Green', 'Purple', 'Sky'];
-
-	// Handlers
 	const handleToggle = (item, list, setter) => {
 		setter(list.includes(item) ? list.filter((i) => i !== item) : [...list, item]);
 	};
@@ -45,14 +18,45 @@ const FilterSidebar = () => {
 		setSelectedColors((prev) => (prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color]));
 	};
 
+	const fetchFilteredProducts = async () => {
+		try {
+			const response = await axios.get('/api/products/', {
+				params: {
+					brand: selectedBrands.join(','),
+					discounts: selectedDiscounts.join(','),
+					rated: selectedRatings.join(','),
+					categories: selectedCategories.join(','),
+					priceRange: selectedPriceRange.join(','),
+					colors: selectedColors.join(','),
+				},
+			});
+			setProducts(response.data);
+		} catch (error) {
+			console.error('Error fetching filtered products:', error);
+		}
+	};
+
+	// Call the API whenever filters change
+	useEffect(() => {
+		console.log('products');
+		fetchFilteredProducts();
+	}, [selectedBrands, selectedDiscounts, selectedRatings, selectedCategories, selectedPriceRange, selectedColors]);
+
 	return (
 		<Box sx={{ width: 260, p: 2, textAlign: 'left' }}>
 			{/* Product Brand */}
 			<Typography variant="h6" gutterBottom>
-				Product Brand
+				Product Brands
 			</Typography>
 			<FormGroup sx={{ color: 'gray' }}>
-				{brands.map((brand) => (
+				{[
+					'CoasterFurniture',
+					'Fusion Dot High Fashion',
+					'Unique Furniture Restor',
+					'Dream Furniture Flipping',
+					'Young Repurposed',
+					'Green DIY Furniture',
+				].map((brand) => (
 					<FormControlLabel
 						key={brand}
 						control={
@@ -71,7 +75,7 @@ const FilterSidebar = () => {
 				Discount Offer
 			</Typography>
 			<FormGroup sx={{ color: 'gray' }}>
-				{discounts.map((offer) => (
+				{['20% Cashback', '5% Cashback Offer', '25% Discount Offer'].map((offer) => (
 					<FormControlLabel
 						key={offer}
 						control={
@@ -109,7 +113,17 @@ const FilterSidebar = () => {
 				Categories
 			</Typography>
 			<FormGroup sx={{ color: 'gray' }}>
-				{categories.map((cat) => (
+				{[
+					'Electronics',
+					'Magento',
+					'Bigcommerce',
+					'osCommerce',
+					'3dcart',
+					'Bags',
+					'Accessories',
+					'Jewellery',
+					'Watches',
+				].map((cat) => (
 					<FormControlLabel
 						key={cat}
 						control={
@@ -149,7 +163,7 @@ const FilterSidebar = () => {
 				Filter By Color
 			</Typography>
 			<Box display="flex" gap={1} flexWrap="wrap">
-				{colors.map((color) => (
+				{['Blue', 'Orange', 'Brown', 'Green', 'Purple', 'Sky'].map((color) => (
 					<Box
 						key={color}
 						sx={{
