@@ -1,28 +1,18 @@
 const ProductModel = require('../../../config/module/product');
 const CategoryModel = require('../../../config/module/category');
 
-const addProduct = async (productData) => {
-	const { name, price, rated, brand, color, category, salesCount, isFeatured, imageUrl } = productData;
-
-	const categoryExists = await CategoryModel.findById(category);
-	if (!categoryExists) {
-		throw new Error('Category not found');
+const addProduct = async (productsData) => {
+	for (let productData of productsData) {
+		const { category } = productData;
+		const categoryExists = await CategoryModel.findById(category);
+		if (!categoryExists) {
+			throw new Error('Category not found for product: ' + productData.name);
+		}
 	}
 
-	const newProduct = new ProductModel({
-		name,
-		price,
-		rated,
-		brand,
-		color,
-		imageUrl,
-		category,
-		salesCount,
-		isFeatured,
-	});
+	const newProducts = await ProductModel.insertMany(productsData);
 
-	await newProduct.save();
-	return newProduct;
+	return newProducts;
 };
 
 const getProducts = async (filter = {}, page = 1, limit = 20) => {

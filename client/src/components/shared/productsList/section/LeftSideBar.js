@@ -25,9 +25,9 @@ const FilterSidebar = ({ products, setProducts }) => {
 					brand: selectedBrands.join(','),
 					discounts: selectedDiscounts.join(','),
 					rated: selectedRatings.join(','),
-					categories: selectedCategories.join(','),
+					category: selectedCategories.join(','),
 					priceRange: selectedPriceRange.join(','),
-					colors: selectedColors.join(','),
+					color: selectedColors.join(','),
 				},
 			});
 			setProducts(response.data?.data);
@@ -50,12 +50,21 @@ const FilterSidebar = ({ products, setProducts }) => {
 			</Typography>
 			<FormGroup sx={{ color: 'gray' }}>
 				{[
-					'CoasterFurniture',
-					'Fusion Dot High Fashion',
-					'Unique Furniture Restor',
-					'Dream Furniture Flipping',
-					'Young Repurposed',
-					'Green DIY Furniture',
+					'TechMaster',
+					'VisionPlus',
+					'SoundX',
+					'SpeedTech',
+					'BoomSound',
+					'Magento Gear',
+					'SportX',
+					'LeatherCo',
+					'ChicStyle',
+					'BoomSound',
+					'LuxuryTime',
+					'TimeMaster',
+					'TrendyTime',
+					'Glamour',
+					'LuxuryJewels',
 				].map((brand) => (
 					<FormControlLabel
 						key={brand}
@@ -163,7 +172,7 @@ const FilterSidebar = ({ products, setProducts }) => {
 				Filter By Color
 			</Typography>
 			<Box display="flex" gap={1} flexWrap="wrap">
-				{['Blue', 'Orange', 'Brown', 'Green', 'Purple', 'Sky'].map((color) => (
+				{['Red', 'Orange', 'Brown', 'Green', 'Purple', 'Sky'].map((color) => (
 					<Box
 						key={color}
 						sx={{

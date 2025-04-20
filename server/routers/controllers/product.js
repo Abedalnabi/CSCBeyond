@@ -1,4 +1,5 @@
 const productService = require('./services/productService');
+const CategoryModel = require('../../config/module/category');
 
 module.exports = {
 	// Get all products with pagination
@@ -6,6 +7,22 @@ module.exports = {
 		const { page = 1, limit = 10, ...filters } = req.query;
 
 		const filter = {};
+
+		if (filters.category) {
+			try {
+				const categories = filters.category.split(',');
+
+				const categoryIds = await CategoryModel.find({ name: { $in: categories } }).select('_id');
+
+				if (categoryIds.length > 0) {
+					filter.category = { $in: categoryIds.map((category) => category._id) };
+				} else {
+					return res.status(400).json({ message: 'Categories not found' });
+				}
+			} catch (error) {
+				return res.status(500).json({ message: 'Error retrieving categories', error });
+			}
+		}
 
 		Object.entries(filters).forEach(([key, value]) => {
 			if (value) {
@@ -15,15 +32,18 @@ module.exports = {
 					filter.price = { $gte: value };
 				} else if (key === 'maxPrice') {
 					filter.price = { ...filter.price, $lte: value };
-				} else if (key === 'category') {
-					filter.category = value;
 				} else if (key === 'search') {
 					filter.name = { $regex: value, $options: 'i' };
+				} else if (key === 'brand' || key === 'color' || key === 'rated') {
+					filter[key] = { $in: value.split(',') };
 				} else {
-					filter[key] = value;
+					if (filter[key] != 'category') {
+						// filter[key] = value;
+					}
 				}
 			}
 		});
+		console.log('filter', filter);
 
 		try {
 			const products = await productService.getProducts(filter, page, limit);
@@ -57,23 +77,13 @@ module.exports = {
 
 	// Add a new product
 	addProduct: async (req, res) => {
-		const { name, price, rated, brand, color, category, salesCount, isFeatured, imageUrl } = req.body;
+		const products = req.body;
 		try {
-			const newProduct = await productService.addProduct({
-				name,
-				price,
-				rated,
-				imageUrl,
-				brand,
-				color,
-				category,
-				salesCount,
-				isFeatured,
-			});
+			const newProducts = await productService.addProduct(products);
 
 			return res.status(201).json({
-				message: 'Product created successfully',
-				product: newProduct,
+				message: 'Products created successfully',
+				products: newProducts,
 			});
 		} catch (err) {
 			return res.status(500).json({ message: 'Server error', error: err.message });
