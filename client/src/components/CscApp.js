@@ -20,7 +20,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import AppRoutes from '../config/appRoutes';
 
 import { messaging, requestNotificationPermission } from './firebase';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { onMessage } from 'firebase/messaging';
 import { useNavigate } from 'react-router-dom';
 import useUserContext from './../contextApi/contexts/UserContext';

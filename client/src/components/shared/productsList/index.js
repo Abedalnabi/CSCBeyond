@@ -17,10 +17,14 @@ const Index = () => {
 		<Box>
 			<CustomHeader title="Shop Left Sidebar" breadcrumbLinks={breadcrumbLinks} />
 			<Container maxWidth="xl">
-				<Grid container spacing={2} sx={{ justifyContent: 'center', alignItems: 'flex-start', marginTop: '20px' }}>
+				<Box
+					container
+					spacing={2}
+					sx={{ justifyContent: 'center', alignItems: 'flex-start', marginTop: '20px', display: 'flex' }}
+				>
 					<FilterSidebar setProducts={setProducts} />
 					<ProductsList products={products} setProducts={setProducts} />
-				</Grid>
+				</Box>
 			</Container>
 		</Box>
 	);

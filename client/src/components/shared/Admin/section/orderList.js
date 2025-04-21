@@ -96,7 +96,7 @@ const OrderList = () => {
 											<ul>
 												{order.products.map((product) => (
 													<li key={product._id}>
-														{product.product.name} - ${product.product.price} x {product.quantity}
+														{/* {product?.product.name} - ${product.product.price} x {product.quantity} */}
 													</li>
 												))}
 											</ul>

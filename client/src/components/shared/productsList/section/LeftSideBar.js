@@ -43,7 +43,7 @@ const FilterSidebar = ({ products, setProducts }) => {
 	}, [selectedBrands, selectedDiscounts, selectedRatings, selectedCategories, selectedPriceRange, selectedColors]);
 
 	return (
-		<Box sx={{ width: 260, p: 2, textAlign: 'left' }}>
+		<Box sx={{ p: 2, textAlign: 'left' }}>
 			{/* Product Brand */}
 			<Typography variant="h6" gutterBottom>
 				Product Brands

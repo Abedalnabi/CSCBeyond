@@ -11,7 +11,6 @@ const AdminSection = () => {
 			<Typography mt={7} mb={7} variant="h3" sx={styles.sectionTitle}>
 				Admin Section
 			</Typography>
-
 			<OrderList />
 			<ContactList />
 		</Box>

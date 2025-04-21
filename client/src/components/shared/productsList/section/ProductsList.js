@@ -93,7 +93,7 @@ const ProductsList = ({ products, setProducts }) => {
 				alignItems: 'center',
 				justifyContent: 'center',
 				px: 2,
-				minWidth: '950px',
+				width: '950px',
 			}}
 		>
 			{products.length > 0 ? (
