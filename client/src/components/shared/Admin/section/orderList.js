@@ -20,26 +20,26 @@ import staticText from './staticText';
 
 const updateOrders = 'delivered';
 
-const OrderList = () => {
+const OrderList = ({ isUpdated, setIsUpdated }) => {
 	const [orders, setOrders] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [openDialog, setOpenDialog] = useState(false);
 	const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-	useEffect(() => {
-		const fetchOrders = async () => {
-			try {
-				const response = await getOrders();
-				setOrders(response.data);
-				setLoading(false);
-			} catch (error) {
-				console.error('Error fetching orders:', error);
-				setLoading(false);
-			}
-		};
+	const fetchOrders = async () => {
+		try {
+			const response = await getOrders();
+			setOrders(response.data);
+		} catch (error) {
+			console.error('Error fetching orders:', error);
+		} finally {
+			setLoading(false);
+		}
+	};
 
+	useEffect(() => {
 		fetchOrders();
-	}, []);
+	}, [isUpdated]);
 
 	const handleApprove = async (orderId, status) => {
 		try {
@@ -57,7 +57,7 @@ const OrderList = () => {
 
 	const handleCloseDialog = () => {
 		setOpenDialog(false);
-		window.location.reload();
+		setIsUpdated(!isUpdated);
 	};
 
 	if (loading) {
@@ -94,9 +94,9 @@ const OrderList = () => {
 										primary={staticText.productsTitle}
 										secondary={
 											<ul>
-												{order.products.map((product) => (
+												{order?.products.map((product) => (
 													<li key={product._id}>
-														{/* {product?.product.name} - ${product.product.price} x {product.quantity} */}
+														{product?.product.name} - ${product.product.price} x {product.quantity}
 													</li>
 												))}
 											</ul>

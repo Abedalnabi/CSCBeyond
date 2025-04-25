@@ -2,7 +2,7 @@ import React from 'react';
 import CustomHeader from '../Utilities/CustomHeader/CustomHeader';
 import CartSection from './section/cartSection';
 
-const AppCartSection = () => {
+const AppCartSection = ({ isUpdated, setIsUpdated }) => {
 	return (
 		<div>
 			<CustomHeader
@@ -12,7 +12,7 @@ const AppCartSection = () => {
 					{ label: 'Shopping Curt', href: '#' },
 				]}
 			/>
-			<CartSection />
+			<CartSection isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
 		</div>
 	);
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import AdminSection from './section/adminSection';
 import CustomHeader from '../Utilities/CustomHeader/CustomHeader';
 
-const AdminPage = () => {
+const AdminPage = ({ isUpdated, setIsUpdated }) => {
 	return (
 		<div>
 			<CustomHeader
@@ -12,7 +12,7 @@ const AdminPage = () => {
 					{ label: 'Admin Page', href: '#' },
 				]}
 			/>
-			<AdminSection />
+			<AdminSection isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
 		</div>
 	);
 };

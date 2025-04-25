@@ -10,7 +10,7 @@ import NotificationDialog from './NotificationDialog';
 import { staticText } from './staticText';
 import { goToTop } from '../../common/goToTop';
 
-const CartSection = () => {
+const CartSection = ({ isUpdated, setIsUpdated }) => {
 	const [loading, setLoading] = useState(true);
 	const [openDialog, setOpenDialog] = useState(false);
 	const [dialogMessage, setDialogMessage] = useState('');
@@ -72,6 +72,7 @@ const CartSection = () => {
 			// TODO:update the cart in the redux
 
 			setDialogMessage(staticText.notifications.cartUpdated);
+
 			setOpenDialog(true);
 		} catch (error) {
 			console.error('Error updating cart:', error);
@@ -103,6 +104,7 @@ const CartSection = () => {
 			const response = await checkout(checkoutData);
 			if (response.status === 'success') {
 				setDialogMessage(staticText.notifications.checkoutSuccess);
+				setIsUpdated(true);
 				navigate('/complete');
 				// setOpenDialog(true);
 

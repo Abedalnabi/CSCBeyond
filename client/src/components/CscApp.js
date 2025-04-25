@@ -28,12 +28,15 @@ import useUserContext from './../contextApi/contexts/UserContext';
 // 404
 
 function CscApp() {
+	const [isUpdated, setIsUpdated] = useState(false);
+
 	const { userInfo } = useUserContext();
 	console.log('userInfo', userInfo);
 	const navigate = useNavigate();
 	useEffect(() => {
 		requestNotificationPermission();
 		onMessage(messaging, (payload) => {
+			setIsUpdated(!isUpdated);
 			toast.custom((t) => (
 				<div
 					className={`toast ${t.visible ? 'toast-visible' : 'toast-hidden'}`}
@@ -86,12 +89,15 @@ function CscApp() {
 					<Route path={AppRoutes.ABOUT_US} element={<AboutUs />} />
 					<Route path={AppRoutes.CONTACT_US} element={<ContactUs />} />
 					<Route path={AppRoutes.FAQ} element={<Faq />} />
-					<Route path={AppRoutes.CART} element={<Cart />} />
+					<Route path={AppRoutes.CART} element={<Cart isUpdated={isUpdated} setIsUpdated={setIsUpdated} />} />
 					<Route path={AppRoutes.COMPLETE} element={<Complete />} />
 					<Route path={AppRoutes.ACCOUNT} element={<Account />} />
 					<Route path={AppRoutes.HOME} element={<HomePage />} />
 
-					<Route path={AppRoutes.ADMIN} element={<ProtectedRoute element={<Admin />} />} />
+					<Route
+						path={AppRoutes.ADMIN}
+						element={<ProtectedRoute element={<Admin isUpdated={isUpdated} setIsUpdated={setIsUpdated} />} />}
+					/>
 				</Routes>
 			</div>
 			<div className="footer">

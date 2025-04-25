@@ -5,13 +5,13 @@ import OrderList from './orderList';
 import ContactList from './contactList';
 import styles from './style';
 
-const AdminSection = () => {
+const AdminSection = ({ isUpdated, setIsUpdated }) => {
 	return (
 		<Box sx={styles.adminSectionContainer}>
 			<Typography mt={7} mb={7} variant="h3" sx={styles.sectionTitle}>
 				Admin Section
 			</Typography>
-			<OrderList />
+			<OrderList isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
 			<ContactList />
 		</Box>
 	);
